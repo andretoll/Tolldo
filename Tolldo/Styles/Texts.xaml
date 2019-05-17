@@ -1,0 +1,48 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Import colors and fonts -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+        <ResourceDictionary Source="Fonts.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- Header text block -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="HeaderTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+    </Style>
+
+    <!-- Medium text block -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="MediumTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+    </Style>
+
+    <!-- Small text block -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="SmallTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+    </Style> 
+
+    <!-- Rounded text box -->
+    <Style TargetType="{x:Type TextBox}" x:Key="RoundTextBox">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="MaxWidth" Value="215" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+        <Setter Property="MaxLines" Value="1" />
+        <Setter Property="MaxLength" Value="20" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="Padding" Value="6" />
+                <Setter Property="CornerRadius" Value="8" />
+            </Style>
+        </Style.Resources>
+    </Style>
+
+</ResourceDictionary>

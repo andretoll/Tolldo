@@ -1,0 +1,54 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- Primary Background (Dynamic) -->
+    <SolidColorBrush x:Key="PrimaryBackgroundBrush" Color="{StaticResource Light}" />
+    
+    <!-- Secondary Background (Dynamic) -->
+    <SolidColorBrush x:Key="SecondaryBackgroundBrush" Color="{StaticResource LightGray}" />
+
+    <!-- Gray Background (Dynamic) -->
+    <SolidColorBrush x:Key="GrayBackgroundBrush" Color="{StaticResource MediumLightGray}" />
+
+    <!-- Inverted Background (Dynamic) -->
+    <SolidColorBrush x:Key="InvertedBackgroundBrush" Color="{StaticResource Dark}" />
+
+    <!-- Primary Foreground (Dynamic) -->
+    <SolidColorBrush x:Key="PrimaryForegroundBrush" Color="{StaticResource DarkGray}" />
+
+    <!-- Color Foreground (Dynamic) -->
+    <SolidColorBrush x:Key="ColorForegroundBrush" Color="{StaticResource Blue}" />
+
+    <!-- Darker Color Foreground (Dynamic) -->
+    <SolidColorBrush x:Key="DarkerColorForegroundBrush" Color="{StaticResource DarkerBlue}" />
+
+    <!-- Dark Color Foreground (Dynamic) -->
+    <SolidColorBrush x:Key="DarkColorForegroundBrush" Color="{StaticResource DarkBlue}" />
+
+    <!-- Light Foreground (Static) -->
+    <SolidColorBrush x:Key="LightForegroundBrush" Color="{StaticResource Light}" />
+    
+    <!-- Dark Foreground (Static) -->
+    <SolidColorBrush x:Key="DarkForegroundBrush" Color="{StaticResource Dark}" />
+    
+    
+
+    <!-- Color Gradient -->
+    <LinearGradientBrush x:Key="ColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource DarkerBlue}" Offset="0" />
+        <GradientStop Color="{StaticResource Blue}" Offset="0.5" />
+        <GradientStop Color="{StaticResource DarkerBlue}" Offset="1" />
+    </LinearGradientBrush>
+    
+    <!-- Green Gradient -->
+    <LinearGradientBrush x:Key="GreenGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource DarkerGreen}" Offset="0" />
+        <GradientStop Color="{StaticResource Green}" Offset="0.5" />
+        <GradientStop Color="{StaticResource DarkerGreen}" Offset="1" />
+    </LinearGradientBrush>
+
+</ResourceDictionary>

@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Import colors and fonts -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+        <ResourceDictionary Source="Fonts.xaml"/>
+    </ResourceDictionary.MergedDictionaries>    
+    
+    <!-- Task checkbox -->
+    <Style TargetType="{x:Type CheckBox}" x:Key="TaskCheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    
+                    <!-- Outer -->
+                    <Border>
+
+                        <!-- Inner -->
+                        <StackPanel Orientation="Horizontal">
+
+                            <!-- CheckBox Icon -->
+                            <TextBlock Foreground="{DynamicResource ColorGradientBrush}"
+                                       FontSize="26">
+
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+
+                                            <!-- When checked -->
+                                            <DataTrigger Binding="{Binding Path=IsChecked, RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}}" Value="True">
+                                                <Setter Property="Text" Value="&#xf058;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
+                                                <Setter Property="ToolTip" Value="Uncheck" />
+                                            </DataTrigger>
+
+                                            <!-- When unchecked -->
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}}" Value="False">
+                                                <Setter Property="Text" Value="&#xf111;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesomeRegular}" />
+                                                <Setter Property="ToolTip" Value="Check" />
+                                            </DataTrigger>
+
+                                            <!-- When unchecked and mouse over -->
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}, Path=IsChecked}" Value="False" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Text" Value="&#xf058;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesomeRegular}" />
+                                            </MultiDataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+
+                            </TextBlock>
+                            
+                            <!-- Text -->
+                            <TextBlock Style="{StaticResource MediumTextBlock}"
+                                       Padding="10 5 0 0"
+                                       Text="{TemplateBinding Content}" />
+
+                        </StackPanel>                      
+                        
+                    </Border>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

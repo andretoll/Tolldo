@@ -1,0 +1,291 @@
+﻿<UserControl x:Class="Tolldo.Views.UserControls.MainUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:uc="clr-namespace:Tolldo.Views.UserControls"
+             xmlns:ext="clr-namespace:Tolldo.Extensions"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <!-- Side menu -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Collapsed menu -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Todo list -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 1. Side menu -->
+        <Border Grid.Column="0"
+                BorderThickness="0 0 1 0"
+                BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                Visibility="{Binding IsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
+
+            <DockPanel LastChildFill="True">
+
+                <!-- Create new list -->
+                <Border BorderThickness="0 1 0 0"
+                        BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                        DockPanel.Dock="Bottom">
+
+                    <DockPanel LastChildFill="True"                       
+                               VerticalAlignment="Bottom"
+                               Margin="20 50">
+
+                        <!-- Label -->
+                        <TextBlock Style="{StaticResource SmallTextBlock}"
+                                   Margin="5 0 0 5"
+                                   DockPanel.Dock="Top"
+                                   Text="Add new" />
+
+                        <!-- New list button -->
+                        <Button Style="{StaticResource FlatIconButtonSquare}"
+                                IsDefault="True"
+                                Command="{Binding AddNewTodoCommand}"
+                                DockPanel.Dock="Right"
+                                ToolTip="Add new list"
+                                HorizontalAlignment="Left"
+                                Margin="20 0 0 0"
+                                FontSize="16"
+                                Content="&#xf067;" />
+
+                        <!-- New list input -->
+                        <TextBox Style="{StaticResource RoundTextBox}"
+                                 Text="{Binding NewTodo, UpdateSourceTrigger=PropertyChanged}"
+                                 Width="200"/>
+
+                    </DockPanel>
+                </Border>
+
+                <!-- Buttons and list -->
+                <Grid DockPanel.Dock="Top"
+                      x:Name="FadingElement">
+
+                    <Grid.RowDefinitions>                        
+                        <!-- Buttons -->
+                        <RowDefinition Height="auto" />
+                        <!-- Search -->
+                        <RowDefinition Height="auto" />
+                        <!-- List -->
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.Triggers>
+                        <EventTrigger RoutedEvent="StackPanel.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="FadingElement" 
+                                                     Storyboard.TargetProperty="(StackPanel.Opacity)"
+                                                     From="0.0" 
+                                                     To="1.0" 
+                                                     Duration="0:0:1" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Grid.Triggers>
+                   
+                    <!-- Side menu buttons and search -->
+                    <Border BorderThickness="0 0 0 1"
+                            BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                            Grid.Row="0">
+
+                        <StackPanel Orientation="Vertical">
+                            
+                            <!-- Buttons -->
+                            <Grid Margin="20">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Collapse button -->
+                                <Button Style="{StaticResource FlatIconButton}"
+                                        Grid.Column="0"
+                                        ToolTip="Show/Collapse"
+                                        Command="{Binding CollapseMenuCommand}"
+                                        HorizontalAlignment="Left"
+                                        FontSize="16"
+                                        Content="&#xf0c9;" />
+
+                                <!-- Search button -->
+                                <Button Style="{StaticResource FlatIconButton}"
+                                        Grid.Column="1"
+                                        ToolTip="Filter"
+                                        Command="{Binding ToggleSearchModeCommand}"
+                                        HorizontalAlignment="Center"
+                                        FontSize="16"
+                                        Content="&#xf002;" />
+
+                                <!-- Menu button -->
+                                <Button Style="{StaticResource FlatIconButton}"
+                                        ext:FocusExtension.IsFocused="{Binding IsPopupMenuOpen}"
+                                        Grid.Column="2"
+                                        ToolTip="Show menu"
+                                        Command="{Binding TogglePopupMenuCommand}"
+                                        HorizontalAlignment="Right"
+                                        FontSize="16"
+                                        Content="&#xf141;">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding ClosePopupMenuCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>                            
+
+                        </StackPanel>
+
+                    </Border>
+
+                    <!-- Search-->
+                    <StackPanel Orientation="Vertical"
+                                Grid.Row="1">
+                        
+                        <!-- Search bar -->
+                        <Grid Margin="20 10"
+                                  Visibility="{Binding SearchMode, Converter={StaticResource booleanToVisibilityConverter}}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Search input -->
+                            <TextBox Style="{StaticResource RoundTextBox}"
+                                         Grid.Column="0"
+                                         ext:FocusExtension.IsFocused="{Binding SearchMode}"
+                                         Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <!-- Clear text button -->
+                            <Button Style="{StaticResource FlatSmallIconButton}"
+                                        Grid.Column="1"
+                                        IsCancel="True"
+                                        ToolTip="Clear"
+                                        Command="{Binding ClearSearchStringCommand}"
+                                        HorizontalAlignment="Left"
+                                        FontSize="16"
+                                        Content="&#xf057;" />
+
+                        </Grid>
+
+                        <!-- No results text block -->
+                        <TextBlock Style="{StaticResource SmallTextBlock}"
+                                       Visibility="{Binding Todos.Count, Converter={StaticResource emptyToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                       HorizontalAlignment="Center"
+                                       Text="No results."/>
+                        
+                    </StackPanel>
+
+                    <!-- Menu -->
+                    <Border Grid.Row="1"
+                            Grid.RowSpan="2"
+                            Margin="5"
+                            Panel.ZIndex="1000"
+                            Visibility="{Binding IsPopupMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
+                            Background="{DynamicResource SecondaryBackgroundBrush}"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+
+                        <Border.Effect>
+                            <DropShadowEffect Opacity="0.35" ShadowDepth="4" />
+                        </Border.Effect>
+
+                        <StackPanel Orientation="Vertical">
+
+                            <!-- Toggle theme -->
+                            <Button Style="{StaticResource ListButton}"
+                                    Focusable="False"
+                                    Command="{Binding InvertThemeCommand}"
+                                    Content="Light/Dark"
+                                    ext:IconExtension.Icon="&#xf6c4;"
+                                    FontFamily="{StaticResource FontAwesome}"/>
+
+                        </StackPanel>
+                        
+                    </Border>
+
+                    <!-- List of todos -->
+                    <ListView ItemsSource="{Binding Todos, UpdateSourceTrigger=PropertyChanged}"
+                              Grid.Row="3"
+                              ScrollViewer.CanContentScroll="False"
+                              SelectedItem="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              Style="{StaticResource ListViewBase}"
+                              ItemContainerStyle="{StaticResource ListViewItem}"
+                              SelectionMode="Single"
+                              ext:OnlyLeftMouseButtonSelectExtension.OnlyLeftMouseButtonSelect="True"
+                              dd:DragDrop.IsDropTarget="True"
+                              dd:DragDrop.IsDragSource="True"
+                              dd:DragDrop.DropHandler="{Binding}"
+                              dd:DragDrop.MinimumVerticalDragDistance="25">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <uc:TodoItemUserControl/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+
+                </Grid>
+
+            </DockPanel>
+
+        </Border>
+
+        <!-- 2. Collapsed menu -->
+        <StackPanel Grid.Column="1"
+                    Orientation="Vertical"
+                    Background="{DynamicResource PrimaryBackgroundBrush}"
+                    Visibility="{Binding IsMenuOpen, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
+
+            <!-- Buttons container -->
+            <StackPanel Margin="20"
+                        Orientation="Vertical">
+                
+                <!-- Collapse button -->
+                <Button Style="{StaticResource FlatIconButton}"
+                        Margin="0 0 0 10"
+                        ToolTip="Show/Collapse"
+                        Command="{Binding CollapseMenuCommand}"
+                        FontSize="16"
+                        Content="&#xf0c9;" />
+
+                <!-- Theme button -->
+                <Button Style="{StaticResource FlatIconButton}"
+                        Margin="0 0 0 10"
+                        ToolTip="Theme"
+                        Command="{Binding InvertThemeCommand}"
+                        FontSize="16"
+                        Content="&#xf6c4;" />
+
+                <!-- Theme button -->
+                <Button Style="{StaticResource FlatIconButton}"
+                        Margin="0 0 0 10"
+                        ToolTip="Accent"
+                        FontSize="16"
+                        Content="&#xf1fc;" />
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <!-- 3. To-do list -->
+        <Grid Grid.Column="2">
+            
+            <uc:TasksUserControl />
+            
+        </Grid>
+
+    </Grid>
+
+</UserControl>

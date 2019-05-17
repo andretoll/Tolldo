@@ -1,0 +1,34 @@
+﻿<Window x:Class="Tolldo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tolldo"
+        xmlns:usercontrols="clr-namespace:Tolldo.Views.UserControls"
+        mc:Ignorable="d"
+        Title="TOLLDO" Height="600" Width="1200" MinHeight="{Binding WindowMinimumHeight}" MinWidth="{Binding WindowMinimumWidth}"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type local:MainWindow}" BasedOn="{StaticResource ChromeWindow}"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="{Binding ResizeBorderThickness}"
+                      CaptionHeight="{Binding TitleHeight}"
+                      GlassFrameThickness="0" />
+    </WindowChrome.WindowChrome>
+
+    <!-- Window content container -->
+    <DockPanel Background="{DynamicResource PrimaryBackgroundBrush}"
+               LastChildFill="True">
+
+        <!-- Main view -->
+        <usercontrols:MainUserControl />
+
+    </DockPanel>
+</Window>
