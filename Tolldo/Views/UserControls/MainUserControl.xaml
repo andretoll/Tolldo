@@ -254,7 +254,7 @@
                 
                 <!-- Collapse button -->
                 <Button Style="{StaticResource FlatIconButton}"
-                        Margin="0 0 0 10"
+                        Margin="0 0 0 15"
                         ToolTip="Show/Collapse"
                         Command="{Binding CollapseMenuCommand}"
                         FontSize="16"
@@ -262,7 +262,7 @@
 
                 <!-- Theme button -->
                 <Button Style="{StaticResource FlatIconButton}"
-                        Margin="0 0 0 10"
+                        Margin="0 0 0 15"
                         ToolTip="Theme"
                         Command="{Binding InvertThemeCommand}"
                         FontSize="16"
@@ -270,7 +270,7 @@
 
                 <!-- Theme button -->
                 <Button Style="{StaticResource FlatIconButton}"
-                        Margin="0 0 0 10"
+                        Margin="0 0 0 15"
                         ToolTip="Accent"
                         FontSize="16"
                         Content="&#xf1fc;" />

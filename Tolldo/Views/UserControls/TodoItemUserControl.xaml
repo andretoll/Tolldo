@@ -8,8 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <!-- Each ListViewItem -->
-    <Grid Height="50"
-          ToolTip="{Binding Name}">
+    <Grid ToolTip="{Binding Name}">
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -55,6 +54,7 @@
 
             <!-- Progress -->
             <TextBlock Style="{StaticResource MediumTextBlock}"
+                       Opacity="0.75"
                        FontFamily="{StaticResource LatoRegular}"
                        VerticalAlignment="Center"
                        Text="{Binding ProgressString}" />

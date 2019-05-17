@@ -7,10 +7,10 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <DockPanel LastChildFill="True"
                DataContext="{Binding SelectedTodo}">
-        
+
         <!-- Banner -->
         <Grid DockPanel.Dock="Top"
               VerticalAlignment="Top"
@@ -21,27 +21,22 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>            
+            </Grid.ColumnDefinitions>
 
             <!-- Banner image -->
             <Image Stretch="UniformToFill"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Grid.ColumnSpan="3">
-                
-                <Image.Source>
-                    <BitmapImage UriSource="/Images/banner.png" />
-                </Image.Source>
-                
-            </Image>
-            
+                   Grid.ColumnSpan="3" 
+                   Source="/Images/banner_highway.jpg"/>
+
             <!-- Banner overlay -->
             <Rectangle Height="auto" 
                        Width="auto" 
                        Fill="Black"
-                       Opacity="0.5"
+                       Opacity="0.7"
                        Grid.ColumnSpan="3" />
-            
+
             <!-- To-do list name -->
             <TextBlock Style="{StaticResource HeaderTextBlock}"
                        Foreground="{StaticResource LightForegroundBrush}"
@@ -64,7 +59,7 @@
                        Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat={}{0:0}%}" />
 
         </Grid>
-        
+
         <!-- Progress -->
         <Grid Width="auto"
               Height="10"
@@ -103,10 +98,10 @@
                         </BeginStoryboard>
                     </EventTrigger>
                 </ProgressBar.Triggers>
-                
+
             </ProgressBar>
 
-        </Grid>        
+        </Grid>
 
         <!-- Tasks -->
         <Grid>
@@ -127,7 +122,7 @@
             </ListBox>
 
         </Grid>
-        
+
     </DockPanel>
-    
+
 </UserControl>
