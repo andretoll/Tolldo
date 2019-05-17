@@ -16,11 +16,21 @@
     <!-- Blue -->
     <Color x:Key="Blue">#0398E2</Color>
     <Color x:Key="DarkerBlue">#007cba</Color>
-    <Color x:Key="DarkBlue">#00517a</Color> 
-    
+    <Color x:Key="DarkBlue">#00517a</Color>    
+     
+    <!-- Red -->
+    <Color x:Key="Red">#e20337</Color>
+    <Color x:Key="DarkerRed">#ba0031</Color>
+    <Color x:Key="DarkRed">#7a0014</Color>
+
+    <!-- Orange -->
+    <Color x:Key="Orange">#e25f03</Color>
+    <Color x:Key="DarkerOrange">#ba4a00</Color>
+    <Color x:Key="DarkOrange">#7a3000</Color>
+
     <!-- Green -->
     <Color x:Key="Green">#56dd52</Color>
     <Color x:Key="DarkerGreen">#40a33e</Color>
-    <Color x:Key="DarkGreen">#338231</Color>   
-    
+    <Color x:Key="DarkGreen">#338231</Color>
+
 </ResourceDictionary>

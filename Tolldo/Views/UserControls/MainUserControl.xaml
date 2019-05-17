@@ -210,6 +210,14 @@
                                     ext:IconExtension.Icon="&#xf6c4;"
                                     FontFamily="{StaticResource FontAwesome}"/>
 
+                            <!-- Toggle accent -->
+                            <Button Style="{StaticResource ListButton}"
+                                    Focusable="False"
+                                    Command="{Binding InvertThemeCommand}"
+                                    Content="Accent"
+                                    ext:IconExtension.Icon="&#xf1fc;"
+                                    FontFamily="{StaticResource FontAwesome}"/>
+
                         </StackPanel>
                         
                     </Border>

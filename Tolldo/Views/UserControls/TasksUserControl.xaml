@@ -74,7 +74,7 @@
 
                 <ProgressBar.Style>
                     <Style TargetType="{x:Type ProgressBar}">
-                        <Setter Property="Foreground" Value="{StaticResource ColorGradientBrush}" />
+                        <Setter Property="Foreground" Value="{DynamicResource ColorGradientBrush}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Progress}" Value="100">
                                 <Setter Property="Foreground" Value="{StaticResource GreenGradientBrush}" />

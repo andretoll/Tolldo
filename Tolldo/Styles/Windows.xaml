@@ -131,9 +131,11 @@
                                             HorizontalAlignment="Left"
                                             Style="{StaticResource SystemIconButton}">
 
-                                        <Image Source="/Images/Logo/logo.png" 
-                                               RenderOptions.BitmapScalingMode="HighQuality" />
-
+                                        <!-- Icon -->
+                                        <TextBlock Text="&#xf058;"
+                                                   Foreground="{DynamicResource ColorForegroundBrush}"
+                                                   FontFamily="{StaticResource FontAwesome}"
+                                                   FontSize="20"/>
                                     </Button>
 
                                     <!-- Title -->
