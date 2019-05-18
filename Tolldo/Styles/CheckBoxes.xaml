@@ -20,7 +20,7 @@
                         <StackPanel Orientation="Horizontal">
 
                             <!-- CheckBox Icon -->
-                            <TextBlock Foreground="{DynamicResource ColorGradientBrush}"
+                            <TextBlock Foreground="{DynamicResource ColorForegroundBrush}"
                                        FontSize="26">
 
                                 <TextBlock.Style>
@@ -44,7 +44,7 @@
                                             <!-- When unchecked and mouse over -->
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}, Path=IsMouseOver}" Value="True"/>
                                                     <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}, Path=IsChecked}" Value="False" />
                                                 </MultiDataTrigger.Conditions>
                                                 <Setter Property="Text" Value="&#xf058;" />

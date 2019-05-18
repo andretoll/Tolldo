@@ -54,7 +54,7 @@
                        VerticalAlignment="Center" />
 
             <!-- Progress -->
-            <TextBlock Style="{StaticResource MediumTextBlock}"
+            <TextBlock Style="{StaticResource SmallTextBlock}"
                        Opacity="0.75"
                        FontFamily="{StaticResource LatoRegular}"
                        VerticalAlignment="Center"

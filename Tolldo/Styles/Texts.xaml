@@ -17,15 +17,15 @@
     <!-- Medium text block -->
     <Style TargetType="{x:Type TextBlock}" x:Key="MediumTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
-        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
     </Style>
 
     <!-- Small text block -->
     <Style TargetType="{x:Type TextBlock}" x:Key="SmallTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
         <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
     </Style> 
 
     <!-- Rounded text box -->
@@ -36,6 +36,8 @@
         <Setter Property="MaxLines" Value="1" />
         <Setter Property="MaxLength" Value="20" />
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+
+
 
         <Style.Resources>
             <Style TargetType="{x:Type Border}">

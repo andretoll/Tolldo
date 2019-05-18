@@ -10,7 +10,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid>
+    <Grid x:Name="FadingElement">
+
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="FadingElement" 
+                                         Storyboard.TargetProperty="(StackPanel.Opacity)"
+                                         From="0.0" 
+                                         To="1.0" 
+                                         Duration="0:0:1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
 
         <Grid.ColumnDefinitions>
             <!-- Side menu -->
@@ -21,8 +35,128 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- 1. Side menu -->
+        <!-- 1. Collapsed menu -->
         <Border Grid.Column="0"
+                Background="{DynamicResource PrimaryBackgroundBrush}"
+                BorderThickness="0 1 1 0"
+                BorderBrush="{DynamicResource GrayBackgroundBrush}">
+
+                <!-- Buttons container -->
+                <StackPanel Margin="20"
+                            Orientation="Vertical">
+
+                    <!-- Collapse button -->
+                    <Button Style="{StaticResource FlatIconButton}"
+                            Margin="0 0 0 15"
+                            ToolTip="Show/Collapse"
+                            Command="{Binding CollapseMenuCommand}"
+                            FontSize="16"
+                            Content="&#xf0c9;" />
+
+                    <!-- Theme button -->
+                    <Button Style="{StaticResource FlatIconButton}"
+                            Margin="0 0 0 15"
+                            ToolTip="Theme"
+                            Command="{Binding InvertThemeCommand}"
+                            FontSize="16"
+                            Content="&#xf6c4;" />                    
+
+                    <!-- Accents container -->
+                    <Border CornerRadius="20">
+
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="1"
+                                                      Opacity="0.2"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAccentsMenuOpen}" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <StackPanel>
+
+                            <!-- Accents button -->
+                            <Button Style="{StaticResource FlatIconButton}"
+                                    Command="{Binding ToggleAccentsMenuCommand}"
+                                    ToolTip="Accent"
+                                    FontSize="16"
+                                    Content="&#xf1fc;" />
+
+                            <!-- Colors -->
+                            <StackPanel Orientation="Vertical"
+                                        ClipToBounds="True">
+
+                            <StackPanel Visibility="{Binding IsAccentsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
+
+                                <StackPanel.Style>
+                                    <Style TargetType="{x:Type StackPanel}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsAccentsMenuOpen, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                                From="0 -100 0 0"
+                                                                                To="0"
+                                                                                Duration="0:0:0.4" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+
+                                <!-- Color 1-->
+                                <Button Style="{StaticResource ColorBackgroundButton}"
+                                        Command="{Binding SetAccentCommand}"
+                                        CommandParameter="Blue"
+                                        Margin="0 5"
+                                        Background="{StaticResource BlueColorGradientBrush}"
+                                        ToolTip="Blue"
+                                        FontSize="14" />
+
+                                <!-- Color 2 -->
+                                <Button Style="{StaticResource ColorBackgroundButton}"
+                                        Command="{Binding SetAccentCommand}"
+                                        CommandParameter="Red"
+                                        Margin="0 0 0 5"
+                                        Background="{StaticResource RedColorGradientBrush}"
+                                        ToolTip="Red"
+                                        FontSize="16" />
+
+                                <!-- Color 3 -->
+                                <Button Style="{StaticResource ColorBackgroundButton}"
+                                        Command="{Binding SetAccentCommand}"
+                                        CommandParameter="Orange"
+                                        Margin="0 0 0 5"
+                                        Background="{StaticResource OrangeColorGradientBrush}"
+                                        ToolTip="Orange"
+                                        FontSize="16" />
+                            </StackPanel>
+                            
+
+                        </StackPanel>
+
+                        </StackPanel>
+
+                    </Border>
+
+            </StackPanel>
+
+        </Border>
+
+        <!-- 2. Side menu -->
+        <Border Grid.Column="1"
                 BorderThickness="0 0 1 0"
                 BorderBrush="{DynamicResource GrayBackgroundBrush}"
                 Visibility="{Binding IsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
@@ -36,10 +170,11 @@
 
                     <DockPanel LastChildFill="True"                       
                                VerticalAlignment="Bottom"
-                               Margin="20 50">
+                               Margin="20">
 
                         <!-- Label -->
                         <TextBlock Style="{StaticResource SmallTextBlock}"
+                                   Foreground="{DynamicResource ColorForegroundBrush}"
                                    Margin="5 0 0 5"
                                    DockPanel.Dock="Top"
                                    Text="Add new" />
@@ -64,10 +199,9 @@
                 </Border>
 
                 <!-- Buttons and list -->
-                <Grid DockPanel.Dock="Top"
-                      x:Name="FadingElement">
+                <Grid DockPanel.Dock="Top">
 
-                    <Grid.RowDefinitions>                        
+                    <Grid.RowDefinitions>
                         <!-- Buttons -->
                         <RowDefinition Height="auto" />
                         <!-- Search -->
@@ -76,22 +210,8 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Grid.Triggers>
-                        <EventTrigger RoutedEvent="StackPanel.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="FadingElement" 
-                                                     Storyboard.TargetProperty="(StackPanel.Opacity)"
-                                                     From="0.0" 
-                                                     To="1.0" 
-                                                     Duration="0:0:1" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Grid.Triggers>
-                   
                     <!-- Side menu buttons and search -->
-                    <Border BorderThickness="0 0 0 1"
+                    <Border BorderThickness="0 1 0 1"
                             BorderBrush="{DynamicResource GrayBackgroundBrush}"
                             Grid.Row="0">
 
@@ -103,36 +223,26 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-
-                                <!-- Collapse button -->
-                                <Button Style="{StaticResource FlatIconButton}"
-                                        Grid.Column="0"
-                                        ToolTip="Show/Collapse"
-                                        Command="{Binding CollapseMenuCommand}"
-                                        HorizontalAlignment="Left"
-                                        FontSize="16"
-                                        Content="&#xf0c9;" />
 
                                 <!-- Search button -->
                                 <Button Style="{StaticResource FlatIconButton}"
-                                        Grid.Column="1"
-                                        ToolTip="Filter"
+                                        Grid.Column="0"
+                                        ToolTip="Search"
                                         Command="{Binding ToggleSearchModeCommand}"
-                                        HorizontalAlignment="Center"
+                                        HorizontalAlignment="Left"
                                         FontSize="16"
                                         Content="&#xf002;" />
 
                                 <!-- Menu button -->
                                 <Button Style="{StaticResource FlatIconButton}"
                                         ext:FocusExtension.IsFocused="{Binding IsPopupMenuOpen}"
-                                        Grid.Column="2"
-                                        ToolTip="Show menu"
+                                        Grid.Column="1"
+                                        ToolTip="Sort"
                                         Command="{Binding TogglePopupMenuCommand}"
                                         HorizontalAlignment="Right"
                                         FontSize="16"
-                                        Content="&#xf141;">
+                                        Content="&#xf0dc;">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="LostFocus">
                                             <i:InvokeCommandAction Command="{Binding ClosePopupMenuCommand}" />
@@ -202,21 +312,19 @@
 
                         <StackPanel Orientation="Vertical">
 
-                            <!-- Toggle theme -->
+                            <!-- Sort alphabetically down -->
                             <Button Style="{StaticResource ListButton}"
                                     Focusable="False"
-                                    Command="{Binding InvertThemeCommand}"
-                                    Content="Light/Dark"
-                                    ext:IconExtension.Icon="&#xf6c4;"
-                                    FontFamily="{StaticResource FontAwesome}"/>
+                                    Content="Alphabetically"
+                                    ext:IconExtension.Icon="&#xf15d;"
+                                    FontFamily="{StaticResource FontAwesome}" />
 
-                            <!-- Toggle accent -->
+                            <!-- Sort alphabetically up -->
                             <Button Style="{StaticResource ListButton}"
                                     Focusable="False"
-                                    Command="{Binding InvertThemeCommand}"
-                                    Content="Accent"
-                                    ext:IconExtension.Icon="&#xf1fc;"
-                                    FontFamily="{StaticResource FontAwesome}"/>
+                                    Content="Alphabetically"
+                                    ext:IconExtension.Icon="&#xf15e;"
+                                    FontFamily="{StaticResource FontAwesome}" />
 
                         </StackPanel>
                         
@@ -248,44 +356,7 @@
 
             </DockPanel>
 
-        </Border>
-
-        <!-- 2. Collapsed menu -->
-        <StackPanel Grid.Column="1"
-                    Orientation="Vertical"
-                    Background="{DynamicResource PrimaryBackgroundBrush}"
-                    Visibility="{Binding IsMenuOpen, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
-
-            <!-- Buttons container -->
-            <StackPanel Margin="20"
-                        Orientation="Vertical">
-                
-                <!-- Collapse button -->
-                <Button Style="{StaticResource FlatIconButton}"
-                        Margin="0 0 0 15"
-                        ToolTip="Show/Collapse"
-                        Command="{Binding CollapseMenuCommand}"
-                        FontSize="16"
-                        Content="&#xf0c9;" />
-
-                <!-- Theme button -->
-                <Button Style="{StaticResource FlatIconButton}"
-                        Margin="0 0 0 15"
-                        ToolTip="Theme"
-                        Command="{Binding InvertThemeCommand}"
-                        FontSize="16"
-                        Content="&#xf6c4;" />
-
-                <!-- Theme button -->
-                <Button Style="{StaticResource FlatIconButton}"
-                        Margin="0 0 0 15"
-                        ToolTip="Accent"
-                        FontSize="16"
-                        Content="&#xf1fc;" />
-
-            </StackPanel>
-
-        </StackPanel>
+        </Border>        
 
         <!-- 3. To-do list -->
         <Grid Grid.Column="2">

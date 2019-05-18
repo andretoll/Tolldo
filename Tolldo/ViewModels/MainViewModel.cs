@@ -25,8 +25,11 @@ namespace Tolldo.ViewModels
         // If side menu is open or closed
         private bool _isMenuOpen = true;
 
-        // Popup menu
+        // If popup menu is open or closed
         private bool _isPopupMenuOpen = false;
+
+        // If accents menu is open or closed
+        private bool _isAccentsMenuOpen = false;
 
         // Search mode active
         private bool _searchMode;
@@ -73,6 +76,24 @@ namespace Tolldo.ViewModels
                 NotifyPropertyChanged();
             }
         }
+
+        // If accents menu is open or closed
+        public bool IsAccentsMenuOpen
+        {
+            get { return _isAccentsMenuOpen; }
+            set
+            {
+                _isAccentsMenuOpen = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // If dark theme is active
+        public bool DarkThemeEnabled
+        {
+            get { return _themeManager.DarkThemeEnabled; }
+        }
+
 
         // Search mode active
         public bool SearchMode
@@ -222,7 +243,8 @@ namespace Tolldo.ViewModels
         public ICommand InvertThemeCommand { get; set; }
         public ICommand TogglePopupMenuCommand { get; set; }
         public ICommand ClosePopupMenuCommand { get; set; }
-
+        public ICommand ToggleAccentsMenuCommand { get; set; }
+        public ICommand SetAccentCommand { get; set; }
         #endregion
 
         #region Constructor
@@ -251,6 +273,8 @@ namespace Tolldo.ViewModels
             InvertThemeCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetTheme(!_themeManager.DarkThemeEnabled); });
             TogglePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = !IsPopupMenuOpen; });
             ClosePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = false; });
+            ToggleAccentsMenuCommand = new RelayCommand.RelayCommand(p => { IsAccentsMenuOpen = !IsAccentsMenuOpen; });
+            SetAccentCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetAccent((string)p); });
         }
 
         #endregion

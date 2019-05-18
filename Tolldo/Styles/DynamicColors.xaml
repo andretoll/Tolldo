@@ -36,6 +36,14 @@
     <SolidColorBrush x:Key="DarkForegroundBrush" Color="{StaticResource Dark}" />
     
     
+    
+    <!-- Title Gradient-->
+    <LinearGradientBrush x:Key="TitleGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource Blue}" Offset="0" />
+        <GradientStop Color="{StaticResource Red}" Offset="0.5" />
+        <GradientStop Color="{StaticResource Orange}" Offset="1" />
+    </LinearGradientBrush>
+    
 
     <!-- Color Gradient -->
     <LinearGradientBrush x:Key="ColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
@@ -49,6 +57,29 @@
         <GradientStop Color="{StaticResource DarkerGreen}" Offset="0" />
         <GradientStop Color="{StaticResource Green}" Offset="0.5" />
         <GradientStop Color="{StaticResource DarkerGreen}" Offset="1" />
+    </LinearGradientBrush>
+
+
+
+    <!-- Blue Color Gradient -->
+    <LinearGradientBrush x:Key="BlueColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource DarkerBlue}" Offset="0" />
+        <GradientStop Color="{StaticResource Blue}" Offset="0.5" />
+        <GradientStop Color="{StaticResource DarkerBlue}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Red Color Gradient -->
+    <LinearGradientBrush x:Key="RedColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource DarkerRed}" Offset="0" />
+        <GradientStop Color="{StaticResource Red}" Offset="0.5" />
+        <GradientStop Color="{StaticResource DarkerRed}" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- Orange Color Gradient -->
+    <LinearGradientBrush x:Key="OrangeColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource DarkerOrange}" Offset="0" />
+        <GradientStop Color="{StaticResource Orange}" Offset="0.5" />
+        <GradientStop Color="{StaticResource DarkerOrange}" Offset="1" />
     </LinearGradientBrush>
 
 </ResourceDictionary>

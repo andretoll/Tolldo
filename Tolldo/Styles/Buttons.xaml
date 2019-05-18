@@ -168,5 +168,16 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <!-- Color background without text or icon -->
+    <Style TargetType="{x:Type Button}" x:Key="ColorBackgroundButton" BasedOn="{StaticResource FlatIconButton}">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.85" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>

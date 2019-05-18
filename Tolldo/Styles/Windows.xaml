@@ -135,7 +135,7 @@
                                         <TextBlock Text="&#xf058;"
                                                    Foreground="{DynamicResource ColorForegroundBrush}"
                                                    FontFamily="{StaticResource FontAwesome}"
-                                                   FontSize="20"/>
+                                                   FontSize="24"/>
                                     </Button>
 
                                     <!-- Title -->
@@ -144,7 +144,7 @@
 
                                         <TextBlock Style="{StaticResource WindowHeaderTextBlock}" 
                                                    FontFamily="{StaticResource LatoBold}"
-                                                   Foreground="{DynamicResource ColorForegroundBrush}"
+                                                   Foreground="{StaticResource TitleGradientBrush}"
                                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}" />
 
                                     </Viewbox>
