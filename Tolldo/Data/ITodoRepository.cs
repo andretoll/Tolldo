@@ -4,10 +4,14 @@ using Tolldo.Models;
 namespace Tolldo.Data
 {
     /// <summary>
-    /// Interface for Todo.
+    /// Data provider interface for Tolldo.
     /// </summary>
     public interface ITodoRepository
     {
+        /// <summary>
+        /// Get a list of all Todo-items.
+        /// </summary>
+        /// <returns></returns>
         List<Todo> GetTodos();
     }
 }

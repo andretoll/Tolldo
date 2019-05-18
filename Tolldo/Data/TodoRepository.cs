@@ -5,12 +5,15 @@ using Tolldo.Models;
 namespace Tolldo.Data
 {
     /// <summary>
-    /// Class that implements the <see cref="ITodoRepository"/> interface.
+    /// Data provider that implements the <see cref="ITodoRepository"/> interface.
     /// </summary>
     public class TodoRepository : ITodoRepository
     {
         #region Private Members
 
+        /// <summary>
+        /// A list of Todo-items.
+        /// </summary>
         private List<Todo> _todos;
 
         #endregion
@@ -18,7 +21,7 @@ namespace Tolldo.Data
         #region Constructor
 
         /// <summary>
-        /// Constructor.
+        /// Default constructor.
         /// </summary>
         public TodoRepository()
         {
@@ -28,11 +31,13 @@ namespace Tolldo.Data
         #endregion
 
         /// <summary>
-        /// Returns a <see cref="List{T}"/> of <see cref="Todo"/> objects.
+        /// Returns a <see cref="List{T}"/> of <see cref="Todo"/> items.
         /// </summary>
         /// <returns></returns>
         public List<Todo> GetTodos()
         {
+            // TEMPORARY DATA
+
             if (_todos == null)
                 _todos = new List<Todo>();
 
@@ -111,6 +116,8 @@ namespace Tolldo.Data
 
                 Tasks = new ObservableCollection<TodoTask>()
             });
+
+            // END: TEMORARY DATA
 
             return _todos;
         }

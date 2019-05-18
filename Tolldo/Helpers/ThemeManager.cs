@@ -8,30 +8,33 @@ using System.Windows.Media;
 namespace Tolldo.Helpers
 {
     /// <summary>
-    /// A manager used to change themes and accents.
+    /// A theme mananger to read, write and apply themes and accents based on user settings.
     /// </summary>
     public class ThemeManager
     {
-        #region Private Members
-
-        private bool _darkThemeEnabled;
-        private List<string> _accents;
-        private string _accent;
-
-        #endregion
-
         #region Public Properties
 
-        public bool DarkThemeEnabled { get { return _darkThemeEnabled; } private set { _darkThemeEnabled = value; } }
-        public List<string> Accents { get { return _accents; } private set { _accents = value; } }
-        public string Accent { get { return _accent; } private set { _accent = value; } }
+        /// <summary>
+        /// Indicates whether or not dark theme is enabled.
+        /// </summary>
+        public bool DarkThemeEnabled { get; private set; }
+
+        /// <summary>
+        /// A list of accents.
+        /// </summary>
+        public List<string> Accents { get; private set; }
+
+        /// <summary>
+        /// The current accent.
+        /// </summary>
+        public string Accent { get; private set; }
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Constructor.
+        /// Default constructor.
         /// </summary>
         public ThemeManager()
         {
@@ -49,9 +52,9 @@ namespace Tolldo.Helpers
         #region Public Helpers
 
         /// <summary>
-        /// Method to set dark or light theme.
+        /// Sets dark or light theme.
         /// </summary>
-        /// <param name="dark"></param>
+        /// <param name="dark">A value indicating whether or not to apply the dark theme.</param>
         public void SetTheme(bool dark)
         {
             DarkThemeEnabled = dark;
@@ -91,14 +94,14 @@ namespace Tolldo.Helpers
                 SetBrush("Dark", "InvertedBackgroundBrush");
             }
 
-            // Save setting
+            // Save settings
             SaveSetting(Setting.DarkTheme.ToString(), DarkThemeEnabled);
         }
 
         /// <summary>
-        /// Method to set accent.
+        /// Sets the provided accent.
         /// </summary>
-        /// <param name="accent"></param>
+        /// <param name="accent">The accent name to apply.</param>
         public void SetAccent(string accent)
         {
             Accent = accent;
@@ -130,6 +133,9 @@ namespace Tolldo.Helpers
                     SetLinearBrush("DarkerBlue", "Blue", "ColorGradientBrush");
                     break;
             }
+
+            // Save settings
+            SaveSetting(Setting.Accent.ToString(), accent);
         }
 
         #endregion
@@ -137,10 +143,10 @@ namespace Tolldo.Helpers
         #region Private Helpers
 
         /// <summary>
-        /// Method to assign the specified <see cref="Color"/> to the specified <see cref="SolidColorBrush"/>.
+        /// Applies the specified <see cref="Color"/> to the specified <see cref="SolidColorBrush"/>.
         /// </summary>
-        /// <param name="colorName"></param>
-        /// <param name="brushName"></param>
+        /// <param name="colorName">Name of the <see cref="Color"/>.</param>
+        /// <param name="brushName">Name of the <see cref="SolidColorBrush"/></param>
         private void SetBrush(string colorName, string brushName)
         {
             Color color = (Color)Application.Current.Resources[colorName];
@@ -149,16 +155,18 @@ namespace Tolldo.Helpers
         }
 
         /// <summary>
-        /// Method to assign the specified <see cref="Color"/>s to the specified <see cref="LinearGradientBrush"/>.
+        /// Applies the specified <see cref="Color"/>s to the specified <see cref="LinearGradientBrush"/>.
         /// </summary>
-        /// <param name="color1"></param>
-        /// <param name="color2"></param>
-        /// <param name="brushName"></param>
+        /// <param name="color1">Name of the <see cref="Color"/>.</param>
+        /// <param name="color2">Name of the <see cref="Color"/>.</param>
+        /// <param name="brushName">Name of the <see cref="LinearGradientBrush"/>.</param>
         private void SetLinearBrush(string color1, string color2, string brushName)
         {
+            // Retrieve the colors
             Color firstColor = (Color)Application.Current.Resources[color1];
             Color secondColor = (Color)Application.Current.Resources[color2];
 
+            // Create new brush
             LinearGradientBrush brush = new LinearGradientBrush();
             brush.StartPoint = new Point(0, 0);
             brush.EndPoint = new Point(1, 1);
@@ -166,14 +174,15 @@ namespace Tolldo.Helpers
             brush.GradientStops.Add(new GradientStop(secondColor, 0.50));
             brush.GradientStops.Add(new GradientStop(firstColor, 1.0));
 
+            // Apply new brush
             Application.Current.Resources[brushName] = brush;
         }
 
         /// <summary>
-        /// Method to save the specific setting with the specific value.
+        /// Saves the specified <see cref="Setting"/> with the specified value.
         /// </summary>
-        /// <param name="property"></param>
-        /// <param name="value"></param>
+        /// <param name="property">Name of the property.</param>
+        /// <param name="value">Value to assign to the property.</param>
         private void SaveSetting(string property, object value)
         {
             Properties.Settings.Default[property] = value;
@@ -181,9 +190,9 @@ namespace Tolldo.Helpers
         }
 
         /// <summary>
-        /// Method to load the specific setting.
+        /// Loads the specified setting.
         /// </summary>
-        /// <param name="property"></param>
+        /// <param name="property">Name of the property.</param>
         /// <returns></returns>
         private object LoadSetting(string property)
         {
@@ -192,17 +201,17 @@ namespace Tolldo.Helpers
 
         #endregion
 
+        #region Enums
+
+        /// <summary>
+        /// Types of settings.
+        /// </summary>
         private enum Setting
         {
             DarkTheme,
             Accent
-        }
+        } 
 
-        private enum AccentRotation
-        {
-            Blue = 1,
-            Red = 2,
-            Orange = 3
-        }
+        #endregion
     }
 }

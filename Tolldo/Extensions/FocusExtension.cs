@@ -3,7 +3,7 @@
 namespace Tolldo.Extensions
 {
     /// <summary>
-    /// Extension to allow for focus binding in MVVM.
+    /// A dependency property that allow for focus binding in MVVM-patterns.
     /// </summary>
     public static class FocusExtension
     {
@@ -17,14 +17,21 @@ namespace Tolldo.Extensions
             obj.SetValue(IsFocusedProperty, value);
         }
 
+        /// <summary>
+        /// A dependency property that allow for focus binding in MVVM-patterns.
+        /// False by default.
+        /// </summary>
         public static readonly DependencyProperty IsFocusedProperty =
             DependencyProperty.RegisterAttached(
                 "IsFocused", typeof(bool), typeof(FocusExtension),
                 new UIPropertyMetadata(false, OnIsFocusedPropertyChanged));
 
-        private static void OnIsFocusedPropertyChanged(
-            DependencyObject d,
-            DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// When property changes, give focus to the control.
+        /// </summary>
+        /// <param name="d"></param>
+        /// <param name="e"></param>
+        private static void OnIsFocusedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uie = (UIElement)d;
             if ((bool)e.NewValue)

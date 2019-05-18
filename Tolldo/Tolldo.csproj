@@ -104,8 +104,6 @@
     <Compile Include="Data\TodoRepository.cs" />
     <Compile Include="Extensions\FocusExtension.cs" />
     <Compile Include="Extensions\IconExtension.cs" />
-    <Compile Include="Extensions\ListSelectBehaviorExtension.cs" />
-    <Compile Include="Extensions\OnlyLeftMouseButtonSelectExtension.cs" />
     <Compile Include="Helpers\ThemeManager.cs" />
     <Page Include="Styles\Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>

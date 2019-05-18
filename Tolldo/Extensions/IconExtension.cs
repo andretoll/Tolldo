@@ -4,7 +4,7 @@ using System.Windows.Markup;
 namespace Tolldo.Extensions
 {
     /// <summary>
-    /// Extension to provide icon string
+    /// A dependency property that accepts a string to represent an icon.
     /// </summary>
     public static class IconExtension
     {
@@ -18,6 +18,9 @@ namespace Tolldo.Extensions
             obj.SetValue(IconProperty, value);
         }
 
+        /// <summary>
+        /// A dependency property that accepts a string to represent an icon.
+        /// </summary>
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.RegisterAttached(
                 "Icon", typeof(string), typeof(IconExtension),

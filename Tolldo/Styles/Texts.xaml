@@ -28,23 +28,33 @@
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
     </Style> 
 
-    <!-- Rounded text box -->
-    <Style TargetType="{x:Type TextBox}" x:Key="RoundTextBox">
+    <!-- Standard text box -->
+    <Style TargetType="{x:Type TextBox}" x:Key="StandardTextBox">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="MaxWidth" Value="215" />
         <Setter Property="TextWrapping" Value="NoWrap" />
         <Setter Property="MaxLines" Value="1" />
         <Setter Property="MaxLength" Value="20" />
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
-
-
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0 0 0 1" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource ColorForegroundBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ColorForegroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
 
         <Style.Resources>
             <Style TargetType="{x:Type Border}">
-                <Setter Property="Padding" Value="6" />
-                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0 0 0 1" />
             </Style>
         </Style.Resources>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="Red" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

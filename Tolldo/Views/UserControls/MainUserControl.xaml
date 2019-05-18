@@ -191,7 +191,7 @@
                                 Content="&#xf067;" />
 
                         <!-- New list input -->
-                        <TextBox Style="{StaticResource RoundTextBox}"
+                        <TextBox Style="{StaticResource StandardTextBox}"
                                  Text="{Binding NewTodo, UpdateSourceTrigger=PropertyChanged}"
                                  Width="200"/>
 
@@ -261,7 +261,7 @@
                         
                         <!-- Search bar -->
                         <Grid Margin="20 10"
-                                  Visibility="{Binding SearchMode, Converter={StaticResource booleanToVisibilityConverter}}">
+                              Visibility="{Binding SearchMode, Converter={StaticResource booleanToVisibilityConverter}}">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -269,28 +269,28 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Search input -->
-                            <TextBox Style="{StaticResource RoundTextBox}"
-                                         Grid.Column="0"
-                                         ext:FocusExtension.IsFocused="{Binding SearchMode}"
-                                         Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Style="{StaticResource StandardTextBox}"
+                                     Grid.Column="0"
+                                     ext:FocusExtension.IsFocused="{Binding SearchMode}"
+                                     Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
 
                             <!-- Clear text button -->
                             <Button Style="{StaticResource FlatSmallIconButton}"
-                                        Grid.Column="1"
-                                        IsCancel="True"
-                                        ToolTip="Clear"
-                                        Command="{Binding ClearSearchStringCommand}"
-                                        HorizontalAlignment="Left"
-                                        FontSize="16"
-                                        Content="&#xf057;" />
+                                    Grid.Column="1"
+                                    IsCancel="True"
+                                    ToolTip="Clear"
+                                    Command="{Binding ClearSearchStringCommand}"
+                                    HorizontalAlignment="Left"
+                                    FontSize="16"
+                                    Content="&#xf057;" />
 
                         </Grid>
 
                         <!-- No results text block -->
-                        <TextBlock Style="{StaticResource SmallTextBlock}"
-                                       Visibility="{Binding Todos.Count, Converter={StaticResource emptyToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                       HorizontalAlignment="Center"
-                                       Text="No results."/>
+                        <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   Visibility="{Binding Todos.Count, Converter={StaticResource emptyToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                   HorizontalAlignment="Center"
+                                   Text="No results."/>
                         
                     </StackPanel>
 
@@ -338,7 +338,6 @@
                               Style="{StaticResource ListViewBase}"
                               ItemContainerStyle="{StaticResource ListViewItem}"
                               SelectionMode="Single"
-                              ext:OnlyLeftMouseButtonSelectExtension.OnlyLeftMouseButtonSelect="True"
                               dd:DragDrop.IsDropTarget="True"
                               dd:DragDrop.IsDragSource="True"
                               dd:DragDrop.DropHandler="{Binding}"
