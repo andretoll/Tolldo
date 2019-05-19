@@ -23,8 +23,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
-                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Border Padding="{TemplateBinding Padding}" 
+                            Background="{TemplateBinding Background}">
+                        
+                        <!-- Content -->
+                        <ContentPresenter VerticalAlignment="Center" 
+                                          HorizontalAlignment="Center" />
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -57,17 +62,25 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding Content}" />
+                    <Border Padding="{TemplateBinding Padding}" 
+                            Background="{TemplateBinding Background}">
+                        
+                        <TextBlock VerticalAlignment="Center" 
+                                   HorizontalAlignment="Center" 
+                                   Text="{TemplateBinding Content}" />
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
         <Style.Triggers>
+            
+            <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource GrayBackgroundBrush}" />
             </Trigger>
+            
         </Style.Triggers>
 
     </Style>
@@ -75,10 +88,13 @@
     <!-- Window close button -->
     <Style TargetType="{x:Type Button}" x:Key="WindowCloseButton" BasedOn="{StaticResource WindowControlButton}">
         <Style.Triggers>
+            
+            <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="Red" />
                 <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
             </Trigger>
+            
         </Style.Triggers>
     </Style>
     
@@ -88,7 +104,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
                     
-                    <!-- Outer border with dropshadow margin -->
+                    <!-- Outer border -->
                     <Border Padding="{Binding OuterMarginSizeThickness}">
 
                         <!-- Main window outline -->
@@ -105,8 +121,6 @@
 
                                     <!-- Title bar -->
                                     <RowDefinition Height="{Binding TitleHeightGridLength}"/>
-                                    <!-- Drop shadow -->
-                                    <RowDefinition Height="Auto"/>
                                     <!-- Window content -->
                                     <RowDefinition Height="*"/>
 
@@ -168,9 +182,12 @@
 
                                 </Grid>
 
-                                <!-- Page content -->
-                                <Border Grid.Row="2">
+                                <!-- Content border -->
+                                <Border Grid.Row="1">
+                                    
+                                    <!-- Content -->
                                     <ContentPresenter Content="{TemplateBinding Content}" />
+                                    
                                 </Border>
 
                             </Grid>

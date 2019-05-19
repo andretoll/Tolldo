@@ -2,14 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ext="clr-namespace:Tolldo.Extensions">
 
-    <!-- Import colors and fonts -->
+    <!-- Import colors, fonts and windows -->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="DynamicColors.xaml"/>
         <ResourceDictionary Source="Fonts.xaml"/>
         <ResourceDictionary Source="Windows.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- Flat button -->
+    <!-- Base Flat button -->
     <Style TargetType="{x:Type Button}" x:Key="FlatButton" BasedOn="{StaticResource Hoverless}">
         <Setter Property="Background" Value="{DynamicResource ColorForegroundBrush}" />
         <Setter Property="Effect">
@@ -35,6 +35,8 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
+            
+            <!-- When disabled -->
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Background" Value="{DynamicResource GrayBackgroundBrush}" />
                 <Setter Property="Effect">
@@ -43,12 +45,17 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
+            
+            <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource DarkerColorForegroundBrush}" />
             </Trigger>
+            
+            <!-- When pressed -->
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="{DynamicResource DarkColorForegroundBrush}" />
             </Trigger>
+            
         </Style.Triggers>
     </Style>
 
@@ -160,12 +167,17 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
+            
+            <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource GrayBackgroundBrush}" />
             </Trigger>
+            
+            <!-- When pressed -->
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
             </Trigger>
+            
         </Style.Triggers>
     </Style>
     
@@ -174,6 +186,7 @@
         <Setter Property="Width" Value="30" />
         <Setter Property="Height" Value="30" />
         <Style.Triggers>
+            <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Opacity" Value="0.85" />
             </Trigger>

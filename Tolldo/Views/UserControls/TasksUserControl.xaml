@@ -13,13 +13,14 @@
 
         <!-- Banner -->
         <Grid DockPanel.Dock="Top"
-              VerticalAlignment="Top"
-              Width="auto"
               Height="175">
 
             <Grid.ColumnDefinitions>
+                <!-- Left -->
                 <ColumnDefinition Width="auto" />
+                <!-- Center -->
                 <ColumnDefinition Width="*" />
+                <!-- Right -->
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
@@ -31,9 +32,7 @@
                    Source="/Images/banner_highway.jpg"/>
 
             <!-- Banner overlay -->
-            <Rectangle Height="auto" 
-                       Width="auto" 
-                       Fill="Black"
+            <Rectangle Fill="Black"
                        Opacity="0.7"
                        Grid.ColumnSpan="3" />
 
@@ -44,7 +43,7 @@
                        Grid.Column="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top"
-                       Margin="0 30 0 0"
+                       Margin="0 50 0 0"
                        Text="{Binding Name}" />
 
             <!-- Progress percentage -->
@@ -76,9 +75,12 @@
                     <Style TargetType="{x:Type ProgressBar}">
                         <Setter Property="Foreground" Value="{DynamicResource ColorGradientBrush}" />
                         <Style.Triggers>
+                            
+                            <!-- When progress equals 100 -->
                             <DataTrigger Binding="{Binding Progress}" Value="100">
                                 <Setter Property="Foreground" Value="{StaticResource GreenGradientBrush}" />
                             </DataTrigger>
+                            
                         </Style.Triggers>
                     </Style>
                 </ProgressBar.Style>
@@ -105,6 +107,8 @@
 
         <!-- Tasks -->
         <Grid>
+            
+            <!-- List of tasks -->
             <ListBox ItemsSource="{Binding Tasks, UpdateSourceTrigger=PropertyChanged}"
                      ScrollViewer.CanContentScroll="False"
                      Style="{StaticResource ListBoxBase}"

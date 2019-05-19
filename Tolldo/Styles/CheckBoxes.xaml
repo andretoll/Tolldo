@@ -41,7 +41,7 @@
                                                 <Setter Property="ToolTip" Value="Check" />
                                             </DataTrigger>
 
-                                            <!-- When unchecked and mouse over -->
+                                            <!-- When unchecked and hovering -->
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}, Path=IsMouseOver}" Value="True"/>

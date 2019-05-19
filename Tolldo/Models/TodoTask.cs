@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Tolldo.Models
 {
+    /// <summary>
+    /// The model for Task-items. Implements the <see cref="INotifyPropertyChanged"/> interface.
+    /// </summary>
     public class TodoTask : INotifyPropertyChanged
     {
         #region Private Members
@@ -35,6 +35,7 @@ namespace Tolldo.Models
 
         #endregion
 
+        #region Events
 
         /// <summary>
         /// The event that is fired when any child property changes its value.
@@ -48,6 +49,8 @@ namespace Tolldo.Models
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        } 
+
+        #endregion
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Tolldo.Models;
+using Tolldo.ViewModels;
 
 namespace Tolldo.Data
 {
@@ -14,7 +15,7 @@ namespace Tolldo.Data
         /// <summary>
         /// A list of Todo-items.
         /// </summary>
-        private List<Todo> _todos;
+        private List<TodoViewModel> _todos;
 
         #endregion
 
@@ -25,23 +26,23 @@ namespace Tolldo.Data
         /// </summary>
         public TodoRepository()
         {
-            _todos = new List<Todo>();
+            _todos = new List<TodoViewModel>();
         }
 
         #endregion
 
         /// <summary>
-        /// Returns a <see cref="List{T}"/> of <see cref="Todo"/> items.
+        /// Returns a <see cref="List{T}"/> of <see cref="TodoViewModel"/> items.
         /// </summary>
         /// <returns></returns>
-        public List<Todo> GetTodos()
+        public List<TodoViewModel> GetTodos()
         {
             // TEMPORARY DATA
 
             if (_todos == null)
-                _todos = new List<Todo>();
+                _todos = new List<TodoViewModel>();
 
-            _todos.Add(new Todo()
+            _todos.Add(new TodoViewModel()
             {
                 Id = 1,
                 Name = "Thesis",
@@ -79,7 +80,7 @@ namespace Tolldo.Data
                 }
             });
 
-            _todos.Add(new Todo()
+            _todos.Add(new TodoViewModel()
             {
                 Id = 2,
                 Name = "App To-Do",
@@ -108,7 +109,7 @@ namespace Tolldo.Data
                 }
             });
 
-            _todos.Add(new Todo()
+            _todos.Add(new TodoViewModel()
             {
                 Id = 3,
                 Name = "Before moving",

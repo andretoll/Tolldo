@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 namespace Tolldo.ViewModels
 {
     /// <summary>
-    /// The view model for a custom chrome window. Based on the <see cref="BaseViewModel"/>.
+    /// The ViewModel for a custom chrome window. Based on the <see cref="BaseViewModel"/>.
     /// </summary>
     public class WindowViewModel : BaseViewModel
     {
@@ -84,6 +81,7 @@ namespace Tolldo.ViewModels
             CloseCommand = new RelayCommand.RelayCommand(p => { _window.Close(); });
             MenuCommand = new RelayCommand.RelayCommand(p => { SystemCommands.ShowSystemMenu(_window, GetMousePosition()); });
 
+            // Resize windows when maximized
             var resizer = new WindowResizer.WindowResizer(_window);
         }
 
@@ -92,7 +90,7 @@ namespace Tolldo.ViewModels
         #region Private Helpers
 
         /// <summary>
-        /// Get current mouse position.
+        /// Return the current mouse position.
         /// </summary>
         /// <returns></returns>
         private Point GetMousePosition()

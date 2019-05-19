@@ -1,15 +1,17 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!-- Lato Families -->
     <FontFamily x:Key="LatoRegular">pack://application;,,,/Fonts/#Lato Regular</FontFamily>
     <FontFamily x:Key="LatoThin">pack://application;,,,/Fonts/#Lato Thin</FontFamily>
     <FontFamily x:Key="LatoBold">pack://application;,,,/Fonts/#Lato Heavy</FontFamily>
     
-    <!-- Font Awesome -->
+    <!-- Font Awesome Solid -->
     <FontFamily x:Key="FontAwesome">pack://application;,,,/Fonts/FontAwesome.otf#Font Awesome 5 Free Solid</FontFamily>
+    <!-- Font Awesome Regular -->
     <FontFamily x:Key="FontAwesomeRegular">pack://application;,,,/Fonts/FontAwesomeRegular.otf#Font Awesome 5 Free Regular</FontFamily>
-    <!-- EXAMPLE: <TextBlock x:Name="tbFontAwesome" Text="&#xf0c9;" FontFamily="{StaticResource FontAwesome}" Foreground="Red" FontSize="32" Margin="10" VerticalAlignment="Center"></TextBlock> -->
 
+    <!-- Set Base Font Family -->
     <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
         <Setter Property="FontFamily" Value="{StaticResource LatoThin}"/>
     </Style>
@@ -17,7 +19,6 @@
     <Style TargetType="{x:Type TextBlock}" x:Key="BaseTextBlockStyle">
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
     </Style>
-
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}"/>
     <Style TargetType="{x:Type Label}" BasedOn="{StaticResource BaseStyle}"/>
     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseStyle}"/>

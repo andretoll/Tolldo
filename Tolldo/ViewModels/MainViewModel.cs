@@ -10,7 +10,7 @@ using Tolldo.Models;
 namespace Tolldo.ViewModels
 {
     /// <summary>
-    /// The view model for the application. Based on the <see cref="BaseViewModel"/> and <see cref="IDropTarget"/>.
+    /// The main ViewModel for the application. Based on the <see cref="BaseViewModel"/> and implements the <see cref="IDropTarget"/> interface.
     /// </summary>
     public class MainViewModel : BaseViewModel, IDropTarget
     {
@@ -22,37 +22,38 @@ namespace Tolldo.ViewModels
         // Data repository
         private TodoRepository _repo;
 
-        // If side menu is open or closed
+        // Indicates if side menu is open or closed
         private bool _isMenuOpen = true;
 
-        // If popup menu is open or closed
+        // Indicates if popup menu is open or closed
         private bool _isPopupMenuOpen = false;
 
-        // If accents menu is open or closed
+        // Indicates if accents menu is open or closed
         private bool _isAccentsMenuOpen = false;
 
-        // Search mode active
+        // Indicates if search mode is active
         private bool _searchMode;
+        // Search string
         private string _searchString;        
 
         // Todos
-        private ObservableCollection<Todo> _todos;
-        private ObservableCollection<Todo> _todosConstant;
+        private ObservableCollection<TodoViewModel> _todos;
+        private ObservableCollection<TodoViewModel> _todosConstant;
 
         // Selected todo
-        private Todo _selectedTodo;
+        private TodoViewModel _selectedTodo;
 
         // New todo
-        private string _newTodo;
+        private string _newTodoName;
 
-        // Drag & drop
+        // Indicates if drag is active
         private bool _dragHandleActive;
 
         #endregion
 
         #region Public Properties
 
-        // If side menu is open or closed
+        // Indicates if side menu is open or closed
         public bool IsMenuOpen
         {
             get
@@ -66,7 +67,7 @@ namespace Tolldo.ViewModels
             }
         }
 
-        // If popup menu is open or closed
+        // Indicates if popup menu is open or closed
         public bool IsPopupMenuOpen
         {
             get { return _isPopupMenuOpen; }
@@ -77,7 +78,7 @@ namespace Tolldo.ViewModels
             }
         }
 
-        // If accents menu is open or closed
+        // Indicates if accents menu is open or closed
         public bool IsAccentsMenuOpen
         {
             get { return _isAccentsMenuOpen; }
@@ -88,14 +89,13 @@ namespace Tolldo.ViewModels
             }
         }
 
-        // If dark theme is active
+        // Indicates if dark theme is enabled
         public bool DarkThemeEnabled
         {
             get { return _themeManager.DarkThemeEnabled; }
         }
 
-
-        // Search mode active
+        // Indicates if search mode is active
         public bool SearchMode
         {
             get
@@ -134,7 +134,7 @@ namespace Tolldo.ViewModels
         }
 
         // Todos
-        public ObservableCollection<Todo> Todos
+        public ObservableCollection<TodoViewModel> Todos
         {
             get
             {
@@ -148,7 +148,7 @@ namespace Tolldo.ViewModels
         }
 
         // Selected todo
-        public Todo SelectedTodo
+        public TodoViewModel SelectedTodo
         {
             get
             {
@@ -188,21 +188,21 @@ namespace Tolldo.ViewModels
             }
         }        
 
-        // New todo
-        public string NewTodo
+        // New todo string
+        public string NewTodoName
         {
             get
             {
-                return _newTodo;
+                return _newTodoName;
             }
             set
             {
-                _newTodo = value;
+                _newTodoName = value;
                 NotifyPropertyChanged();
             }
         }
 
-        // Drag & drop
+        // Indicates if drag is active
         public bool DragHandleActive
         {
             get
@@ -227,8 +227,9 @@ namespace Tolldo.ViewModels
         /// <param name="e"></param>
         private void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Update progress
-            SelectedTodo.UpdateProgress();
+            // Update progress if the completed property changed
+            if (e.PropertyName == "Completed")
+                SelectedTodo.UpdateProgress();
         }
 
         #endregion
@@ -250,7 +251,7 @@ namespace Tolldo.ViewModels
         #region Constructor
 
         /// <summary>
-        /// Constructor.
+        /// Default constructor.
         /// </summary>
         public MainViewModel()
         {
@@ -261,15 +262,15 @@ namespace Tolldo.ViewModels
             _repo = new TodoRepository();
 
             // Get data
-            Todos = new ObservableCollection<Todo>(_repo.GetTodos());
-            _todosConstant = new ObservableCollection<Todo>(Todos);
+            Todos = new ObservableCollection<TodoViewModel>(_repo.GetTodos());
+            _todosConstant = new ObservableCollection<TodoViewModel>(Todos);
 
             // Initialize commands
             CollapseMenuCommand = new RelayCommand.RelayCommand(p => { IsMenuOpen = !IsMenuOpen; });
             ToggleSearchModeCommand = new RelayCommand.RelayCommand(p => { SearchMode = !SearchMode; });
             ClearSearchStringCommand = new RelayCommand.RelayCommand(p => { SearchString = ""; SearchMode = !SearchMode; SearchMode = !SearchMode; });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
-            AddNewTodoCommand = new RelayCommand.RelayCommand(p => { AddTodo(NewTodo); }, p => !string.IsNullOrEmpty(NewTodo));
+            AddNewTodoCommand = new RelayCommand.RelayCommand(p => { AddTodo(NewTodoName); }, p => !string.IsNullOrEmpty(NewTodoName));
             InvertThemeCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetTheme(!_themeManager.DarkThemeEnabled); });
             TogglePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = !IsPopupMenuOpen; });
             ClosePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = false; });
@@ -282,7 +283,7 @@ namespace Tolldo.ViewModels
         #region Private Helpers
 
         /// <summary>
-        /// Filter To-Do's with keyword.
+        /// Applies a filter for the collection of Todo-items with the specified keyword.
         /// </summary>
         private void FilterTodos(string keyword)
         {
@@ -291,8 +292,10 @@ namespace Tolldo.ViewModels
                 return;
             }
 
-            ObservableCollection<Todo> todosTemp = new ObservableCollection<Todo>(_todosConstant);
+            // Create new temporary list
+            ObservableCollection<TodoViewModel> todosTemp = new ObservableCollection<TodoViewModel>(_todosConstant);
 
+            // For each Todo-item, remove it if the name does NOT contain the keyword
             foreach (var todo in todosTemp)
             {
                 if (!todo.Name.ToLower().Contains(keyword.ToLower()))
@@ -303,21 +306,21 @@ namespace Tolldo.ViewModels
         }
 
         /// <summary>
-        /// Clear filter from To-Do's.
+        /// Clears the current filter
         /// </summary>
         private void ClearFilter()
         {
-            Todos = new ObservableCollection<Todo>(_todosConstant);
+            Todos = new ObservableCollection<TodoViewModel>(_todosConstant);
         }
 
         /// <summary>
-        /// Add new todo item
+        /// Adds a new Todo-item
         /// </summary>
         /// <param name="name"></param>
         private void AddTodo(string name)
         {
             // Create new object
-            Todo todo = new Todo()
+            TodoViewModel todo = new TodoViewModel()
             {
                 Name = name,
                 Tasks = new ObservableCollection<TodoTask>()
@@ -327,11 +330,11 @@ namespace Tolldo.ViewModels
             Todos.Add(todo);
             _todosConstant.Add(todo);
 
-            // Set as selected
+            // Set as the selected Todo-item
             SelectedTodo = todo;
 
             // Clear new todo
-            NewTodo = string.Empty;
+            NewTodoName = string.Empty;
         }
 
         #endregion
@@ -339,7 +342,7 @@ namespace Tolldo.ViewModels
         #region DragDrop Interface      
 
         /// <summary>
-        /// When dragging item.
+        /// Method called when dragging an item.
         /// </summary>
         /// <param name="dropInfo"></param>
         void IDropTarget.DragOver(IDropInfo dropInfo)
@@ -350,6 +353,7 @@ namespace Tolldo.ViewModels
                 return;
             }
 
+            // Get source and target
             Todo sourceItem = dropInfo.Data as Todo;
             Todo targetItem = dropInfo.TargetItem as Todo;
 
@@ -361,16 +365,18 @@ namespace Tolldo.ViewModels
         }
 
         /// <summary>
-        /// When dropping item.
+        /// Method called when dropping an item.
         /// </summary>
         /// <param name="dropInfo"></param>
         void IDropTarget.Drop(IDropInfo dropInfo)
         {
-            Todo sourceItem = dropInfo.Data as Todo;
-            Todo targetItem = dropInfo.TargetItem as Todo;
+            // Get source and target
+            TodoViewModel sourceItem = dropInfo.Data as TodoViewModel;
+            TodoViewModel targetItem = dropInfo.TargetItem as TodoViewModel;
 
+            // Let the Todo-items switch places
             Todos.Move(Todos.IndexOf(sourceItem), Todos.IndexOf(targetItem));
-            _todosConstant = new ObservableCollection<Todo>(Todos);
+            _todosConstant = new ObservableCollection<TodoViewModel>(Todos);
 
             DragHandleActive = false;
         }

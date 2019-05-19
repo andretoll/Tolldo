@@ -12,8 +12,11 @@
           Height="40">
         
         <Grid.ColumnDefinitions>
+            <!-- Name -->
             <ColumnDefinition Width="*" />
+            <!-- Icons and progress -->
             <ColumnDefinition Width="Auto" />
+            <!-- Drag handle -->
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
@@ -65,16 +68,17 @@
         <!-- Drag handle -->
         <Button Grid.Column="2"
                 x:Name="DragHandle"
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="Right"
                 Style="{StaticResource FlatSmallIconButton}"
                 ToolTip="Reorder"                
                 Visibility="{Binding DataContext.SearchMode, Converter={StaticResource reversedBooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}"
                 Foreground="{StaticResource DarkerColorForegroundBrush}"
                 Cursor="SizeAll"
-                FontSize="18"
+                FontSize="20"
                 Content="&#xf0c9;">
 
-            <i:Interaction.Triggers>
+            <!-- When drag occurs, activate drag -->
+            <i:Interaction.Triggers>                
                 <i:EventTrigger EventName="DragEnter">
                     <i:InvokeCommandAction Command="{Binding DataContext.ActivateDragCommand, RelativeSource={RelativeSource AncestorType=ListView}}" />
                 </i:EventTrigger>
