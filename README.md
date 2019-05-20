@@ -1,5 +1,3 @@
-# Tolldo
-
 ## Description
 
 Tolldo is a comprehensive and customizable, yet simple to-do and list application in its early stages. It allows the user to create and manage their everyday tasks with ease and track them as well as update them continuously. Tolldo offers a customizable user interface with a modern look and feel.
