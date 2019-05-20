@@ -31,4 +31,4 @@ Tolldo is a comprehensive and customizable, yet simple to-do and list applicatio
 
 ## Demo
 
-[Demo] (https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/andretoll/Tolldo/tree/master/Demo)
+[Demo](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/andretoll/Tolldo/tree/master/Demo)
