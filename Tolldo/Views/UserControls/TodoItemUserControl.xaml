@@ -78,7 +78,7 @@
             <!-- Completed icon -->
             <TextBlock Text="&#xf058;"
                        ToolTip="Completed"
-                       FontFamily="{StaticResource FontAwesome}"
+                       FontFamily="{StaticResource FontAwesomeRegular}"
                        Visibility="{Binding Completed, Converter={StaticResource booleanToVisibilityConverter}}"
                        Foreground="ForestGreen" 
                        FontSize="18"

@@ -1,5 +1,6 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Tolldo.Models;
 
@@ -34,7 +35,7 @@ namespace Tolldo.ViewModels
         public TodoViewModel()
         {
             // Initialize commands
-            CompleteAllTasksCommand = new RelayCommand.RelayCommand(p => { CompleteAllTasks(); }, p => Tasks.Count > 0);
+            CompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await CompleteAllTasks(); }, p => Tasks.Count > 0);
         }
 
         #endregion
@@ -148,11 +149,15 @@ namespace Tolldo.ViewModels
         /// <summary>
         /// Completes all current tasks.
         /// </summary>
-        private void CompleteAllTasks()
+        private async Task CompleteAllTasks()
         {
             foreach (var task in this.Tasks)
             {
-                task.Completed = true;
+                if (!task.Completed)
+                {
+                    task.Completed = true;
+                    await Task.Delay(500);
+                }                
             }
         }
 
