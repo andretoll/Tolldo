@@ -38,11 +38,13 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
+            
             <!-- When selected -->
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource ColorForegroundBrush}" />
             </Trigger>
+            
             <!-- When hovering and not selected -->
             <MultiTrigger>
                 <MultiTrigger.Conditions>

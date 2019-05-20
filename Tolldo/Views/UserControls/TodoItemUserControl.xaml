@@ -4,12 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:ext="clr-namespace:Tolldo.Extensions"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
     <!-- Each ListViewItem -->
     <Grid ToolTip="{Binding Name}"
-          Height="40">
+          Background="Transparent"
+          Height="40"
+          Tag="{Binding RelativeSource={RelativeSource 
+                        Mode=FindAncestor, 
+                        AncestorType={x:Type ListView}}, 
+                        Path=DataContext}">
         
         <Grid.ColumnDefinitions>
             <!-- Name -->
@@ -19,6 +25,39 @@
             <!-- Drag handle -->
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+        
+        <!-- Context menu -->
+        <Grid.ContextMenu>
+            <ContextMenu Style="{StaticResource ContextMenuBase}"
+                         DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+
+                <!-- Complete all tasks -->
+                <MenuItem Style="{StaticResource MenuItemBase}"
+                          Command="{Binding SelectedTodo.CompleteAllTasksCommand}"
+                          FontFamily="{StaticResource FontAwesome}"
+                          Foreground="{DynamicResource PrimaryForegroundBrush}"
+                          ext:IconExtension.Icon="&#xf560;"                          
+                          Header="Complete tasks"/>
+
+                <!-- Edit item -->
+                <MenuItem Style="{StaticResource MenuItemBase}" 
+                          FontFamily="{StaticResource FontAwesome}"
+                          Foreground="{DynamicResource PrimaryForegroundBrush}"
+                          ext:IconExtension.Icon="&#xf044;"                          
+                          Header="Edit item"/>
+
+                <Separator Style="{StaticResource MenuSeparatorBase}" />
+
+                <!-- Delete item -->
+                <MenuItem Style="{StaticResource MenuItemDanger}"
+                          Command="{Binding DeleteTodoCommand}"
+                          FontFamily="{StaticResource FontAwesome}"
+                          Foreground="DarkRed"
+                          ext:IconExtension.Icon="&#xf2ed;"
+                          Header="Delete item"/>
+                
+            </ContextMenu>
+        </Grid.ContextMenu>
 
         <!-- Name -->
         <TextBlock Grid.Column="0"

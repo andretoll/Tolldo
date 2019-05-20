@@ -1,0 +1,179 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ext="clr-namespace:Tolldo.Extensions">
+
+    <!-- Import colors and fonts -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+        <ResourceDictionary Source="Fonts.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- Base Context Menu -->
+    <Style TargetType="{x:Type ContextMenu}" x:Key="ContextMenuBase">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect ShadowDepth="4" Opacity="0.35"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+
+                    <Border x:Name="Border"
+                            Margin="10"
+                            Background="{DynamicResource PrimaryBackgroundBrush}"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource GrayBackgroundBrush}">
+
+
+                        <!-- Menu items -->
+                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+    </Style>
+    
+    <!-- Menu Item -->
+    <Style TargetType="{x:Type MenuItem}" x:Key="MenuItemBase">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+
+                    <Border Padding="10">
+                        
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icon -->
+                            <TextBlock Text="{TemplateBinding ext:IconExtension.Icon}"
+                                       Grid.Column="0"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="16"
+                                       Margin="0 0 15 0">
+                                
+                                <!-- Highlight icon when hovering parent -->
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsMouseOver}" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                                
+                            </TextBlock>
+
+                            <!-- Text -->
+                            <TextBlock Text="{TemplateBinding Header}"
+                                       Style="{StaticResource MediumTextBlock}"
+                                       Grid.Column="1"
+                                       HorizontalAlignment="Right"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       FontFamily="{StaticResource LatoRegular}" />
+
+                        </Grid>
+
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+
+                                    <!-- When hovering -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                                    </Trigger>
+
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </Trigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Danger Menu Item-->
+    <Style TargetType="{x:Type MenuItem}" x:Key="MenuItemDanger">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+
+                    <Border Padding="10">
+                        
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Icon -->
+                            <TextBlock Text="{TemplateBinding ext:IconExtension.Icon}"
+                                       Grid.Column="0"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="16"
+                                       Margin="0 0 15 0" />
+
+                            <!-- Text -->
+                            <TextBlock Text="{TemplateBinding Header}"
+                                       Style="{StaticResource MediumTextBlock}"
+                                       Grid.Column="1"
+                                       HorizontalAlignment="Right"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       FontFamily="{StaticResource LatoRegular}" />
+
+                        </Grid>
+
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+
+                                    <!-- When hovering -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                                    </Trigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Menu Item Separator -->
+    <Style TargetType="{x:Type Separator}" x:Key="MenuSeparatorBase">
+        <Setter Property="Template">
+            <Setter.Value>
+                
+                <ControlTemplate>
+                    <Border BorderThickness="0.5" BorderBrush="{DynamicResource GrayBackgroundBrush}" />
+                </ControlTemplate>
+                
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

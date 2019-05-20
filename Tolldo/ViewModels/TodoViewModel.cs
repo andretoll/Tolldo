@@ -1,5 +1,6 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
+using System.Windows.Input;
 using Tolldo.Models;
 
 namespace Tolldo.ViewModels
@@ -16,6 +17,25 @@ namespace Tolldo.ViewModels
 
         // Last known progress
         private int _lastProgress;
+
+        #endregion
+
+        #region Commands
+
+        public ICommand CompleteAllTasksCommand { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public TodoViewModel()
+        {
+            // Initialize commands
+            CompleteAllTasksCommand = new RelayCommand.RelayCommand(p => { CompleteAllTasks(); }, p => Tasks.Count > 0);
+        }
 
         #endregion
 
@@ -94,7 +114,7 @@ namespace Tolldo.ViewModels
 
         #endregion
 
-        #region Helper Methods
+        #region Public Helpers
 
         /// <summary>
         /// Updates the current and last known progress.
@@ -119,6 +139,21 @@ namespace Tolldo.ViewModels
             }
 
             return Tasks.Count == 0 ? 0 : (p * 100) / Tasks.Count;
+        }
+
+        #endregion
+
+        #region Private Helpers
+
+        /// <summary>
+        /// Completes all current tasks.
+        /// </summary>
+        private void CompleteAllTasks()
+        {
+            foreach (var task in this.Tasks)
+            {
+                task.Completed = true;
+            }
         }
 
         #endregion

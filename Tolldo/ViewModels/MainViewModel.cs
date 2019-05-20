@@ -155,12 +155,7 @@ namespace Tolldo.ViewModels
                 return _selectedTodo;
             }
             set
-            {
-                if (value == null)
-                {
-                    return;
-                }
-
+            {       
                 // Unsubscribe from PropertyChanged for each task from previous todo
                 if (_selectedTodo != null)
                 {
@@ -174,6 +169,11 @@ namespace Tolldo.ViewModels
 
                 _selectedTodo = value;
                 NotifyPropertyChanged();
+
+                if (value == null)
+                {
+                    return;
+                }
 
                 // Subscribe to PropertyChanged for each task
                 foreach (var task in _selectedTodo.Tasks)
@@ -246,6 +246,9 @@ namespace Tolldo.ViewModels
         public ICommand ClosePopupMenuCommand { get; set; }
         public ICommand ToggleAccentsMenuCommand { get; set; }
         public ICommand SetAccentCommand { get; set; }
+
+        public ICommand DeleteTodoCommand { get; set; }
+
         #endregion
 
         #region Constructor
@@ -276,6 +279,8 @@ namespace Tolldo.ViewModels
             ClosePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = false; });
             ToggleAccentsMenuCommand = new RelayCommand.RelayCommand(p => { IsAccentsMenuOpen = !IsAccentsMenuOpen; });
             SetAccentCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetAccent((string)p); });
+
+            DeleteTodoCommand = new RelayCommand.RelayCommand(p => { DeleteTodo(SelectedTodo); });
         }
 
         #endregion
@@ -316,7 +321,7 @@ namespace Tolldo.ViewModels
         /// <summary>
         /// Adds a new Todo-item
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Name of the new Todo-item.</param>
         private void AddTodo(string name)
         {
             // Create new object
@@ -335,6 +340,20 @@ namespace Tolldo.ViewModels
 
             // Clear new todo
             NewTodoName = string.Empty;
+        }
+
+        /// <summary>
+        /// Deletes a Todo-item from the collection.
+        /// </summary>
+        /// <param name="todo">The Todo-item to be deleted.</param>
+        private void DeleteTodo(TodoViewModel todo)
+        {
+            // Remove item
+            Todos.Remove(todo);
+            _todosConstant.Remove(todo);
+
+            // Reset selected item
+            SelectedTodo = null;
         }
 
         #endregion
