@@ -1,6 +1,7 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Tolldo.Data;
@@ -33,8 +34,12 @@ namespace Tolldo.ViewModels
 
         // Indicates if search mode is active
         private bool _searchMode;
+
         // Search string
-        private string _searchString;        
+        private string _searchString;
+
+        // Message
+        private string _message;
 
         // Todos
         private ObservableCollection<TodoViewModel> _todos;
@@ -42,6 +47,9 @@ namespace Tolldo.ViewModels
 
         // Selected todo
         private TodoViewModel _selectedTodo;
+
+        // Previously deleted todo
+        private TodoViewModel _deletedTodo;
 
         // New todo
         private string _newTodoName;
@@ -133,6 +141,20 @@ namespace Tolldo.ViewModels
             }
         }
 
+        // The message currently being displayed
+        public string Message
+        {
+            get
+            {
+                return _message;
+            }
+            set
+            {
+                _message = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         // Todos
         public ObservableCollection<TodoViewModel> Todos
         {
@@ -186,7 +208,21 @@ namespace Tolldo.ViewModels
                 SelectedTodo.LastProgress = 0;
                 SelectedTodo.UpdateProgress();
             }
-        }        
+        }
+
+        // Previously deleted todo
+        public TodoViewModel DeletedTodo
+        {
+            get
+            {
+                return _deletedTodo;
+            }
+            set
+            {
+                _deletedTodo = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // New todo string
         public string NewTodoName
@@ -244,10 +280,12 @@ namespace Tolldo.ViewModels
         public ICommand InvertThemeCommand { get; set; }
         public ICommand TogglePopupMenuCommand { get; set; }
         public ICommand ClosePopupMenuCommand { get; set; }
+        public ICommand CloseMessageBoxCommand { get; set; }
         public ICommand ToggleAccentsMenuCommand { get; set; }
         public ICommand SetAccentCommand { get; set; }
 
         public ICommand DeleteTodoCommand { get; set; }
+        public ICommand UndeleteTodoCommand { get; set; }
 
         #endregion
 
@@ -277,10 +315,15 @@ namespace Tolldo.ViewModels
             InvertThemeCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetTheme(!_themeManager.DarkThemeEnabled); });
             TogglePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = !IsPopupMenuOpen; });
             ClosePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = false; });
+            CloseMessageBoxCommand = new RelayCommand.RelayCommand(p => { UnsetMessage(); });
             ToggleAccentsMenuCommand = new RelayCommand.RelayCommand(p => { IsAccentsMenuOpen = !IsAccentsMenuOpen; });
             SetAccentCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetAccent((string)p); });
 
             DeleteTodoCommand = new RelayCommand.RelayCommand(p => { DeleteTodo(SelectedTodo); });
+            UndeleteTodoCommand = new RelayCommand.RelayCommand(p => { UndeleteTodo(); });
+
+            // Set welcome message
+            SetMessage("Welcome back!");
         }
 
         #endregion
@@ -340,6 +383,9 @@ namespace Tolldo.ViewModels
 
             // Clear new todo
             NewTodoName = string.Empty;
+
+            // Set message
+            SetMessage("Todo-list added.");
         }
 
         /// <summary>
@@ -353,7 +399,59 @@ namespace Tolldo.ViewModels
             _todosConstant.Remove(todo);
 
             // Reset selected item
-            SelectedTodo = null;
+            SelectedTodo = null;           
+
+            // Set message
+            SetMessage("Todo-list deleted.");
+
+            // Set as deleted todo
+            DeletedTodo = todo;
+        }
+
+        /// <summary>
+        /// Undeletes the last known deleted Todo-item
+        /// </summary>
+        private void UndeleteTodo()
+        {
+            if (DeletedTodo == null)
+            {
+                return;
+            }
+
+            // Undelete todo-item
+            Todos.Add(DeletedTodo);
+            _todosConstant.Add(DeletedTodo);
+
+            // Clear last deleted
+            DeletedTodo = null;
+
+            // Unset message
+            UnsetMessage();
+        }
+
+        /// <summary>
+        /// Sets a message to be displayed.
+        /// </summary>
+        /// <param name="msg">The message to be displayed.</param>
+        private void SetMessage(string msg)
+        {
+            // Unset message
+            UnsetMessage();
+
+            // Set message
+            Message = msg;
+        }
+
+        /// <summary>
+        /// Unsets the current message.
+        /// </summary>
+        private void UnsetMessage()
+        {
+            // Unset message
+            Message = null;
+
+            // Unset deleted items
+            DeletedTodo = null;
         }
 
         #endregion

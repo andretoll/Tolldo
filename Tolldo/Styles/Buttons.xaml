@@ -30,6 +30,7 @@
                                    Foreground="{StaticResource LightForegroundBrush}"
                                    FontFamily="{StaticResource LatoRegular}"
                                    FontSize="{TemplateBinding FontSize}" />
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -114,12 +115,26 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border CornerRadius="50">
                         <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" 
-                                   FontFamily="{StaticResource FontAwesome}" 
-                                   Foreground="{DynamicResource ColorForegroundBrush}" 
-                                   Padding="10"
+                                   FontFamily="{StaticResource FontAwesome}"
                                    FontSize="{TemplateBinding FontSize}" 
                                    VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center">
+
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+                                    <Style.Triggers>
+
+                                        <!-- When hovering -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
+                                        </Trigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            
+                        </TextBlock>
 
                     </Border>
                 </ControlTemplate>
@@ -191,6 +206,40 @@
                 <Setter Property="Opacity" Value="0.85" />
             </Trigger>
         </Style.Triggers>
+    </Style>
+    
+    <!-- Link button -->
+    <Style TargetType="{x:Type Button}" x:Key="LinkButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <TextBlock Text="{TemplateBinding Content}"
+                               FontSize="{TemplateBinding FontSize}"
+                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalAlignment}">
+
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+                                <Style.Triggers>
+                                    
+                                    <!-- When hovering -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
+                                        <Setter Property="TextBlock.TextDecorations" Value="Underline" />
+                                    </Trigger>
+                                    
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
     </Style>
 
 </ResourceDictionary>

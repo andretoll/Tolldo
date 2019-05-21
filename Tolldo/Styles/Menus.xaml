@@ -40,7 +40,7 @@
         
     </Style>
     
-    <!-- Menu Item -->
+    <!-- Context Menu Item -->
     <Style TargetType="{x:Type MenuItem}" x:Key="MenuItemBase">
         <Setter Property="Template">
             <Setter.Value>
@@ -95,8 +95,9 @@
                                         <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
                                     </Trigger>
 
+                                    <!-- When disabled -->
                                     <Trigger Property="IsEnabled" Value="false">
-                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Setter Property="Opacity" Value="0.5" />
                                     </Trigger>
 
                                 </Style.Triggers>
@@ -110,7 +111,7 @@
         </Setter>
     </Style>
     
-    <!-- Danger Menu Item-->
+    <!-- Context Danger Menu Item-->
     <Style TargetType="{x:Type MenuItem}" x:Key="MenuItemDanger">
         <Setter Property="Template">
             <Setter.Value>
@@ -163,7 +164,7 @@
         </Setter>
     </Style>
 
-    <!-- Menu Item Separator -->
+    <!-- Context Menu Item Separator -->
     <Style TargetType="{x:Type Separator}" x:Key="MenuSeparatorBase">
         <Setter Property="Template">
             <Setter.Value>
@@ -172,6 +173,17 @@
                     <Border BorderThickness="0.5" BorderBrush="{DynamicResource GrayBackgroundBrush}" />
                 </ControlTemplate>
                 
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Popup menu -->
+    <Style TargetType="{x:Type Border}" x:Key="Popup">
+        <Setter Property="Panel.ZIndex" Value="1000" />
+        <Setter Property="BorderBrush" Value="{DynamicResource GrayBackgroundBrush}" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Opacity="0.35" ShadowDepth="4" />
             </Setter.Value>
         </Setter>
     </Style>

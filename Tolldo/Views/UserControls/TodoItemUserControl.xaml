@@ -41,7 +41,7 @@
 
                 <!-- Edit item -->
                 <MenuItem Style="{StaticResource MenuItemBase}" 
-                          FontFamily="{StaticResource FontAwesome}"
+                          FontFamily="{StaticResource FontAwesomeRegular}"
                           Foreground="{DynamicResource PrimaryForegroundBrush}"
                           ext:IconExtension.Icon="&#xf044;"                          
                           Header="Edit item"/>
@@ -51,7 +51,7 @@
                 <!-- Delete item -->
                 <MenuItem Style="{StaticResource MenuItemDanger}"
                           Command="{Binding DeleteTodoCommand}"
-                          FontFamily="{StaticResource FontAwesome}"
+                          FontFamily="{StaticResource FontAwesomeRegular}"
                           Foreground="DarkRed"
                           ext:IconExtension.Icon="&#xf2ed;"
                           Header="Delete item"/>
@@ -114,6 +114,8 @@
                 Foreground="{StaticResource DarkerColorForegroundBrush}"
                 Cursor="SizeAll"
                 FontSize="20"
+                Margin="10 0"
+                Padding="10"
                 Content="&#xf0c9;">
 
             <!-- When drag occurs, activate drag -->

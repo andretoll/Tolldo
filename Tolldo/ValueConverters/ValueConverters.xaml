@@ -3,7 +3,10 @@
                     xmlns:valueconverters="clr-namespace:Tolldo.ValueConverters">
 
     <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+    <valueconverters:NullToVisibilityConverter x:Key="nullToVisibilityConverter" />
     <valueconverters:ReversedBooleanToVisibilityConverter x:Key="reversedBooleanToVisibilityConverter" />
     <valueconverters:EmptyToVisibilityConverter x:Key="emptyToVisibilityConverter" />
+    <valueconverters:EmptyStringToVisibilityConverter x:Key="emptyStringToVisibilityConverter" />
+    <valueconverters:NullToBoolConverter x:Key="nullToBoolConverter" />
 
 </ResourceDictionary>

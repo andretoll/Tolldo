@@ -36,6 +36,93 @@
             <!-- Todo list -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        
+        <!-- Message box outer -->
+        <Border Visibility="{Binding Message, NotifyOnTargetUpdated=True, Converter={StaticResource emptyStringToVisibilityConverter}}"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"                
+                x:Name="MessageBox">
+
+            <!-- Fade in/Fade out -->
+            <Border.Style>
+                <Style TargetType="{x:Type Border}" BasedOn="{StaticResource Popup}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard AutoReverse="True">
+
+                                        <!-- Opacity -->
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="0"
+                                                         To="1"
+                                                         Duration="0:0:1" />
+
+                                        <!-- Visibility -->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
+                                                           Duration="0:0:4">
+
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:4" Value="{x:Static Visibility.Collapsed}" />
+
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>                
+            </Border.Style>
+
+            <!-- Message box inner -->
+            <Border VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Background="{DynamicResource PrimaryBackgroundBrush}"
+                    Visibility="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource emptyStringToVisibilityConverter}}"
+                    Padding="10"
+                    Margin="20"
+                    MinWidth="200">
+                
+                <!-- Content -->
+                <StackPanel Orientation="Vertical">
+
+                    <Grid>
+
+                        <!-- Close button -->
+                        <Button Style="{StaticResource FlatSmallIconButton}"
+                                Command="{Binding CloseMessageBoxCommand}"
+                                Background="Red"
+                                ToolTip="Close"
+                                HorizontalAlignment="Right"
+                                FontSize="16"
+                                Content="&#xf057;"
+                                Margin="0 0 0 10"/>
+
+                        <!-- Message-->
+                        <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   HorizontalAlignment="Left"
+                                   Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </Grid>
+
+                    <!-- Undelete todo button -->
+                    <Button Style="{StaticResource LinkButton}"
+                            Visibility="{Binding DeletedTodo, Converter={StaticResource nullToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                            Command="{Binding UndeleteTodoCommand}"
+                            Margin="0 10 0 0"
+                            Content="Undo"
+                            FontSize="14"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"/>
+
+                </StackPanel>
+            </Border>
+            
+        </Border>
 
         <!-- 1. Collapsed menu -->
         <Border Grid.Column="0"
@@ -287,6 +374,7 @@
                                     Command="{Binding ClearSearchStringCommand}"
                                     HorizontalAlignment="Left"
                                     FontSize="16"
+                                    Margin="0 0 15 0"
                                     Content="&#xf057;" />
 
                         </Grid>
@@ -301,20 +389,14 @@
                     </StackPanel>
 
                     <!-- Menu -->
-                    <Border Grid.Row="1"
+                    <Border Style="{StaticResource Popup}" 
+                            Grid.Row="1"
                             Grid.RowSpan="2"
                             Margin="5"
-                            Panel.ZIndex="1000"
-                            Visibility="{Binding IsPopupMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
                             Background="{DynamicResource SecondaryBackgroundBrush}"
-                            BorderThickness="1"
-                            BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                            Visibility="{Binding IsPopupMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top">
-
-                        <Border.Effect>
-                            <DropShadowEffect Opacity="0.35" ShadowDepth="4" />
-                        </Border.Effect>
 
                         <!-- Vertical list of buttons -->
                         <StackPanel Orientation="Vertical">
@@ -355,6 +437,10 @@
                                 <uc:TodoItemUserControl/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+
+                        <ListView.InputBindings>
+                            <KeyBinding Key="Delete" Command="{Binding DeleteTodoCommand}" />
+                        </ListView.InputBindings>
 
                     </ListView>
 

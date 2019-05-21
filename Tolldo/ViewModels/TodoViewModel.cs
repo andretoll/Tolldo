@@ -151,14 +151,16 @@ namespace Tolldo.ViewModels
         /// </summary>
         private async Task CompleteAllTasks()
         {
-            foreach (var task in this.Tasks)
+            await Task.Run(() =>
             {
-                if (!task.Completed)
+                foreach (var task in this.Tasks)
                 {
-                    task.Completed = true;
-                    await Task.Delay(500);
-                }                
-            }
+                    if (!task.Completed)
+                    {
+                        task.Completed = true;
+                    }
+                }
+            });
         }
 
         #endregion

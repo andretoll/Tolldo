@@ -91,6 +91,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ValueConverters\NullToBoolConverter.cs" />
+    <Compile Include="ValueConverters\NullToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\EmptyToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ReversedBooleanToVisibilityConverter.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
