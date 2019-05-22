@@ -10,6 +10,7 @@ namespace Tolldo.Models
     {
         #region Private Members
 
+        private string _name;
         private bool _completed;
 
         #endregion
@@ -18,7 +19,18 @@ namespace Tolldo.Models
 
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public bool Completed
         {

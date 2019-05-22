@@ -22,6 +22,12 @@ namespace Tolldo.ViewModels
         // Indicates if renaming mode is active
         private bool _renameActive;
 
+        // Indicates if new task is being created
+        private bool _newTaskActive;
+
+        // New task
+        private TodoTask _newTask;
+
         #endregion
 
         #region Public Properties
@@ -54,12 +60,54 @@ namespace Tolldo.ViewModels
             }
         }
 
+        // Indicates if new task is being created
+        public bool NewTaskActive
+        {
+            get
+            {
+                return _newTaskActive;
+            }
+            set
+            {
+                _newTaskActive = value;
+                NotifyPropertyChanged();
+
+                // Set text when beginning the new task
+                if (value)
+                {
+                    NewTask = new TodoTask();
+                    NewTask.Name = "";
+                }
+                else
+                {
+                    NewTask.Name = "Add new";
+                }
+            }
+        }
+
+        // New task
+        public TodoTask NewTask
+        {
+            get
+            {
+                return _newTask;
+            }
+            set
+            {
+                _newTask = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Commands
 
         public ICommand CompleteAllTasksCommand { get; set; }
+        public ICommand UncompleteAllTasksCommand { get; set; }
         public ICommand ToggleRenameCommand { get; set; }
+        public ICommand ToggleNewTaskCommand { get; set; }
+        public ICommand SaveNewTaskCommand { get; set; }
 
         #endregion
 
@@ -72,7 +120,10 @@ namespace Tolldo.ViewModels
         {
             // Initialize commands
             CompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await CompleteAllTasks(); }, p => Tasks.Count > 0);
+            UncompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await UncompleteAllTasks(); }, p => Tasks.Count > 0);
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
+            ToggleNewTaskCommand = new RelayCommand.RelayCommand(p => { NewTaskActive = bool.Parse((string)p); });
+            SaveNewTaskCommand = new RelayCommand.RelayCommand(p => { SaveNewTask(); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
         }
 
         #endregion
@@ -190,6 +241,7 @@ namespace Tolldo.ViewModels
         {
             await Task.Run(() =>
             {
+                int temp = Progress;
                 foreach (var task in this.Tasks)
                 {
                     if (!task.Completed)
@@ -197,7 +249,53 @@ namespace Tolldo.ViewModels
                         task.Completed = true;
                     }
                 }
+
+                // For smoother animation
+                LastProgress = temp;
+                Progress = 100;
             });
+        }
+
+        /// <summary>
+        /// Resets all current tasks' complete status.
+        /// </summary>
+        /// <returns></returns>
+        private async Task UncompleteAllTasks()
+        {
+            await Task.Run(() =>
+            {
+                int temp = Progress;
+
+                foreach (var task in this.Tasks)
+                {
+                    if (task.Completed)
+                    {
+                        task.Completed = false;
+                    }
+                }
+
+                // For smoother animation
+                LastProgress = temp;
+                Progress = 0;
+            });
+        }
+
+        /// <summary>
+        /// Saves the new task to the collection.
+        /// </summary>
+        private void SaveNewTask()
+        {
+            // Add new task
+            Tasks.Add(new TodoTask()
+            {
+                Name = NewTask.Name
+            });
+
+            // Clear new task
+            NewTask = new TodoTask();
+
+            // Update UI
+            UpdateProgress();
         }
 
         #endregion

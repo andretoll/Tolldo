@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:uc="clr-namespace:Tolldo.Views.UserControls"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:ext="clr-namespace:Tolldo.Extensions"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -106,26 +108,113 @@
         </Grid>
 
         <!-- Tasks -->
-        <Grid>
-            
-            <!-- List of tasks -->
-            <ListBox ItemsSource="{Binding Tasks, UpdateSourceTrigger=PropertyChanged}"
-                     ScrollViewer.CanContentScroll="False"
-                     Style="{StaticResource ListBoxBase}"
-                     ItemContainerStyle="{StaticResource ListBoxItemCheckbox}"
-                     dd:DragDrop.IsDropTarget="True"
-                     dd:DragDrop.IsDragSource="True"
-                     dd:DragDrop.DropHandler="{Binding}">
+        <ScrollViewer CanContentScroll="False"
+                      VerticalScrollBarVisibility="Auto">
+            <Grid>
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <uc:TaskItemUserControl />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
 
-            </ListBox>
+                <!-- List of tasks -->
+                <ListBox ItemsSource="{Binding Tasks, UpdateSourceTrigger=PropertyChanged}"
+                         Grid.Row="0"
+                         Style="{StaticResource ListBoxBase}"
+                         ItemContainerStyle="{StaticResource ListBoxItemCheckbox}"
+                         dd:DragDrop.IsDropTarget="True"
+                         dd:DragDrop.IsDragSource="True"
+                         dd:DragDrop.DropHandler="{Binding}">
 
-        </Grid>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <uc:TaskItemUserControl />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <ListBox.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <Border>
+                                <ItemsPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </ListBox.Template>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                </ListBox>
+
+                <!-- New task -->
+                <Grid Grid.Row="1" 
+                      Margin="11 11 11 30"
+                      VerticalAlignment="Top">
+
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Setter Property="Opacity" Value="0.65" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding NewTaskActive}" Value="True">
+                                    <Setter Property="Opacity" Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <Grid.ColumnDefinitions>
+                        <!-- Checkbox -->
+                        <ColumnDefinition Width="auto" />
+                        <!-- TextBox -->
+                        <ColumnDefinition Width="*" />
+                        <!-- Actions -->
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Just for show -->
+                    <CheckBox Grid.Column="0"
+                              VerticalAlignment="Center"
+                              IsEnabled="False"
+                              IsChecked="False"
+                              Style="{StaticResource TaskCheckBox}"/>
+
+                    <!-- Name for task -->
+                    <TextBox Style="{StaticResource LongTextBox}"
+                             Grid.Column="1"
+                             Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
+
+                        <i:Interaction.Triggers>
+
+                            <i:EventTrigger EventName="GotFocus">
+                                <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
+                                                       CommandParameter="True"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="LostFocus">
+                                <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
+                                                       CommandParameter="False"/>
+                            </i:EventTrigger>
+
+                        </i:Interaction.Triggers>
+
+                    </TextBox>
+
+                    <!-- Save button -->
+                    <Button Grid.Column="2"
+                            IsDefault="True"
+                            ToolTip="Add Task"
+                            Focusable="False"
+                            Command="{Binding SaveNewTaskCommand}"
+                            Margin="10 0 0 0"
+                            Style="{StaticResource FlatIconButtonSquare}"
+                            FontFamily="{StaticResource FontAwesome}"
+                            FontSize="16"
+                            Content="&#xf0c7;"/>
+
+                </Grid>
+
+            </Grid>
+        </ScrollViewer>
 
     </DockPanel>
 

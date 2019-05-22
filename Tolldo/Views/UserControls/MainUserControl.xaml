@@ -47,6 +47,7 @@
             <Border.Style>
                 <Style TargetType="{x:Type Border}" BasedOn="{StaticResource Popup}">
                     <Style.Triggers>
+                        <!-- Collapse if null -->
                         <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
@@ -90,6 +91,7 @@
                 <!-- Content -->
                 <StackPanel Orientation="Vertical">
 
+                    <!-- Message and close button -->
                     <Grid>
 
                         <!-- Close button -->
@@ -120,6 +122,7 @@
                             VerticalAlignment="Bottom"/>
 
                 </StackPanel>
+                
             </Border>
             
         </Border>
@@ -363,6 +366,8 @@
                             <!-- Search input -->
                             <TextBox Style="{StaticResource StandardTextBox}"
                                      Padding="5"
+                                     MaxWidth="200"
+                                     Width="200"
                                      Grid.Column="0"
                                      ext:FocusExtension.IsFocused="{Binding SearchMode}"
                                      Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
@@ -452,7 +457,8 @@
         </Border>        
 
         <!-- 3. To-do list -->
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="2"
+              Background="{DynamicResource SecondaryBackgroundBrush}">
             
             <uc:TasksUserControl />
             

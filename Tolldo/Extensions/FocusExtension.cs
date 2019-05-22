@@ -37,7 +37,11 @@ namespace Tolldo.Extensions
             if ((bool)e.NewValue)
             {
                 uie.Focus();
-                ((System.Windows.Controls.TextBox)uie).SelectAll();
+
+                if (uie is System.Windows.Controls.TextBox)
+                {
+                    ((System.Windows.Controls.TextBox)uie).SelectAll();
+                }                
             }
         }
     }

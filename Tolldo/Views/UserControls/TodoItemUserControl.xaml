@@ -34,10 +34,18 @@
                 <!-- Complete all tasks -->
                 <MenuItem Style="{StaticResource MenuItemBase}"
                           Command="{Binding SelectedTodo.CompleteAllTasksCommand}"
-                          FontFamily="{StaticResource FontAwesome}"
+                          FontFamily="{StaticResource FontAwesomeRegular}"
                           Foreground="{DynamicResource PrimaryForegroundBrush}"
-                          ext:IconExtension.Icon="&#xf560;"                          
+                          ext:IconExtension.Icon="&#xf058;"                          
                           Header="Complete tasks"/>
+                
+                <!-- Uncomplete all tasks -->
+                <MenuItem Style="{StaticResource MenuItemBase}"
+                          Command="{Binding SelectedTodo.UncompleteAllTasksCommand}"
+                          FontFamily="{StaticResource FontAwesomeRegular}"
+                          Foreground="{DynamicResource PrimaryForegroundBrush}"
+                          ext:IconExtension.Icon="&#xf111;"
+                          Header="Uncomplete tasks"/>
 
                 <!-- Rename item -->
                 <MenuItem Style="{StaticResource MenuItemBase}" 
@@ -114,7 +122,7 @@
             <!-- Completed icon -->
             <TextBlock Text="&#xf058;"
                        ToolTip="Completed"
-                       FontFamily="{StaticResource FontAwesomeRegular}"
+                       FontFamily="{StaticResource FontAwesome}"
                        Visibility="{Binding Completed, Converter={StaticResource booleanToVisibilityConverter}}"
                        Foreground="ForestGreen" 
                        FontSize="18"

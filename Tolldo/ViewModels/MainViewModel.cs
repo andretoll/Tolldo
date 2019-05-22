@@ -1,5 +1,6 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -185,6 +186,8 @@ namespace Tolldo.ViewModels
                     {
                         task.PropertyChanged -= Task_PropertyChanged;
                     }
+                    // Unsubscribe from CollectionChanged for tasks
+                    _selectedTodo.Tasks.CollectionChanged -= Tasks_CollectionChanged;
 
                     // Reset active modes
                     _selectedTodo.RenameActive = false;
@@ -205,6 +208,8 @@ namespace Tolldo.ViewModels
                 {
                     task.PropertyChanged += Task_PropertyChanged;
                 }
+                // Subscribe to CollectionChagned for tasks
+                _selectedTodo.Tasks.CollectionChanged += Tasks_CollectionChanged;
 
                 // Set initial progress
                 SelectedTodo.Progress = 0;
@@ -269,6 +274,20 @@ namespace Tolldo.ViewModels
             // Update progress if the completed property changed
             if (e.PropertyName == "Completed")
                 SelectedTodo.UpdateProgress();
+        }
+
+        /// <summary>
+        /// Event that fires when the Tasks collection changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tasks_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // If an item was added, subscribe to its property changes
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                (e.NewItems[0] as TodoTask).PropertyChanged += Task_PropertyChanged;
+            }
         }
 
         #endregion
