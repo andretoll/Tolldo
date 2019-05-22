@@ -22,6 +22,7 @@
     <!-- ListViewItem -->
     <Style TargetType="{x:Type ListViewItem}" x:Key="ListViewItem">
         <Setter Property="BorderThickness" Value="5 0 0 0" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Padding" Value="5" />
         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackgroundBrush}" />        
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />

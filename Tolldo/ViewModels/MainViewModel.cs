@@ -177,16 +177,19 @@ namespace Tolldo.ViewModels
                 return _selectedTodo;
             }
             set
-            {       
-                // Unsubscribe from PropertyChanged for each task from previous todo
+            {                       
                 if (_selectedTodo != null)
                 {
+                    // Unsubscribe from PropertyChanged for each task from previous todo
                     foreach (var task in _selectedTodo.Tasks)
                     {
                         task.PropertyChanged -= Task_PropertyChanged;
                     }
 
-                    _selectedTodo = null;
+                    // Reset active modes
+                    _selectedTodo.RenameActive = false;
+
+                    _selectedTodo = null;                    
                 }                
 
                 _selectedTodo = value;
@@ -206,7 +209,7 @@ namespace Tolldo.ViewModels
                 // Set initial progress
                 SelectedTodo.Progress = 0;
                 SelectedTodo.LastProgress = 0;
-                SelectedTodo.UpdateProgress();
+                SelectedTodo.UpdateProgress();                
             }
         }
 

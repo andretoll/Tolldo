@@ -63,10 +63,10 @@
 
                                         <!-- Visibility -->
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
-                                                           Duration="0:0:4">
+                                                           Duration="0:0:3">
 
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:4" Value="{x:Static Visibility.Collapsed}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="{x:Static Visibility.Collapsed}" />
 
                                         </ObjectAnimationUsingKeyFrames>
 
@@ -362,6 +362,7 @@
 
                             <!-- Search input -->
                             <TextBox Style="{StaticResource StandardTextBox}"
+                                     Padding="5"
                                      Grid.Column="0"
                                      ext:FocusExtension.IsFocused="{Binding SearchMode}"
                                      Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />

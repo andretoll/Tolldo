@@ -39,12 +39,13 @@
                           ext:IconExtension.Icon="&#xf560;"                          
                           Header="Complete tasks"/>
 
-                <!-- Edit item -->
+                <!-- Rename item -->
                 <MenuItem Style="{StaticResource MenuItemBase}" 
+                          Command="{Binding SelectedTodo.ToggleRenameCommand}"
                           FontFamily="{StaticResource FontAwesomeRegular}"
                           Foreground="{DynamicResource PrimaryForegroundBrush}"
                           ext:IconExtension.Icon="&#xf044;"                          
-                          Header="Edit item"/>
+                          Header="Rename Todo"/>
 
                 <Separator Style="{StaticResource MenuSeparatorBase}" />
 
@@ -54,13 +55,14 @@
                           FontFamily="{StaticResource FontAwesomeRegular}"
                           Foreground="DarkRed"
                           ext:IconExtension.Icon="&#xf2ed;"
-                          Header="Delete item"/>
+                          Header="Delete Todo"/>
                 
             </ContextMenu>
         </Grid.ContextMenu>
 
         <!-- Name -->
         <TextBlock Grid.Column="0"
+                   Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
                    Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Left"
@@ -69,10 +71,44 @@
                    MaxWidth="170"
                    ToolTip="{Binding Name}"
                    Margin="0 0 20 0"
-                   Text="{Binding Name}" />
+                   Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
         
+        <!-- Rename -->
+        <StackPanel Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}"
+                    VerticalAlignment="Center">
+            
+            <TextBox Grid.Column="0"
+                     MaxWidth="170"
+                     Width="170"
+                     FontSize="16"
+                     HorizontalAlignment="Left"
+                     ext:FocusExtension.IsFocused="{Binding RenameActive, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource StandardTextBox}"
+                     Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}">
+                
+            </TextBox>
+            
+        </StackPanel>
+        
+        <!-- Save rename -->
+        <Grid Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}">
+            
+            <Button Style="{StaticResource ColorBackgroundButton}"
+                    IsDefault="True"
+                    Command="{Binding ToggleRenameCommand}"
+                    FontFamily="{StaticResource FontAwesome}"
+                    FontSize="18"
+                    Margin="0 0 10 0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    ToolTip="Save current name"
+                    Content="&#xf0c7;" />
+            
+        </Grid>
+
         <!-- Progress -->
         <StackPanel Orientation="Horizontal"
+                    Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
                     Grid.Column="1">
 
             <!-- Completed icon -->
@@ -106,6 +142,7 @@
 
         <!-- Drag handle -->
         <Button Grid.Column="2"
+                IsTabStop="False"
                 x:Name="DragHandle"
                 HorizontalAlignment="Right"
                 Style="{StaticResource FlatSmallIconButton}"

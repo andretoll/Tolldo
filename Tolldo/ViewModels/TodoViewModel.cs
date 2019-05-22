@@ -19,11 +19,47 @@ namespace Tolldo.ViewModels
         // Last known progress
         private int _lastProgress;
 
+        // Indicates if renaming mode is active
+        private bool _renameActive;
+
+        #endregion
+
+        #region Public Properties
+
+        // Indicates if renaming mode is active
+        public bool RenameActive
+        {
+            get
+            {
+                return _renameActive;
+            }
+            set
+            {
+                _renameActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // The new name for renaming
+        public string NewName
+        {
+            get
+            {
+                return this.Name;
+            }
+            set
+            {
+                this.Name = value;
+                NotifyPropertyChanged("Name");
+            }
+        }
+
         #endregion
 
         #region Commands
 
         public ICommand CompleteAllTasksCommand { get; set; }
+        public ICommand ToggleRenameCommand { get; set; }
 
         #endregion
 
@@ -36,6 +72,7 @@ namespace Tolldo.ViewModels
         {
             // Initialize commands
             CompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await CompleteAllTasks(); }, p => Tasks.Count > 0);
+            ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
         }
 
         #endregion
@@ -111,7 +148,7 @@ namespace Tolldo.ViewModels
 
                 return Tasks.Count > 0 ? true : false;
             }
-        }
+        }        
 
         #endregion
 
