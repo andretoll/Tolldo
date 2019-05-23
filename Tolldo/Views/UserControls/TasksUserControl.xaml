@@ -154,7 +154,7 @@
 
                     <Grid.Style>
                         <Style TargetType="{x:Type Grid}">
-                            <Setter Property="Opacity" Value="0.65" />
+                            <Setter Property="Opacity" Value="0.5" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding NewTaskActive}" Value="True">
                                     <Setter Property="Opacity" Value="1" />

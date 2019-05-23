@@ -193,7 +193,9 @@
                             </Grid>
                             
                         </Grid>
-                    </Border>                    
+                        
+                    </Border>     
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

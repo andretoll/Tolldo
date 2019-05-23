@@ -10,7 +10,7 @@
     <!-- ListView Base -->
     <Style TargetType="{x:Type ListView}" x:Key="ListViewBase">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
     </Style>
 
     <!-- ListBox Base -->

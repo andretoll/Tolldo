@@ -129,8 +129,7 @@
 
         <!-- 1. Collapsed menu -->
         <Border Grid.Column="0"
-                Background="{DynamicResource PrimaryBackgroundBrush}"
-                BorderThickness="0 1 1 0"
+                Background="{DynamicResource DarkColorForegroundBrush}"
                 BorderBrush="{DynamicResource GrayBackgroundBrush}">
 
                 <!-- Buttons container -->
@@ -303,8 +302,8 @@
                     </Grid.RowDefinitions>
 
                     <!-- Side menu buttons and search -->
-                    <Border BorderThickness="0 1 0 1"
-                            BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                    <Border BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                            BorderThickness="0 0 0 1"
                             Grid.Row="0">
 
                         <!-- Buttons -->

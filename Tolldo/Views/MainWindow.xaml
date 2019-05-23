@@ -32,4 +32,5 @@
         <usercontrols:MainUserControl />
 
     </Grid>
+    
 </Window>
