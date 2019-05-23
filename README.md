@@ -2,6 +2,8 @@
 
 Tolldo is a comprehensive and customizable, yet simple to-do and list application in its early stages. It allows the user to create and manage their everyday tasks with ease and track them as well as update them continuously. Tolldo offers a customizable user interface with a modern look and feel.
 
+The application is being built with WPF, XAML in a pure MVVM architectural pattern.
+
 ## Features
 
 * Custom chrome window
@@ -12,6 +14,7 @@ Tolldo is a comprehensive and customizable, yet simple to-do and list applicatio
 * Filter
 * Light and dark theme
 * Accents and colors
+* Intuitive message system
 
 ## Upcoming features
 
@@ -21,6 +24,14 @@ Tolldo is a comprehensive and customizable, yet simple to-do and list applicatio
 * Icons for Todo-lists
 * Custom and unique images for Todo-lists
 * Splash screen
+* Subtasks
+* Custom tasks
+* Choices
+* Categories
+* Favorites
+* Personalized content
+* Smart suggestions
+* Export (e.g. Excel, PDF)
 
 ## Prerequisites
 
