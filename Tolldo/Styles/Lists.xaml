@@ -82,6 +82,23 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+
+            <!-- When hovering and not selected -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsFocused" Value="True" />
+                    <Condition Property="IsSelected" Value="False" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
+            </Trigger>
+
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

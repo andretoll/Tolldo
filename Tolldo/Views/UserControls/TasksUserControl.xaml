@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:uc="clr-namespace:Tolldo.Views.UserControls"
              xmlns:dd="urn:gong-wpf-dragdrop"
-             xmlns:ext="clr-namespace:Tolldo.Extensions"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -120,6 +119,7 @@
                 <!-- List of tasks -->
                 <ListBox ItemsSource="{Binding Tasks, UpdateSourceTrigger=PropertyChanged}"
                          Grid.Row="0"
+                         SelectedItem="{Binding SelectedTask}"
                          Style="{StaticResource ListBoxBase}"
                          ItemContainerStyle="{StaticResource ListBoxItemCheckbox}"
                          dd:DragDrop.IsDropTarget="True"

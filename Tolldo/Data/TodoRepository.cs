@@ -50,28 +50,28 @@ namespace Tolldo.Data
 
                 Tasks = new ObservableCollection<TodoTask>()
                 {
-                    new TodoTask()
+                    new TaskViewModel()
                     {
                         Id = 1,
                         Name = "Write introduction",
                         Completed = true
                     },
 
-                    new TodoTask()
+                    new TaskViewModel()
                     {
                         Id = 2,
                         Name = "Write Theoretical background",
                         Completed = true
                     },
 
-                    new TodoTask()
+                    new TaskViewModel()
                     {
                         Id = 3,
                         Name = "Write Methodology",
                         Completed = true
                     },
 
-                    new TodoTask()
+                    new TaskViewModel()
                     {
                         Id = 4,
                         Name = "Cry",
@@ -88,20 +88,20 @@ namespace Tolldo.Data
 
                 Tasks = new ObservableCollection<TodoTask>()
                 {
-                    new TodoTask()
+                    new TaskViewModel()
                     {
                         Id = 1,
                         Name = "Dynamic colors",
                         Completed = true
                     },
 
-                    new TodoTask()
+                    new TaskViewModel()
                     {
                         Id = 2,
                         Name = "Sorting functionality"
                     },
 
-                    new TodoTask()
+                    new TaskViewModel()
                     {
                         Id = 3,
                         Name = "Optimization"

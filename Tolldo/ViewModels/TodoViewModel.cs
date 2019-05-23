@@ -20,13 +20,16 @@ namespace Tolldo.ViewModels
         private int _lastProgress;
 
         // Indicates if renaming mode is active
-        private bool _renameActive;
+        private bool _renameActive;        
 
         // Indicates if new task is being created
         private bool _newTaskActive;
 
+        // Selected task
+        private TaskViewModel _selectedTask;
+
         // New task
-        private TodoTask _newTask;
+        private TaskViewModel _newTask;
 
         #endregion
 
@@ -44,7 +47,7 @@ namespace Tolldo.ViewModels
                 _renameActive = value;
                 NotifyPropertyChanged();
             }
-        }
+        }        
 
         // The new name for renaming
         public string NewName
@@ -75,7 +78,7 @@ namespace Tolldo.ViewModels
                 // Set text when beginning the new task
                 if (value)
                 {
-                    NewTask = new TodoTask();
+                    NewTask = new TaskViewModel();
                     NewTask.Name = "";
                 }
                 else
@@ -85,8 +88,28 @@ namespace Tolldo.ViewModels
             }
         }
 
+        // Selected task
+        public TaskViewModel SelectedTask
+        {
+            get
+            {
+                return _selectedTask;
+            }
+            set
+            {
+                if (_selectedTask != null)
+                {
+                    // Reset active modes
+                    _selectedTask.RenameActive = false;
+                }
+
+                _selectedTask = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         // New task
-        public TodoTask NewTask
+        public TaskViewModel NewTask
         {
             get
             {
@@ -105,9 +128,12 @@ namespace Tolldo.ViewModels
 
         public ICommand CompleteAllTasksCommand { get; set; }
         public ICommand UncompleteAllTasksCommand { get; set; }
+
         public ICommand ToggleRenameCommand { get; set; }
         public ICommand ToggleNewTaskCommand { get; set; }
+
         public ICommand SaveNewTaskCommand { get; set; }
+        public ICommand DeleteTaskCommand { get; set; }
 
         #endregion
 
@@ -121,9 +147,12 @@ namespace Tolldo.ViewModels
             // Initialize commands
             CompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await CompleteAllTasks(); }, p => Tasks.Count > 0);
             UncompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await UncompleteAllTasks(); }, p => Tasks.Count > 0);
+
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
             ToggleNewTaskCommand = new RelayCommand.RelayCommand(p => { NewTaskActive = bool.Parse((string)p); });
-            SaveNewTaskCommand = new RelayCommand.RelayCommand(p => { SaveNewTask(); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
+
+            SaveNewTaskCommand = new RelayCommand.RelayCommand(p => { AddTask(); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
+            DeleteTaskCommand = new RelayCommand.RelayCommand(p => { DeleteTask(); });
         }
 
         #endregion
@@ -283,16 +312,36 @@ namespace Tolldo.ViewModels
         /// <summary>
         /// Saves the new task to the collection.
         /// </summary>
-        private void SaveNewTask()
+        private void AddTask()
         {
-            // Add new task
-            Tasks.Add(new TodoTask()
+
+            // Create new object
+            TaskViewModel task = new TaskViewModel()
             {
                 Name = NewTask.Name
-            });
+            };
+            // Add new task
+            Tasks.Add(task);
+
+            // Set as the selected task
+            SelectedTask = task;
 
             // Clear new task
-            NewTask = new TodoTask();
+            NewTask = new TaskViewModel();
+
+            // Update UI
+            UpdateProgress();
+        }
+
+        /// <summary>
+        /// Deletes the specified task.
+        /// </summary>
+        private void DeleteTask()
+        {
+            if (SelectedTask == null)
+                return;
+
+            Tasks.Remove(SelectedTask);
 
             // Update UI
             UpdateProgress();
