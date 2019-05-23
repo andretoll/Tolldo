@@ -5,13 +5,13 @@
     <Color x:Key="Light">#ffffff</Color>
 
     <!-- Gray -->
-    <Color x:Key="DarkGray">#3a3a3a</Color>
+    <Color x:Key="DarkGray">#2b2b2b</Color>
     <Color x:Key="MediumDarkGray">#494949</Color>
     <Color x:Key="LightGray">#f7f7f7</Color>
     <Color x:Key="MediumLightGray">#cecece</Color>
 
     <!-- Dark -->
-    <Color x:Key="Dark">#2d2d2d</Color>    
+    <Color x:Key="Dark">#232323</Color>    
 
     <!-- Blue -->
     <Color x:Key="Blue">#0398E2</Color>

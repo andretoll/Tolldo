@@ -30,11 +30,11 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="3" 
-                   Source="/Images/banner_highway.jpg"/>
+                   Source="/Images/banner_lake.jpg"/>
 
             <!-- Banner overlay -->
             <Rectangle Fill="Black"
-                       Opacity="0.7"
+                       Opacity="0.5"
                        Grid.ColumnSpan="3" />
 
             <!-- To-do list name -->
@@ -204,6 +204,7 @@
                             IsDefault="True"
                             ToolTip="Add Task"
                             Focusable="False"
+                            Visibility="{Binding NewTaskActive, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
                             Command="{Binding SaveNewTaskCommand}"
                             Margin="10 0 0 0"
                             Style="{StaticResource FlatIconButtonSquare}"
@@ -214,6 +215,7 @@
                 </Grid>
 
             </Grid>
+            
         </ScrollViewer>
 
     </DockPanel>

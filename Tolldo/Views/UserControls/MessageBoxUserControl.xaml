@@ -15,6 +15,12 @@
             Margin="20"
             MinWidth="200">
 
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="10" 
+                              Opacity="0.55" 
+                              BlurRadius="5" />
+        </Border.Effect>
+
         <!-- Content -->
         <StackPanel Orientation="Vertical">
 
@@ -30,7 +36,6 @@
                 <Button Style="{StaticResource FlatSmallIconButton}"
                         Grid.Column="1"
                         Command="{Binding CloseMessageBoxCommand}"
-                        Background="Red"
                         ToolTip="Close"
                         HorizontalAlignment="Right"
                         FontSize="16"

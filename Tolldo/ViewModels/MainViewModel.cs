@@ -326,10 +326,12 @@ namespace Tolldo.ViewModels
         public ICommand ClearSearchStringCommand { get; set; }
         public ICommand ActivateDragCommand { get; set; }
         public ICommand AddNewTodoCommand { get; set; }
-        public ICommand InvertThemeCommand { get; set; }
+        
         public ICommand TogglePopupMenuCommand { get; set; }
         public ICommand ClosePopupMenuCommand { get; set; }
         public ICommand CloseMessageBoxCommand { get; set; }
+
+        public ICommand InvertThemeCommand { get; set; }
         public ICommand ToggleAccentsMenuCommand { get; set; }
         public ICommand SetAccentCommand { get; set; }
 
