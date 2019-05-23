@@ -57,7 +57,19 @@
                     <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBackgroundBrush}" />
                 </MultiTrigger.Setters>
             </MultiTrigger>
-            
+
+            <!-- When loaded -->
+            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                         Duration="00:00:00.5"
+                                         From="0"
+                                         To="1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+
         </Style.Triggers>
     </Style>
     
@@ -84,7 +96,7 @@
         </Setter>
         <Style.Triggers>
 
-            <!-- When hovering and not selected -->
+            <!-- When focused and not selected -->
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsFocused" Value="True" />
@@ -94,9 +106,21 @@
                     <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
                 </MultiTrigger.Setters>
             </MultiTrigger>
+            <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
             </Trigger>
+            <!-- When loaded -->
+            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                         Duration="00:00:01"
+                                         From="0"
+                                         To="1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
 
         </Style.Triggers>
     </Style>

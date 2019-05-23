@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Tolldo.Services;
 using Tolldo.ViewModels;
 
 namespace Tolldo.Views.UserControls
@@ -12,7 +13,7 @@ namespace Tolldo.Views.UserControls
         {
             InitializeComponent();
 
-            this.DataContext = new MainViewModel();
+            this.DataContext = new MainViewModel(new DialogService());
         }
     }
 }

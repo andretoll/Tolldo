@@ -91,6 +91,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\IDialogService.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
     <Compile Include="ValueConverters\NullToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\EmptyStringToVisibilityConverter.cs" />

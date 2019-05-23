@@ -1,4 +1,5 @@
 ﻿using GongSolutions.Wpf.DragDrop;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Windows.Input;
 using Tolldo.Data;
 using Tolldo.Helpers;
 using Tolldo.Models;
+using Tolldo.Services;
 
 namespace Tolldo.ViewModels
 {
@@ -20,6 +22,9 @@ namespace Tolldo.ViewModels
 
         // Theme manager
         private ThemeManager _themeManager;
+
+        // Dialog service
+        private readonly IDialogService _dialogService;
 
         // Data repository
         private TodoRepository _repo;
@@ -265,6 +270,21 @@ namespace Tolldo.ViewModels
         #region Events
 
         /// <summary>
+        /// Event that fires when message changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MessageChanged(object sender, EventArgs e)
+        {
+            // Notify property changed
+            if (sender != null)
+            {
+                UnsetMessage();
+                Message = sender.ToString();
+            }
+        }
+
+        /// <summary>
         /// Event that fires when a child property changes.
         /// </summary>
         /// <param name="sender"></param>
@@ -273,7 +293,14 @@ namespace Tolldo.ViewModels
         {
             // Update progress if the completed property changed
             if (e.PropertyName == "Completed")
+            {
                 SelectedTodo.UpdateProgress();
+
+                if (SelectedTodo.Progress == 100)
+                {
+                    _dialogService.SetMessage("All tasks completed! Well done!");
+                }
+            }
         }
 
         /// <summary>
@@ -309,23 +336,27 @@ namespace Tolldo.ViewModels
         public ICommand DeleteTodoCommand { get; set; }
         public ICommand UndeleteTodoCommand { get; set; }
 
-        #endregion
+        #endregion                
 
         #region Constructor
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public MainViewModel()
+        public MainViewModel(IDialogService dialogService)
         {
+            // Initialize dialog service
+            _dialogService = dialogService;
+            _dialogService.MessageChanged += MessageChanged;
+
             // Initialize theme manager
             _themeManager = new ThemeManager();
 
-            // Initialize repository
+            // Initialize data repository
             _repo = new TodoRepository();
 
             // Get data
-            Todos = new ObservableCollection<TodoViewModel>(_repo.GetTodos());
+            Todos = new ObservableCollection<TodoViewModel>(_repo.GetTodos(_dialogService));
             _todosConstant = new ObservableCollection<TodoViewModel>(Todos);
 
             // Initialize commands
@@ -393,7 +424,7 @@ namespace Tolldo.ViewModels
         private void AddTodo(string name)
         {
             // Create new object
-            TodoViewModel todo = new TodoViewModel()
+            TodoViewModel todo = new TodoViewModel(_dialogService)
             {
                 Name = name,
                 Tasks = new ObservableCollection<TodoTask>()
@@ -410,7 +441,7 @@ namespace Tolldo.ViewModels
             NewTodoName = string.Empty;
 
             // Set message
-            SetMessage("Todo-list added.");
+            SetMessage("List added.");
         }
 
         /// <summary>
@@ -424,10 +455,10 @@ namespace Tolldo.ViewModels
             _todosConstant.Remove(todo);
 
             // Reset selected item
-            SelectedTodo = null;           
+            SelectedTodo = null;
 
             // Set message
-            SetMessage("Todo-list deleted.");
+            SetMessage("List deleted.");
 
             // Set as deleted todo
             DeletedTodo = todo;
@@ -460,11 +491,8 @@ namespace Tolldo.ViewModels
         /// <param name="msg">The message to be displayed.</param>
         private void SetMessage(string msg)
         {
-            // Unset message
-            UnsetMessage();
-
             // Set message
-            Message = msg;
+            _dialogService.SetMessage(msg);
         }
 
         /// <summary>

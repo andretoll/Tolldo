@@ -21,8 +21,14 @@
             <!-- Message and close button -->
             <Grid>
 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
                 <!-- Close button -->
                 <Button Style="{StaticResource FlatSmallIconButton}"
+                        Grid.Column="1"
                         Command="{Binding CloseMessageBoxCommand}"
                         Background="Red"
                         ToolTip="Close"
@@ -33,6 +39,9 @@
 
                 <!-- Message-->
                 <TextBlock Style="{StaticResource MediumTextBlock}"
+                           Width="150"
+                           TextWrapping="Wrap"
+                           Grid.Column="0"
                            HorizontalAlignment="Left"
                            Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
 

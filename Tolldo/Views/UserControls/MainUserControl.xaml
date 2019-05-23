@@ -50,10 +50,11 @@
                         <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
+                        <!-- Fade in/Fade out animation if message is detected -->
                         <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
-                                    <Storyboard AutoReverse="True">
+                                    <Storyboard>
 
                                         <!-- Opacity -->
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
@@ -63,10 +64,10 @@
 
                                         <!-- Visibility -->
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
-                                                           Duration="0:0:3">
+                                                                       Duration="0:0:5">
 
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="{x:Static Visibility.Collapsed}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:5" Value="{x:Static Visibility.Collapsed}" />
 
                                         </ObjectAnimationUsingKeyFrames>
 

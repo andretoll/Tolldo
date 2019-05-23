@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Tolldo.Models;
+using Tolldo.Services;
 using Tolldo.ViewModels;
 
 namespace Tolldo.Data
@@ -31,18 +32,20 @@ namespace Tolldo.Data
 
         #endregion
 
+        #region Public Helpers
+
         /// <summary>
         /// Returns a <see cref="List{T}"/> of <see cref="TodoViewModel"/> items.
         /// </summary>
+        /// <param name="dialogService">The dialog service to broadcast messages.</param>
         /// <returns></returns>
-        public List<TodoViewModel> GetTodos()
+        public List<TodoViewModel> GetTodos(IDialogService dialogService)
         {
             // TEMPORARY DATA
-
             if (_todos == null)
                 _todos = new List<TodoViewModel>();
 
-            _todos.Add(new TodoViewModel()
+            _todos.Add(new TodoViewModel(dialogService)
             {
                 Id = 1,
                 Name = "Thesis",
@@ -80,7 +83,7 @@ namespace Tolldo.Data
                 }
             });
 
-            _todos.Add(new TodoViewModel()
+            _todos.Add(new TodoViewModel(dialogService)
             {
                 Id = 2,
                 Name = "App To-Do",
@@ -109,7 +112,7 @@ namespace Tolldo.Data
                 }
             });
 
-            _todos.Add(new TodoViewModel()
+            _todos.Add(new TodoViewModel(dialogService)
             {
                 Id = 3,
                 Name = "Before moving",
@@ -122,5 +125,7 @@ namespace Tolldo.Data
 
             return _todos;
         }
-    }
+    } 
+
+    #endregion
 }

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Tolldo.Models;
+using Tolldo.Services;
 
 namespace Tolldo.ViewModels
 {
@@ -46,6 +47,7 @@ namespace Tolldo.ViewModels
         /// </summary>
         public TaskViewModel()
         {
+            // Commands
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
         }
 

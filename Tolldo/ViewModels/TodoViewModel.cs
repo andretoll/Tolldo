@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Tolldo.Models;
+using Tolldo.Services;
 
 namespace Tolldo.ViewModels
 {
@@ -12,6 +13,9 @@ namespace Tolldo.ViewModels
     public class TodoViewModel : Todo, IDropTarget
     {
         #region Private Members
+
+        // Dialog service
+        private readonly IDialogService _dialogService;
 
         // Current progress
         private int _progress;
@@ -135,15 +139,17 @@ namespace Tolldo.ViewModels
         public ICommand SaveNewTaskCommand { get; set; }
         public ICommand DeleteTaskCommand { get; set; }
 
-        #endregion
+        #endregion        
 
         #region Constructor
 
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public TodoViewModel()
+        public TodoViewModel(IDialogService dialogService)
         {
+            _dialogService = dialogService;
+
             // Initialize commands
             CompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await CompleteAllTasks(); }, p => Tasks.Count > 0);
             UncompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await UncompleteAllTasks(); }, p => Tasks.Count > 0);
@@ -282,6 +288,8 @@ namespace Tolldo.ViewModels
                 // For smoother animation
                 LastProgress = temp;
                 Progress = 100;
+
+                _dialogService.SetMessage("All tasks completed!");
             });
         }
 
@@ -314,7 +322,6 @@ namespace Tolldo.ViewModels
         /// </summary>
         private void AddTask()
         {
-
             // Create new object
             TaskViewModel task = new TaskViewModel()
             {
@@ -331,6 +338,9 @@ namespace Tolldo.ViewModels
 
             // Update UI
             UpdateProgress();
+
+            // Set message
+            _dialogService.SetMessage("Task added.");
         }
 
         /// <summary>
@@ -345,6 +355,9 @@ namespace Tolldo.ViewModels
 
             // Update UI
             UpdateProgress();
+
+            // Set message
+            _dialogService.SetMessage("Task deleted.");
         }
 
         #endregion

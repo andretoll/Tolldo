@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Tolldo.Services;
 using Tolldo.ViewModels;
 
 namespace Tolldo.Data
@@ -12,6 +13,6 @@ namespace Tolldo.Data
         /// Get a list of all Todo-items.
         /// </summary>
         /// <returns></returns>
-        List<TodoViewModel> GetTodos();
+        List<TodoViewModel> GetTodos(IDialogService dialogService);
     }
 }
