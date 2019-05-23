@@ -103,8 +103,17 @@
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\CollapsedMenuUserControl.xaml.cs">
+      <DependentUpon>CollapsedMenuUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\MainUserControl.xaml.cs">
       <DependentUpon>MainUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\MessageBoxUserControl.xaml.cs">
+      <DependentUpon>MessageBoxUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\SideMenuUserControl.xaml.cs">
+      <DependentUpon>SideMenuUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\TaskItemUserControl.xaml.cs">
       <DependentUpon>TaskItemUserControl.xaml</DependentUpon>
@@ -168,9 +177,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UserControls\CollapsedMenuUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserControls\MainUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\MessageBoxUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\SideMenuUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\TaskItemUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>

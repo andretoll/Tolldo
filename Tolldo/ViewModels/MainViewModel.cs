@@ -365,6 +365,9 @@ namespace Tolldo.ViewModels
             // Create new temporary list
             ObservableCollection<TodoViewModel> todosTemp = new ObservableCollection<TodoViewModel>(_todosConstant);
 
+            // Clear the filter
+            ClearFilter();
+
             // For each Todo-item, remove it if the name does NOT contain the keyword
             foreach (var todo in todosTemp)
             {
