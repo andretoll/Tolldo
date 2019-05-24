@@ -21,6 +21,7 @@
 
                             <!-- CheckBox Icon -->
                             <TextBlock Foreground="{DynamicResource ColorForegroundBrush}"
+                                       Margin="0 0 10 0"
                                        FontSize="26">
 
                                 <TextBlock.Style>

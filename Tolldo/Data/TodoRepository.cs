@@ -57,6 +57,7 @@ namespace Tolldo.Data
                     {
                         Id = 1,
                         Name = "Write introduction",
+                        Description = "Obviously we have to start with this part...",
                         Completed = true
                     },
 

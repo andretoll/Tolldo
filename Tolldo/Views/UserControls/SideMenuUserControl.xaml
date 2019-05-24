@@ -45,6 +45,7 @@
                          Width="200"/>
 
             </DockPanel>
+            
         </Border>
 
         <!-- Buttons and list -->

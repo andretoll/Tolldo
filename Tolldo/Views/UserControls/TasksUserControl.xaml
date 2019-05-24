@@ -109,6 +109,7 @@
 
         <!-- Tasks -->
         <Grid>
+            
             <!-- Tasks -->
             <ScrollViewer CanContentScroll="False"
                           VerticalScrollBarVisibility="Auto">
@@ -121,13 +122,13 @@
 
                     <!-- List of tasks -->
                     <ListBox ItemsSource="{Binding Tasks, UpdateSourceTrigger=PropertyChanged}"
-                         Grid.Row="0"
-                         SelectedItem="{Binding SelectedTask}"
-                         Style="{StaticResource ListBoxBase}"
-                         ItemContainerStyle="{StaticResource ListBoxItemCheckbox}"
-                         dd:DragDrop.IsDropTarget="True"
-                         dd:DragDrop.IsDragSource="True"
-                         dd:DragDrop.DropHandler="{Binding}">
+                             Grid.Row="0"
+                             SelectedItem="{Binding SelectedTask}"
+                             Style="{StaticResource ListBoxBase}"
+                             ItemContainerStyle="{StaticResource ListBoxItemCheckbox}"
+                             dd:DragDrop.IsDropTarget="True"
+                             dd:DragDrop.IsDragSource="True"
+                             dd:DragDrop.DropHandler="{Binding}">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -152,9 +153,9 @@
 
                     <!-- New task -->
                     <Grid Grid.Row="1"
-                      Height="30"
-                      Margin="11 11 11 30"
-                      VerticalAlignment="Top">
+                          Height="30"
+                          Margin="11 11 11 30"
+                          VerticalAlignment="Top">
 
                         <Grid.Style>
                             <Style TargetType="{x:Type Grid}">
@@ -185,18 +186,18 @@
 
                         <!-- Name for task -->
                         <TextBox Style="{StaticResource LongTextBox}"
-                             Grid.Column="1"
-                             Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
+                                 Grid.Column="1"
+                                 Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
 
                             <i:Interaction.Triggers>
 
                                 <i:EventTrigger EventName="GotFocus">
                                     <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
-                                                       CommandParameter="True"/>
+                                                           CommandParameter="True"/>
                                 </i:EventTrigger>
                                 <i:EventTrigger EventName="LostFocus">
                                     <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
-                                                       CommandParameter="False"/>
+                                                           CommandParameter="False"/>
                                 </i:EventTrigger>
 
                             </i:Interaction.Triggers>

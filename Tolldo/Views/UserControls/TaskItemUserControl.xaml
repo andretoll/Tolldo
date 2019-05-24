@@ -7,25 +7,44 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <!-- Each ListBoxItem -->
     <Grid ToolTip="{Binding Name}"
-          Height="30"
           Background="Transparent"
           Tag="{Binding RelativeSource={RelativeSource 
                         Mode=FindAncestor, 
                         AncestorType={x:Type ListBox}}, 
                         Path=DataContext}">       
         
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
-        </Grid.ColumnDefinitions>        
+        <Grid.RowDefinitions>
+            <!-- Main panel -->
+            <RowDefinition Height="*" />
+            <!-- Expanded -->
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>        
         
         <!-- Context menu -->
         <Grid.ContextMenu>
             <ContextMenu Style="{StaticResource ContextMenuBase}"
                          DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+
+                <!-- Check -->
+                <MenuItem Style="{StaticResource MenuItemBase}"
+                          Visibility="{Binding SelectedTask.Completed, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+                          Command="{Binding SelectedTask.CheckTaskCommand}"
+                          FontFamily="{StaticResource FontAwesomeRegular}"
+                          Foreground="{DynamicResource PrimaryForegroundBrush}"
+                          ext:IconExtension.Icon="&#xf058;"                          
+                          Header="Check task"/>
+
+                <!-- Uncheck -->
+                <MenuItem Style="{StaticResource MenuItemBase}"
+                          Visibility="{Binding SelectedTask.Completed, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}"
+                          Command="{Binding SelectedTask.CheckTaskCommand}"
+                          FontFamily="{StaticResource FontAwesomeRegular}"
+                          Foreground="{DynamicResource PrimaryForegroundBrush}"
+                          ext:IconExtension.Icon="&#xf111;"
+                          Header="Uncheck task"/>
 
                 <!-- Rename item -->
                 <MenuItem Style="{StaticResource MenuItemBase}" 
@@ -48,74 +67,173 @@
             </ContextMenu>
         </Grid.ContextMenu>
 
-        <!-- Item row -->
-        <StackPanel Orientation="Horizontal"
-                    Grid.Column="0">
+        <!-- Main panel -->
+        <Grid Grid.Row="0">
 
-            <!-- CheckBox and name -->
-            <CheckBox IsChecked="{Binding Completed}"
-                      VerticalAlignment="Center"
-                      Content="{Binding Name}"
-                      Style="{StaticResource TaskCheckBox}"
-                      Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}"/>
+            <Grid.ColumnDefinitions>
+                <!-- Checkbox, name and description -->
+                <ColumnDefinition Width="*" />
+                <!-- Actions -->
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
 
-            <!-- Task rename -->
-            <Grid Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}"
-                  VerticalAlignment="Center">
+            <!-- CheckBox and Information -->
+            <StackPanel Grid.Column="0">
 
-                <Grid.ColumnDefinitions>
-                    <!-- Checkbox -->
-                    <ColumnDefinition Width="auto" />
-                    <!-- TextBox -->
-                    <ColumnDefinition Width="*" />
-                    <!-- Actions -->
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Vertical"
+                            Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
 
-                <!-- Just for show -->
-                <CheckBox Grid.Column="0"
-                          VerticalAlignment="Center"
-                          IsEnabled="False"
-                          IsChecked="False"
-                          Style="{StaticResource TaskCheckBox}"/>
+                    <!-- CheckBox and name -->
+                    <CheckBox IsChecked="{Binding Completed}"
+                              Content="{Binding Name}"
+                              Style="{StaticResource TaskCheckBox}"/>
 
-                <!-- Name for task -->
-                <TextBox Style="{StaticResource LongTextBox}"
-                         ext:FocusExtension.IsFocused="{Binding RenameActive}"
-                         Grid.Column="1"
-                         FontSize="16"
-                         Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}">
+                    <!-- Description -->
+                    <TextBlock Style="{StaticResource SmallTextBlock}"
+                               Visibility="{Binding Description, Converter={StaticResource emptyStringToVisibilityConverter}}"
+                               HorizontalAlignment="Left"
+                               TextWrapping="NoWrap"
+                               TextTrimming="CharacterEllipsis"
+                               Margin="46 5 0 0"
+                               Opacity="0.5"
+                               Text="{Binding Description}" />
 
-                    <i:Interaction.Triggers>
-                        
-                        <i:EventTrigger EventName="LostFocus">
-                            <i:InvokeCommandAction Command="{Binding ToggleRenameCommand}"
+                </StackPanel>
+
+
+                <!-- OR -->
+
+                <!-- Task rename -->
+                <Grid Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}"
+                      VerticalAlignment="Center">
+
+                    <Grid.ColumnDefinitions>
+                        <!-- Checkbox -->
+                        <ColumnDefinition Width="auto" />
+                        <!-- TextBox -->
+                        <ColumnDefinition Width="*" />
+                        <!-- Actions -->
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Name for task -->
+                    <TextBox Style="{StaticResource LongTextBox}"
+                             ext:FocusExtension.IsFocused="{Binding RenameActive}"
+                             Grid.Column="1"
+                             FontSize="16"
+                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}">
+
+                        <i:Interaction.Triggers>
+
+                            <i:EventTrigger EventName="LostFocus">
+                                <i:InvokeCommandAction Command="{Binding ToggleRenameCommand}"
                                                    CommandParameter="False"/>
-                        </i:EventTrigger>
+                            </i:EventTrigger>
 
-                    </i:Interaction.Triggers>
+                        </i:Interaction.Triggers>
 
-                </TextBox>
+                    </TextBox>
 
-                <!-- Save rename -->
-                <Grid Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}">
+                    <!-- Save rename -->
+                    <Grid Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}">
 
-                    <Button Style="{StaticResource ColorBackgroundButton}"
+                        <Button Style="{StaticResource ColorBackgroundButton}"
                             IsDefault="True"
                             Command="{Binding ToggleRenameCommand}"
                             FontFamily="{StaticResource FontAwesome}"
-                            Margin="0 0 10 0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
+                            Margin="0 0 15 0"
                             ToolTip="Save current name"
                             Content="&#xf0c7;" />
 
+                    </Grid>
+
                 </Grid>
+
+            </StackPanel>
+
+            <!-- Actions -->
+            <StackPanel Grid.Column="1"
+                    Orientation="Horizontal">
+
+                <Button Command="{Binding ToggleExpandedCommand}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        ToolTip="Expand"
+                        Margin="10 0"
+                        FontSize="20"
+                        FontFamily="{StaticResource FontAwesome}">
+
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatSmallIconButton}">
+                            <Setter Property="Content" Value="&#xf078;" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <Setter Property="Content" Value="&#xf077;" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    
+                </Button>
+
+            </StackPanel>
+            
+        </Grid>
+
+        <!-- Expanded -->
+        <StackPanel Grid.Row="1"
+                    Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}">
+
+            <Border BorderThickness="0 1 0 0"
+                    Margin="0 10"
+                    BorderBrush="{DynamicResource GrayBackgroundBrush}" />
+
+            <Grid>
+
+                <StackPanel>
+                    
+                    <!-- Description -->
+                    <StackPanel Grid.Column="0">
+                        
+                        <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   Foreground="{DynamicResource ColorForegroundBrush}"
+                                   Text="Description" />
+
+                        <TextBox Style="{StaticResource LongTextBox}"
+                                 Text="{Binding Description}"
+                                 Padding="5"
+                                 Margin="0 10"/>
+
+                    </StackPanel>
+
+                    <!-- Task type -->
+                    <StackPanel Grid.Column="1">
+                        
+                        <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   Foreground="{DynamicResource ColorForegroundBrush}"
+                                   Text="Task type" />
+
+                        <ComboBox Width="100"
+                                  HorizontalAlignment="Left"
+                                  Margin="0 10">
+                            
+                            <!-- TEST -->
+                            <ComboBoxItem Content="Item 1" />
+                            <ComboBoxItem Content="Item 2" />
+                            <ComboBoxItem Content="Item 3" />
+
+                        </ComboBox>
+
+                    </StackPanel>
+                    
+                </StackPanel>
 
             </Grid>
 
+            
+
         </StackPanel>
-        
+
     </Grid>
     
 </UserControl>

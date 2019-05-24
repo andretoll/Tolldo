@@ -11,6 +11,7 @@ namespace Tolldo.Models
         #region Private Members
 
         private string _name;
+        private string _description;
         private bool _completed;
 
         #endregion
@@ -28,6 +29,19 @@ namespace Tolldo.Models
             set
             {
                 _name = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value;
                 NotifyPropertyChanged();
             }
         }

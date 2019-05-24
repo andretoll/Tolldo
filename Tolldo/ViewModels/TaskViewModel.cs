@@ -14,6 +14,9 @@ namespace Tolldo.ViewModels
         // Indicates if renaming task mode is active
         private bool _renameActive;
 
+        // Indicates if expanded mode is active
+        private bool _expandedMode;
+
         #endregion
 
         #region Public Properties
@@ -32,11 +35,27 @@ namespace Tolldo.ViewModels
             }
         }
 
+        // Indicates if expanded mode is active
+        public bool ExpandedActive
+        {
+            get
+            {
+                return _expandedMode;
+            }
+            set
+            {
+                _expandedMode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Commands
 
         public ICommand ToggleRenameCommand { get; set; }
+        public ICommand ToggleExpandedCommand { get; set; }
+        public ICommand CheckTaskCommand { get; set; }
 
         #endregion
 
@@ -49,6 +68,8 @@ namespace Tolldo.ViewModels
         {
             // Commands
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
+            ToggleExpandedCommand = new RelayCommand.RelayCommand(p => { ExpandedActive = !ExpandedActive; });
+            CheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = !this.Completed; });
         }
 
         #endregion
