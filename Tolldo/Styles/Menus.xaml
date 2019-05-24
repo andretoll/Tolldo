@@ -14,7 +14,7 @@
         <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect ShadowDepth="4" Opacity="0.35"/>
+                <DropShadowEffect ShadowDepth="8" Opacity="0.35"/>
             </Setter.Value>
         </Setter>
 
@@ -25,7 +25,7 @@
                     <Border x:Name="Border"
                             Margin="10"
                             Background="{DynamicResource PrimaryBackgroundBrush}"
-                            BorderThickness="1"
+                            BorderThickness="0"
                             BorderBrush="{DynamicResource GrayBackgroundBrush}">
 
 
@@ -81,6 +81,7 @@
                                        Grid.Column="1"
                                        HorizontalAlignment="Right"
                                        Foreground="{TemplateBinding Foreground}"
+                                       FontSize="14"
                                        FontFamily="{StaticResource LatoRegular}" />
 
                         </Grid>
@@ -139,6 +140,7 @@
                                        Grid.Column="1"
                                        HorizontalAlignment="Right"
                                        Foreground="{TemplateBinding Foreground}"
+                                       FontSize="14"
                                        FontFamily="{StaticResource LatoRegular}" />
 
                         </Grid>
