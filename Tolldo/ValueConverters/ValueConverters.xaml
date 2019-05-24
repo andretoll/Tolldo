@@ -4,6 +4,7 @@
 
     <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
     <valueconverters:NullToVisibilityConverter x:Key="nullToVisibilityConverter" />
+    <valueconverters:ReversedNullToVisibilityConverter x:Key="reversedNullToVisibilityConverter" />
     <valueconverters:ReversedBooleanToVisibilityConverter x:Key="reversedBooleanToVisibilityConverter" />
     <valueconverters:EmptyToVisibilityConverter x:Key="emptyToVisibilityConverter" />
     <valueconverters:EmptyStringToVisibilityConverter x:Key="emptyStringToVisibilityConverter" />

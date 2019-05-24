@@ -46,14 +46,16 @@
             <Border.Style>
                 <Style TargetType="{x:Type Border}" BasedOn="{StaticResource Popup}">
                     <Style.Triggers>
+                        
                         <!-- Collapse if null -->
                         <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
+                        
                         <!-- Fade in/Fade out animation if message is detected -->
                         <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="True">
                             <DataTrigger.EnterActions>
-                                <BeginStoryboard>
+                                <BeginStoryboard Name="MessageBoxFade">
                                     <Storyboard>
 
                                         <!-- Opacity -->
@@ -75,6 +77,15 @@
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>
                         </DataTrigger>
+
+                        <!-- Pause/Resume storyboard when mouse enter/leave -->
+                        <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                            <PauseStoryboard BeginStoryboardName="MessageBoxFade" />
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                            <ResumeStoryboard BeginStoryboardName="MessageBoxFade" />
+                        </EventTrigger>
+                        
                     </Style.Triggers>
                 </Style>                
             </Border.Style>
@@ -103,10 +114,75 @@
 
         <!-- 3. To-do list -->
         <Grid Grid.Column="2"
+              Visibility="{Binding Path=., UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
               Background="{DynamicResource SecondaryBackgroundBrush}">
             
             <uc:TasksUserControl />
             
+        </Grid>
+        
+        <!-- OR -->
+
+        <!-- 3. Welcome screen -->
+        <Grid Grid.Column="2"
+              Visibility="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedNullToVisibilityConverter}}">
+
+            <Viewbox Panel.ZIndex="1"
+                     MaxWidth="600"
+                     Margin="30">
+                <StackPanel Orientation="Vertical"
+                            Panel.ZIndex="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+
+                    <TextBlock Style="{StaticResource HeaderTextBlock}"
+                               FontSize="42"
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource GrayBackgroundBrush}"
+                               Margin="0 20"
+                               Text="Welcome!" />
+
+                    <TextBlock Style="{StaticResource HeaderTextBlock}"
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource GrayBackgroundBrush}"                               
+                               Text="Choose a To-Do list on the left to get started." />
+
+                    <TextBlock Style="{StaticResource HeaderTextBlock}"
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource GrayBackgroundBrush}"                               
+                               Margin="0 20"
+                               Text="OR" />
+
+                    <TextBlock Style="{StaticResource HeaderTextBlock}"
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource GrayBackgroundBrush}"                               
+                               Text="Click below to create one." />
+
+                    <!-- Create new todo -->
+                    <Button Style="{StaticResource FlatButton}"
+                            Command="{Binding AddRandomTodoCommand}"
+                            MaxWidth="100"
+                            Margin="0 20"
+                            FontSize="14"
+                            Content="Create list"/>
+
+                </StackPanel>
+            </Viewbox>
+
+            <!-- Background image -->
+            <Image Stretch="Fill"      
+                   ClipToBounds="True"
+                   Source="/Images/welcome_winter.jpg">
+                <Image.Effect>
+                    <BlurEffect Radius="15" />
+                </Image.Effect>
+            </Image>
+
+            <!-- Background image effect -->
+            <Rectangle Fill="Black"
+                       Opacity="0.7"
+                       Stretch="Fill" />
+
         </Grid>
 
     </Grid>

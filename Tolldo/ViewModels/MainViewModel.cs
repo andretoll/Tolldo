@@ -3,8 +3,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using Tolldo.Data;
 using Tolldo.Helpers;
@@ -47,9 +49,8 @@ namespace Tolldo.ViewModels
         // Message
         private string _message;
 
-        // Todos
-        private ObservableCollection<TodoViewModel> _todos;
-        private ObservableCollection<TodoViewModel> _todosConstant;
+        // Filtered todos
+        private ListCollectionView _filteredTodos;
 
         // Selected todo
         private TodoViewModel _selectedTodo;
@@ -162,15 +163,18 @@ namespace Tolldo.ViewModels
         }
 
         // Todos
-        public ObservableCollection<TodoViewModel> Todos
+        public ObservableCollection<TodoViewModel> Todos { get; set; }
+
+        // Filtered todos
+        public ListCollectionView FilteredTodos
         {
             get
             {
-                return _todos;
+                return _filteredTodos;
             }
             set
             {
-                _todos = value;
+                _filteredTodos = value;
                 NotifyPropertyChanged();
             }
         }
@@ -195,7 +199,7 @@ namespace Tolldo.ViewModels
                     _selectedTodo.Tasks.CollectionChanged -= Tasks_CollectionChanged;
 
                     // Reset active modes
-                    _selectedTodo.RenameActive = false;
+                    _selectedTodo.RenameActive = false;                    
 
                     _selectedTodo = null;                    
                 }                
@@ -207,6 +211,9 @@ namespace Tolldo.ViewModels
                 {
                     return;
                 }
+
+                // Set last known
+                SettingsManager.SaveSetting(SettingsManager.Setting.LastTodo.ToString(), _selectedTodo.Id);
 
                 // Subscribe to PropertyChanged for each task
                 foreach (var task in _selectedTodo.Tasks)
@@ -321,11 +328,13 @@ namespace Tolldo.ViewModels
 
         #region Commands
 
+        public ICommand NavigateHomeCommand { get; set; }
         public ICommand CollapseMenuCommand { get; set; }
         public ICommand ToggleSearchModeCommand { get; set; }
         public ICommand ClearSearchStringCommand { get; set; }
         public ICommand ActivateDragCommand { get; set; }
         public ICommand AddNewTodoCommand { get; set; }
+        public ICommand AddRandomTodoCommand { get; set; }
         
         public ICommand TogglePopupMenuCommand { get; set; }
         public ICommand ClosePopupMenuCommand { get; set; }
@@ -359,14 +368,20 @@ namespace Tolldo.ViewModels
 
             // Get data
             Todos = new ObservableCollection<TodoViewModel>(_repo.GetTodos(_dialogService));
-            _todosConstant = new ObservableCollection<TodoViewModel>(Todos);
+            _filteredTodos = new ListCollectionView(Todos);
+
+            // Check last opened list
+            int lastOpened = (int)SettingsManager.LoadSetting(SettingsManager.Setting.LastTodo.ToString());
+            SelectedTodo = Todos.Where(t => t.Id == lastOpened).FirstOrDefault();
 
             // Initialize commands
+            NavigateHomeCommand = new RelayCommand.RelayCommand(p => { SelectedTodo = null; });
             CollapseMenuCommand = new RelayCommand.RelayCommand(p => { IsMenuOpen = !IsMenuOpen; });
             ToggleSearchModeCommand = new RelayCommand.RelayCommand(p => { SearchMode = !SearchMode; });
             ClearSearchStringCommand = new RelayCommand.RelayCommand(p => { SearchString = ""; SearchMode = !SearchMode; SearchMode = !SearchMode; });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
             AddNewTodoCommand = new RelayCommand.RelayCommand(p => { AddTodo(NewTodoName); }, p => !string.IsNullOrEmpty(NewTodoName));
+            AddRandomTodoCommand = new RelayCommand.RelayCommand(p => { AddRandomTodo(); });
             InvertThemeCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetTheme(!_themeManager.DarkThemeEnabled); });
             TogglePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = !IsPopupMenuOpen; });
             ClosePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = false; });
@@ -389,26 +404,16 @@ namespace Tolldo.ViewModels
         /// Applies a filter for the collection of Todo-items with the specified keyword.
         /// </summary>
         private void FilterTodos(string keyword)
-        {
+        {           
+            // If keyword is null, empty or whitespace, clear filter and return
             if (string.IsNullOrWhiteSpace(keyword))
             {
+                FilteredTodos.Filter = null;
                 return;
             }
-
-            // Create new temporary list
-            ObservableCollection<TodoViewModel> todosTemp = new ObservableCollection<TodoViewModel>(_todosConstant);
-
-            // Clear the filter
-            ClearFilter();
-
-            // For each Todo-item, remove it if the name does NOT contain the keyword
-            foreach (var todo in todosTemp)
-            {
-                if (!todo.Name.ToLower().Contains(keyword.ToLower()))
-                {
-                    Todos.Remove(todo);
-                }
-            }
+            
+            // Apply filter
+            FilteredTodos.Filter = new Predicate<object>(o => ((TodoViewModel)o).Name.ToLower().Contains(keyword.ToLower()));
         }
 
         /// <summary>
@@ -416,7 +421,7 @@ namespace Tolldo.ViewModels
         /// </summary>
         private void ClearFilter()
         {
-            Todos = new ObservableCollection<TodoViewModel>(_todosConstant);
+            FilteredTodos.Filter = null;
         }
 
         /// <summary>
@@ -434,7 +439,6 @@ namespace Tolldo.ViewModels
 
             // Add to collections
             Todos.Add(todo);
-            _todosConstant.Add(todo);
 
             // Set as the selected Todo-item
             SelectedTodo = todo;
@@ -447,6 +451,18 @@ namespace Tolldo.ViewModels
         }
 
         /// <summary>
+        /// Adds a random Todo-item
+        /// </summary>
+        private void AddRandomTodo()
+        {
+            // Add todo with random name
+            AddTodo(RandomNameGenerator.GetRandomTodoName());
+
+            // Enter rename mode
+            SelectedTodo.RenameActive = true;
+        }
+
+        /// <summary>
         /// Deletes a Todo-item from the collection.
         /// </summary>
         /// <param name="todo">The Todo-item to be deleted.</param>
@@ -454,7 +470,6 @@ namespace Tolldo.ViewModels
         {
             // Remove item
             Todos.Remove(todo);
-            _todosConstant.Remove(todo);
 
             // Reset selected item
             SelectedTodo = null;
@@ -478,7 +493,6 @@ namespace Tolldo.ViewModels
 
             // Undelete todo-item
             Todos.Add(DeletedTodo);
-            _todosConstant.Add(DeletedTodo);
 
             // Clear last deleted
             DeletedTodo = null;
@@ -548,7 +562,6 @@ namespace Tolldo.ViewModels
 
             // Let the Todo-items switch places
             Todos.Move(Todos.IndexOf(sourceItem), Todos.IndexOf(targetItem));
-            _todosConstant = new ObservableCollection<TodoViewModel>(Todos);
 
             DragHandleActive = false;
         }

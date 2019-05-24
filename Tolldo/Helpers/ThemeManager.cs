@@ -36,8 +36,8 @@ namespace Tolldo.Helpers
         public ThemeManager()
         {
             // Get settings
-            DarkThemeEnabled = (bool)LoadSetting(Setting.DarkTheme.ToString());
-            Accent = (string)LoadSetting(Setting.Accent.ToString());
+            DarkThemeEnabled = (bool)SettingsManager.LoadSetting(SettingsManager.Setting.DarkTheme.ToString());
+            Accent = (string)SettingsManager.LoadSetting(SettingsManager.Setting.Accent.ToString());
 
             // Apply settings
             SetTheme(DarkThemeEnabled);
@@ -92,7 +92,7 @@ namespace Tolldo.Helpers
             }
 
             // Save settings
-            SaveSetting(Setting.DarkTheme.ToString(), DarkThemeEnabled);
+            SettingsManager.SaveSetting(SettingsManager.Setting.DarkTheme.ToString(), DarkThemeEnabled);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Tolldo.Helpers
             }
 
             // Save settings
-            SaveSetting(Setting.Accent.ToString(), accent);
+            SettingsManager.SaveSetting(SettingsManager.Setting.Accent.ToString(), accent);
         }
 
         #endregion
@@ -175,40 +175,8 @@ namespace Tolldo.Helpers
             Application.Current.Resources[brushName] = brush;
         }
 
-        /// <summary>
-        /// Saves the specified <see cref="Setting"/> with the specified value.
-        /// </summary>
-        /// <param name="property">Name of the property.</param>
-        /// <param name="value">Value to assign to the property.</param>
-        private void SaveSetting(string property, object value)
-        {
-            Properties.Settings.Default[property] = value;
-            Properties.Settings.Default.Save();
-        }
-
-        /// <summary>
-        /// Loads the specified setting.
-        /// </summary>
-        /// <param name="property">Name of the property.</param>
-        /// <returns></returns>
-        private object LoadSetting(string property)
-        {
-            return Properties.Settings.Default[property];
-        }
-
         #endregion
 
-        #region Enums
-
-        /// <summary>
-        /// Types of settings.
-        /// </summary>
-        private enum Setting
-        {
-            DarkTheme,
-            Accent
-        } 
-
-        #endregion
+        
     }
 }

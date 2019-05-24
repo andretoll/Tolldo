@@ -7,116 +7,144 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Collapsed menu -->
-    <StackPanel Margin="20"
-                            Orientation="Vertical">
+    <DockPanel Margin="20">
 
-        <!-- Collapse button -->
-        <Button Style="{StaticResource FlatIconButton}"
-                            Margin="0 0 0 15"
-                            ToolTip="Show/Collapse"
-                            Command="{Binding CollapseMenuCommand}"
-                            FontSize="16"
-                            Content="&#xf0c9;" />
+        <!-- Upper -->
+        <StackPanel DockPanel.Dock="Top"
+                    Orientation="Vertical">
 
-        <!-- Theme button -->
-        <Button Style="{StaticResource FlatIconButton}"
-                            Margin="0 0 0 15"
-                            ToolTip="Theme"
-                            Command="{Binding InvertThemeCommand}"
-                            FontSize="16"
-                            Content="&#xf6c4;" />
+            <!-- Collapse button -->
+            <Button Style="{StaticResource FlatIconButton}"
+                    Margin="0 0 0 15"
+                    ToolTip="Show/Collapse"
+                    Command="{Binding CollapseMenuCommand}"
+                    FontSize="16"
+                    Content="&#xf0c9;" />
 
-        <!-- Accents container -->
-        <Border CornerRadius="20">
+            <!-- Home button -->
+            <Button Style="{StaticResource FlatIconButton}"
+                    Margin="0 0 0 15"
+                    ToolTip="Home"
+                    Command="{Binding NavigateHomeCommand}"
+                    FontSize="16"
+                    Content="&#xf015;" />
 
-            <Border.Style>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect ShadowDepth="1"
-                                                      Opacity="0.2"/>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <!-- When menu opens -->
-                        <DataTrigger Binding="{Binding IsAccentsMenuOpen}" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
+        </StackPanel>
 
-            <StackPanel>
+        <!-- Lower -->
+        <StackPanel DockPanel.Dock="Bottom"
+                    VerticalAlignment="Bottom">
 
-                <!-- Accents menu button -->
-                <Button Style="{StaticResource FlatIconButton}"
-                                    Command="{Binding ToggleAccentsMenuCommand}"
-                                    ToolTip="Accent"
-                                    FontSize="16"
-                                    Content="&#xf1fc;" />
+            <!-- Accents container -->
+            <Border CornerRadius="20">
 
-                <!-- Colors -->
-                <StackPanel Orientation="Vertical"
-                                        ClipToBounds="True">
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect ShadowDepth="1"
+                                                  Opacity="0.2"/>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <!-- When menu opens -->
+                            <DataTrigger Binding="{Binding IsAccentsMenuOpen}" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
-                    <StackPanel Visibility="{Binding IsAccentsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
+                <StackPanel>
 
-                        <StackPanel.Style>
-                            <Style TargetType="{x:Type StackPanel}">
-                                <Style.Triggers>
-                                    <!-- When menu opens -->
-                                    <DataTrigger Binding="{Binding IsAccentsMenuOpen, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
-                                                                                            From="0 -100 0 0"
-                                                                                            To="0"
-                                                                                            Duration="0:0:0.4" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.EnterActions>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
+                    <!-- Colors -->
+                    <StackPanel Orientation="Vertical"
+                                ClipToBounds="True">
 
-                        <!-- Color 1-->
-                        <Button Style="{StaticResource ColorBackgroundButton}"
-                                                Command="{Binding SetAccentCommand}"
-                                                CommandParameter="Blue"
-                                                Margin="0 5"
-                                                Background="{StaticResource BlueColorGradientBrush}"
-                                                ToolTip="Blue"
-                                                FontSize="14" />
+                        <StackPanel Visibility="{Binding IsAccentsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
 
-                        <!-- Color 2 -->
-                        <Button Style="{StaticResource ColorBackgroundButton}"
-                                                Command="{Binding SetAccentCommand}"
-                                                CommandParameter="Red"
-                                                Margin="0 0 0 5"
-                                                Background="{StaticResource RedColorGradientBrush}"
-                                                ToolTip="Red"
-                                                FontSize="16" />
+                            <StackPanel.Style>
+                                <Style TargetType="{x:Type StackPanel}">
+                                    <Style.Triggers>
+                                        <!-- When menu opens -->
+                                        <DataTrigger Binding="{Binding IsAccentsMenuOpen, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                            From="0 -100 0 0"
+                                                                            To="0"
+                                                                            Duration="0:0:0.4" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
 
-                        <!-- Color 3 -->
-                        <Button Style="{StaticResource ColorBackgroundButton}"
-                                                Command="{Binding SetAccentCommand}"
-                                                CommandParameter="Orange"
-                                                Margin="0 0 0 5"
-                                                Background="{StaticResource OrangeColorGradientBrush}"
-                                                ToolTip="Orange"
-                                                FontSize="16" />
+                            <!-- Color 1-->
+                            <Button Style="{StaticResource ColorBackgroundButton}"
+                                    Command="{Binding SetAccentCommand}"
+                                    CommandParameter="Blue"
+                                    Margin="0 5"
+                                    Background="{StaticResource BlueColorGradientBrush}"
+                                    ToolTip="Blue"
+                                    FontSize="14" />
+
+                            <!-- Color 2 -->
+                            <Button Style="{StaticResource ColorBackgroundButton}"
+                                    Command="{Binding SetAccentCommand}"
+                                    CommandParameter="Red"
+                                    Margin="0 0 0 5"
+                                    Background="{StaticResource RedColorGradientBrush}"
+                                    ToolTip="Red"
+                                    FontSize="16" />
+
+                            <!-- Color 3 -->
+                            <Button Style="{StaticResource ColorBackgroundButton}"
+                                    Command="{Binding SetAccentCommand}"
+                                    CommandParameter="Orange"
+                                    Margin="0 0 0 5"
+                                    Background="{StaticResource OrangeColorGradientBrush}"
+                                    ToolTip="Orange"
+                                    FontSize="16" />
+                        </StackPanel>
+
                     </StackPanel>
+                    
+                    <!-- Accents menu button -->
+                    <Button Style="{StaticResource FlatIconButton}"
+                            Command="{Binding ToggleAccentsMenuCommand}"
+                            ToolTip="Accent"
+                            FontSize="16"
+                            Content="&#xf1fc;" />
 
                 </StackPanel>
 
-            </StackPanel>
+            </Border>
 
-        </Border>
+            <!-- Theme button -->
+            <Button Style="{StaticResource FlatIconButton}"
+                    Margin="0 15 0 0"
+                    ToolTip="Theme"
+                    Command="{Binding InvertThemeCommand}"
+                    FontSize="16"
+                    Content="&#xf6c4;" />
 
-    </StackPanel>
+            
 
+            <!-- Settings button -->
+            <Button Style="{StaticResource FlatIconButton}"
+                    Margin="0 15 0 0"
+                    ToolTip="Settings"
+                    FontSize="16"
+                    Content="&#xf085;"/>
+
+        </StackPanel>
+
+    </DockPanel>
+    
 </UserControl>

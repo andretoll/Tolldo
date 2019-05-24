@@ -15,34 +15,34 @@
 
         <!-- Create new list container -->
         <Border BorderThickness="0 1 0 0"
-                        BorderBrush="{DynamicResource GrayBackgroundBrush}"
-                        DockPanel.Dock="Bottom">
+                BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                DockPanel.Dock="Bottom">
 
             <!-- Controls wrapper -->
             <DockPanel LastChildFill="True"                       
-                               Margin="20">
+                       Margin="20">
 
                 <!-- Label -->
                 <TextBlock Style="{StaticResource SmallTextBlock}"
-                                   Foreground="{DynamicResource ColorForegroundBrush}"
-                                   DockPanel.Dock="Top"
-                                   Text="Add new" />
+                           Foreground="{DynamicResource ColorForegroundBrush}"
+                           DockPanel.Dock="Top"
+                           Text="Add new" />
 
                 <!-- New list button -->
                 <Button Style="{StaticResource FlatIconButtonSquare}"
-                                IsDefault="True"
-                                Command="{Binding AddNewTodoCommand}"
-                                DockPanel.Dock="Right"
-                                ToolTip="Add new list"
-                                HorizontalAlignment="Left"
-                                Margin="20 0 0 0"
-                                FontSize="16"
-                                Content="&#xf067;" />
+                        IsDefault="True"
+                        Command="{Binding AddNewTodoCommand}"
+                        DockPanel.Dock="Right"
+                        ToolTip="Add new list"
+                        HorizontalAlignment="Left"
+                        Margin="20 0 0 0"
+                        FontSize="16"
+                        Content="&#xf067;" />
 
                 <!-- New list input -->
                 <TextBox Style="{StaticResource StandardTextBox}"
-                                 Text="{Binding NewTodoName, UpdateSourceTrigger=PropertyChanged}"
-                                 Width="200"/>
+                         Text="{Binding NewTodoName, UpdateSourceTrigger=PropertyChanged}"
+                         Width="200"/>
 
             </DockPanel>
         </Border>
@@ -61,8 +61,8 @@
 
             <!-- Side menu buttons and search -->
             <Border BorderBrush="{DynamicResource GrayBackgroundBrush}"
-                            BorderThickness="0 0 0 1"
-                            Grid.Row="0">
+                    BorderThickness="0 0 0 1"
+                    Grid.Row="0">
 
                 <!-- Buttons -->
                 <Grid Margin="20">
@@ -76,22 +76,22 @@
 
                     <!-- Search button -->
                     <Button Style="{StaticResource FlatIconButton}"
-                                    Grid.Column="0"
-                                    ToolTip="Search"
-                                    Command="{Binding ToggleSearchModeCommand}"
-                                    HorizontalAlignment="Left"
-                                    FontSize="16"
-                                    Content="&#xf002;" />
+                            Grid.Column="0"
+                            ToolTip="Search"
+                            Command="{Binding ToggleSearchModeCommand}"
+                            HorizontalAlignment="Left"
+                            FontSize="16"
+                            Content="&#xf002;" />
 
                     <!-- Menu button -->
                     <Button Style="{StaticResource FlatIconButton}"
-                                    ext:FocusExtension.IsFocused="{Binding IsPopupMenuOpen}"
-                                    Grid.Column="1"
-                                    ToolTip="Sort"
-                                    Command="{Binding TogglePopupMenuCommand}"
-                                    HorizontalAlignment="Right"
-                                    FontSize="16"
-                                    Content="&#xf0dc;">
+                            ext:FocusExtension.IsFocused="{Binding IsPopupMenuOpen}"
+                            Grid.Column="1"
+                            ToolTip="Sort"
+                            Command="{Binding TogglePopupMenuCommand}"
+                            HorizontalAlignment="Right"
+                            FontSize="16"
+                            Content="&#xf0dc;">
 
                         <!-- When losing focus, close menu -->
                         <i:Interaction.Triggers>
@@ -107,11 +107,11 @@
 
             <!-- Search-->
             <StackPanel Orientation="Vertical"
-                                Grid.Row="1">
+                        Grid.Row="1">
 
                 <!-- Search bar -->
                 <Grid Margin="0 20 0 0"
-                              Visibility="{Binding SearchMode, Converter={StaticResource booleanToVisibilityConverter}}">
+                      Visibility="{Binding SearchMode, Converter={StaticResource booleanToVisibilityConverter}}">
 
                     <Grid.ColumnDefinitions>
                         <!-- Text field -->
@@ -122,78 +122,78 @@
 
                     <!-- Search input -->
                     <TextBox Style="{StaticResource StandardTextBox}"
-                                     Padding="5"
-                                     MaxWidth="200"
-                                     Width="200"
-                                     Grid.Column="0"
-                                     ext:FocusExtension.IsFocused="{Binding SearchMode}"
-                                     Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
+                             Padding="5"
+                             MaxWidth="200"
+                             Width="200"
+                             Grid.Column="0"
+                             ext:FocusExtension.IsFocused="{Binding SearchMode}"
+                             Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
 
                     <!-- Clear text button -->
                     <Button Style="{StaticResource FlatSmallIconButton}"
-                                    Grid.Column="1"
-                                    IsCancel="True"
-                                    ToolTip="Clear"
-                                    Command="{Binding ClearSearchStringCommand}"
-                                    HorizontalAlignment="Left"
-                                    FontSize="16"
-                                    Margin="0 0 15 0"
-                                    Content="&#xf057;" />
+                            Grid.Column="1"
+                            IsCancel="True"
+                            ToolTip="Clear"
+                            Command="{Binding ClearSearchStringCommand}"
+                            HorizontalAlignment="Left"
+                            FontSize="16"
+                            Margin="0 0 15 0"
+                            Content="&#xf057;" />
 
                 </Grid>
 
                 <!-- No results text block -->
                 <TextBlock Style="{StaticResource MediumTextBlock}"
-                                   Margin="0 10"
-                                   Visibility="{Binding Todos.Count, Converter={StaticResource emptyToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                   HorizontalAlignment="Center"
-                                   Text="No items."/>
+                           Margin="0 10"
+                           Visibility="{Binding FilteredTodos.Count, Converter={StaticResource emptyToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                           HorizontalAlignment="Center"
+                           Text="No items."/>
 
             </StackPanel>
 
             <!-- Menu -->
             <Border Style="{StaticResource Popup}" 
-                            Grid.Row="1"
-                            Grid.RowSpan="2"
-                            Margin="5"
-                            Background="{DynamicResource SecondaryBackgroundBrush}"
-                            Visibility="{Binding IsPopupMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top">
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Margin="5"
+                    Background="{DynamicResource SecondaryBackgroundBrush}"
+                    Visibility="{Binding IsPopupMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top">
 
                 <!-- Vertical list of buttons -->
                 <StackPanel Orientation="Vertical">
 
                     <!-- Sort alphabetically down -->
                     <Button Style="{StaticResource ListButton}"
-                                    Focusable="False"
-                                    Content="Alphabetically"
-                                    ext:IconExtension.Icon="&#xf15d;"
-                                    FontFamily="{StaticResource FontAwesome}" />
+                            Focusable="False"
+                            Content="Alphabetically"
+                            ext:IconExtension.Icon="&#xf15d;"
+                            FontFamily="{StaticResource FontAwesome}" />
 
                     <!-- Sort alphabetically up -->
                     <Button Style="{StaticResource ListButton}"
-                                    Focusable="False"
-                                    Content="Alphabetically"
-                                    ext:IconExtension.Icon="&#xf15e;"
-                                    FontFamily="{StaticResource FontAwesome}" />
+                            Focusable="False"
+                            Content="Alphabetically"
+                            ext:IconExtension.Icon="&#xf15e;"
+                            FontFamily="{StaticResource FontAwesome}" />
 
                 </StackPanel>
 
             </Border>
 
             <!-- List of Todo-items -->
-            <ListView ItemsSource="{Binding Todos, UpdateSourceTrigger=PropertyChanged}"
-                              Grid.Row="3"
-                              ScrollViewer.CanContentScroll="False"
-                              SelectedItem="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              Style="{StaticResource ListViewBase}"
-                              ItemContainerStyle="{StaticResource ListViewItem}"
-                              SelectionMode="Single"
-                              dd:DragDrop.IsDropTarget="True"
-                              dd:DragDrop.IsDragSource="True"
-                              dd:DragDrop.DropHandler="{Binding}"
-                              dd:DragDrop.MinimumVerticalDragDistance="25">
+            <ListView ItemsSource="{Binding FilteredTodos, UpdateSourceTrigger=PropertyChanged}"
+                      Grid.Row="3"
+                      ScrollViewer.CanContentScroll="False"
+                      SelectedItem="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      Style="{StaticResource ListViewBase}"
+                      ItemContainerStyle="{StaticResource ListViewItem}"
+                      SelectionMode="Single"
+                      dd:DragDrop.IsDropTarget="True"
+                      dd:DragDrop.IsDragSource="True"
+                      dd:DragDrop.DropHandler="{Binding}"
+                      dd:DragDrop.MinimumVerticalDragDistance="25">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
