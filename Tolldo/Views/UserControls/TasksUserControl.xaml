@@ -108,10 +108,108 @@
         </Grid>
 
         <!-- Tasks -->
-        <Grid>
-            
+        <DockPanel LastChildFill="True">
+
+            <!-- New task -->
+            <Grid DockPanel.Dock="Bottom"
+                  Panel.ZIndex="1000"
+                  Visibility="{Binding ElementName=TasksScrollViewer, Path=ComputedVerticalScrollBarVisibility, UpdateSourceTrigger=PropertyChanged}"
+                  Background="{DynamicResource ColorGradientBrush}"
+                  VerticalAlignment="Top">
+
+                <Grid.Effect>
+                    <DropShadowEffect Direction="90" Opacity="0.25" ShadowDepth="24" BlurRadius="30"  />
+                </Grid.Effect>
+
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <Style.Setters>
+                            <Setter Property="Visibility">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{StaticResource verticalScrollToVisibilityConverter}">
+                                        <Binding ElementName="TasksScrollViewer" Path="VerticalOffset" />
+                                        <Binding ElementName="TasksScrollViewer" Path="ScrollableHeight" />
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                    </Style>
+                </Grid.Style>
+
+                <Border Padding="10"
+                        Height="50">
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="Opacity" Value="0.5" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding NewTaskActive}" Value="True">
+                                    <Setter Property="Opacity" Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <!-- Checkbox -->
+                            <ColumnDefinition Width="auto" />
+                            <!-- TextBox -->
+                            <ColumnDefinition Width="*" />
+                            <!-- Actions -->
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Just for show -->
+                        <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   VerticalAlignment="Center"
+                                   Margin="0 0 20 0"
+                                   Foreground="{StaticResource LightForegroundBrush}"
+                                   FontFamily="{StaticResource FontAwesome}"
+                                   FontSize="22"
+                                   Text="&#xf055;" />
+
+                        <!-- Name for task -->
+                        <TextBox Style="{StaticResource LongTextBox}"
+                                 Grid.Column="1"
+                                 Foreground="{StaticResource LightForegroundBrush}"
+                                 CaretBrush="{StaticResource LightForegroundBrush}"
+                                 Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
+
+                            <i:Interaction.Triggers>
+
+                                <i:EventTrigger EventName="GotFocus">
+                                    <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
+                                                   CommandParameter="True"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="LostFocus">
+                                    <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
+                                                   CommandParameter="False"/>
+                                </i:EventTrigger>
+
+                            </i:Interaction.Triggers>
+
+                        </TextBox>
+
+                        <!-- Save button -->
+                        <Button Grid.Column="2"
+                                IsDefault="True"
+                                ToolTip="Add Task"
+                                Focusable="False"
+                                Visibility="{Binding NewTaskActive, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                Command="{Binding SaveNewTaskCommand}"
+                                Margin="10 0 0 0"
+                                Style="{StaticResource FlatIconButtonSquare}"
+                                FontFamily="{StaticResource FontAwesome}"
+                                FontSize="16"
+                                Content="&#xf0c7;"/>
+                    </Grid>
+                </Border>
+
+            </Grid>
+
             <!-- Tasks -->
             <ScrollViewer CanContentScroll="False"
+                          x:Name="TasksScrollViewer"
                           VerticalScrollBarVisibility="Auto">
                 <Grid>
 
@@ -153,70 +251,94 @@
 
                     <!-- New task -->
                     <Grid Grid.Row="1"
-                          Height="30"
-                          Margin="11 11 11 30"
                           VerticalAlignment="Top">
 
                         <Grid.Style>
                             <Style TargetType="{x:Type Grid}">
-                                <Setter Property="Opacity" Value="0.5" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding NewTaskActive}" Value="True">
-                                        <Setter Property="Opacity" Value="1" />
-                                    </DataTrigger>
-                                </Style.Triggers>
+                                <Style.Setters>
+                                    <Setter Property="Visibility">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource reversedVerticalScrollToVisibilityConverter}">
+                                                <Binding ElementName="TasksScrollViewer" Path="VerticalOffset" />
+                                                <Binding ElementName="TasksScrollViewer" Path="ScrollableHeight" />
+                                                <Binding ElementName="TasksScrollViewer" Path="ComputedVerticalScrollBarVisibility" />
+                                                <Binding ElementName="TasksScrollViewer" Path="IsEnabled" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style.Setters>
                             </Style>
                         </Grid.Style>
 
-                        <Grid.ColumnDefinitions>
-                            <!-- Checkbox -->
-                            <ColumnDefinition Width="auto" />
-                            <!-- TextBox -->
-                            <ColumnDefinition Width="*" />
-                            <!-- Actions -->
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
+                        <Border Padding="10"
+                                Height="50">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding NewTaskActive}" Value="True">
+                                            <Setter Property="Opacity" Value="1" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
 
-                        <!-- Just for show -->
-                        <CheckBox Grid.Column="0"
-                                  VerticalAlignment="Center"
-                                  FontSize="26"
-                                  IsEnabled="False"
-                                  IsChecked="False"
-                                  Style="{StaticResource TaskCheckBox}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <!-- Checkbox -->
+                                    <ColumnDefinition Width="auto" />
+                                    <!-- TextBox -->
+                                    <ColumnDefinition Width="*" />
+                                    <!-- Actions -->
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
 
-                        <!-- Name for task -->
-                        <TextBox Style="{StaticResource LongTextBox}"
-                                 Grid.Column="1"
-                                 Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
+                                <!-- Just for show -->
+                                <TextBlock Style="{StaticResource MediumTextBlock}"
+                                           VerticalAlignment="Center"
+                                           Margin="0 0 20 0"
+                                           Foreground="{StaticResource LightForegroundBrush}"
+                                           FontFamily="{StaticResource FontAwesome}"
+                                           FontSize="22"
+                                           Text="&#xf055;" />
 
-                            <i:Interaction.Triggers>
+                                <!-- Name for task -->
+                                <TextBox Style="{StaticResource LongTextBox}"
+                                         Grid.Column="1"
+                                         Foreground="{StaticResource LightForegroundBrush}"
+                                         CaretBrush="{StaticResource LightForegroundBrush}"
+                                         Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
 
-                                <i:EventTrigger EventName="GotFocus">
-                                    <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
-                                                           CommandParameter="True"/>
-                                </i:EventTrigger>
-                                <i:EventTrigger EventName="LostFocus">
-                                    <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
-                                                           CommandParameter="False"/>
-                                </i:EventTrigger>
+                                    <i:Interaction.Triggers>
 
-                            </i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="GotFocus">
+                                            <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
+                                                                   CommandParameter="True"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="LostFocus">
+                                            <i:InvokeCommandAction Command="{Binding ToggleNewTaskCommand}"
+                                                                   CommandParameter="False"/>
+                                        </i:EventTrigger>
 
-                        </TextBox>
+                                    </i:Interaction.Triggers>
 
-                        <!-- Save button -->
-                        <Button Grid.Column="2"
-                                IsDefault="True"
-                                ToolTip="Add Task"
-                                Focusable="False"
-                                Visibility="{Binding NewTaskActive, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                Command="{Binding SaveNewTaskCommand}"
-                                Margin="10 0 0 0"
-                                Style="{StaticResource FlatIconButtonSquare}"
-                                FontFamily="{StaticResource FontAwesome}"
-                                FontSize="16"
-                                Content="&#xf0c7;"/>
+                                </TextBox>
+
+                                <!-- Save button -->
+                                <Button Grid.Column="2"
+                                        IsDefault="True"
+                                        ToolTip="Add Task"
+                                        Focusable="False"
+                                        Visibility="{Binding NewTaskActive, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                        Command="{Binding SaveNewTaskCommand}"
+                                        Margin="10 0 0 0"
+                                        Style="{StaticResource FlatIconButtonSquare}"
+                                        FontFamily="{StaticResource FontAwesome}"
+                                        FontSize="16"
+                                        Content="&#xf0c7;"/>
+                            </Grid>
+                            
+                        </Border>
 
                     </Grid>
 
@@ -224,7 +346,7 @@
 
             </ScrollViewer>
             
-        </Grid>
+        </DockPanel>
 
     </DockPanel>
 

@@ -11,8 +11,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Each ListBoxItem -->
-    <Grid Background="Transparent"
-          Tag="{Binding RelativeSource={RelativeSource 
+    <Grid Tag="{Binding RelativeSource={RelativeSource 
                         Mode=FindAncestor, 
                         AncestorType={x:Type ListBox}}, 
                         Path=DataContext}">       

@@ -97,6 +97,8 @@
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
+    <Compile Include="ValueConverters\ReversedVerticalScrollToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\VerticalScrollToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ReversedNullToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\NullToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\EmptyStringToVisibilityConverter.cs" />
