@@ -127,14 +127,28 @@
             </Border>
 
             <!-- Theme button -->
-            <Button Style="{StaticResource FlatIconButton}"
-                    Margin="0 15 0 0"
-                    ToolTip="Theme"
+            <Button Margin="0 15 0 0"
                     Command="{Binding InvertThemeCommand}"
-                    FontSize="16"
-                    Content="&#xf6c4;" />
+                    FontSize="16" >
 
-            
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatIconButton}">
+                        <Setter Property="Content" Value="&#xf185;" />
+                        <Setter Property="ToolTip" Value="Theme" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DarkThemeEnabled, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                <Setter Property="Content" Value="&#xf185;" />
+                                <Setter Property="ToolTip" Value="Light theme" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DarkThemeEnabled, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                <Setter Property="Content" Value="&#xf186;" />
+                                <Setter Property="ToolTip" Value="Dark theme" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+            </Button>
 
             <!-- Settings button -->
             <Button Style="{StaticResource FlatIconButton}"

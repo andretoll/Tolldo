@@ -93,6 +93,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\RandomNameGenerator.cs" />
     <Compile Include="Helpers\SettingsManager.cs" />
+    <Compile Include="Models\Subtask.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
@@ -120,6 +121,9 @@
     </Compile>
     <Compile Include="Views\UserControls\SideMenuUserControl.xaml.cs">
       <DependentUpon>SideMenuUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\SubtaskItemUserControl.xaml.cs">
+      <DependentUpon>SubtaskItemUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\TaskItemUserControl.xaml.cs">
       <DependentUpon>TaskItemUserControl.xaml</DependentUpon>
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\SideMenuUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\SubtaskItemUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

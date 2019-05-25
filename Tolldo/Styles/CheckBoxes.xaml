@@ -22,7 +22,7 @@
                             <!-- CheckBox Icon -->
                             <TextBlock Foreground="{DynamicResource ColorForegroundBrush}"
                                        Margin="0 0 10 0"
-                                       FontSize="26">
+                                       FontSize="{TemplateBinding FontSize}">
 
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
@@ -60,13 +60,78 @@
                             
                             <!-- Text -->
                             <TextBlock Style="{StaticResource MediumTextBlock}"
-                                       Padding="10 5 0 0"
+                                       VerticalAlignment="Center"
                                        Text="{TemplateBinding Content}" />
 
                         </StackPanel>                      
                         
                     </Border>
                     
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Task square checkbox -->
+    <Style TargetType="{x:Type CheckBox}" x:Key="TaskSquareCheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+
+                    <!-- Outer -->
+                    <Border>
+
+                        <!-- Inner -->
+                        <StackPanel Orientation="Horizontal">
+
+                            <!-- CheckBox Icon -->
+                            <TextBlock Foreground="{DynamicResource ColorForegroundBrush}"
+                                       Margin="0 0 10 0"
+                                       FontSize="{TemplateBinding FontSize}">
+
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+
+                                            <!-- When checked -->
+                                            <DataTrigger Binding="{Binding Path=IsChecked, RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}}" Value="True">
+                                                <Setter Property="Text" Value="&#xf14a;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
+                                                <Setter Property="ToolTip" Value="Uncheck" />
+                                            </DataTrigger>
+
+                                            <!-- When unchecked -->
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}}" Value="False">
+                                                <Setter Property="Text" Value="&#xf0c8;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesomeRegular}" />
+                                                <Setter Property="ToolTip" Value="Check" />
+                                            </DataTrigger>
+
+                                            <!-- When unchecked and hovering -->
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}, Path=IsMouseOver}" Value="True"/>
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}, Path=IsChecked}" Value="False" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Text" Value="&#xf14a;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesomeRegular}" />
+                                            </MultiDataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+
+                            </TextBlock>
+
+                            <!-- Text -->
+                            <TextBlock Style="{StaticResource MediumTextBlock}"
+                                       VerticalAlignment="Center"
+                                       Text="{TemplateBinding Content}" />
+
+                        </StackPanel>
+
+                    </Border>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

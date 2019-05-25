@@ -179,10 +179,11 @@
 
                         <!-- Just for show -->
                         <CheckBox Grid.Column="0"
-                              VerticalAlignment="Center"
-                              IsEnabled="False"
-                              IsChecked="False"
-                              Style="{StaticResource TaskCheckBox}"/>
+                                  VerticalAlignment="Center"
+                                  FontSize="26"
+                                  IsEnabled="False"
+                                  IsChecked="False"
+                                  Style="{StaticResource TaskCheckBox}"/>
 
                         <!-- Name for task -->
                         <TextBox Style="{StaticResource LongTextBox}"
@@ -206,16 +207,16 @@
 
                         <!-- Save button -->
                         <Button Grid.Column="2"
-                            IsDefault="True"
-                            ToolTip="Add Task"
-                            Focusable="False"
-                            Visibility="{Binding NewTaskActive, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                            Command="{Binding SaveNewTaskCommand}"
-                            Margin="10 0 0 0"
-                            Style="{StaticResource FlatIconButtonSquare}"
-                            FontFamily="{StaticResource FontAwesome}"
-                            FontSize="16"
-                            Content="&#xf0c7;"/>
+                                IsDefault="True"
+                                ToolTip="Add Task"
+                                Focusable="False"
+                                Visibility="{Binding NewTaskActive, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                                Command="{Binding SaveNewTaskCommand}"
+                                Margin="10 0 0 0"
+                                Style="{StaticResource FlatIconButtonSquare}"
+                                FontFamily="{StaticResource FontAwesome}"
+                                FontSize="16"
+                                Content="&#xf0c7;"/>
 
                     </Grid>
 

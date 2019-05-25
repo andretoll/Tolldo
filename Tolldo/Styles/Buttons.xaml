@@ -133,7 +133,7 @@
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
-                            
+
                         </TextBlock>
 
                     </Border>
@@ -240,6 +240,68 @@
             </Setter.Value>
         </Setter>
 
+    </Style>
+    
+    <!-- Base RadioButton -->
+    <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    
+                    <BulletDecorator Background="Transparent"
+                                     Margin="0 5">
+                        <BulletDecorator.Bullet>
+                            <Grid Height="20" Width="20">
+                                
+                                <!-- Outer border -->
+                                <Border Name="RadioOuter" 
+                                        Background="Transparent" 
+                                        BorderBrush="{DynamicResource ColorForegroundBrush}" 
+                                        BorderThickness="2" 
+                                        CornerRadius="50" />
+                                
+                                <!-- Inner border -->
+                                <Border CornerRadius="50" 
+                                        Margin="4" 
+                                        Name="RadioMark" 
+                                        Background="{DynamicResource ColorForegroundBrush}" 
+                                        Visibility="Hidden" />
+                            </Grid>
+                        </BulletDecorator.Bullet>
+                        
+                        <!--Text-->
+                        <TextBlock Margin="10,0,0,0" 
+                                   VerticalAlignment="Center"
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   FontSize="{TemplateBinding FontSize}">
+                            
+                            <ContentPresenter />
+                            
+                        </TextBlock>
+                    </BulletDecorator>
+                    
+                    <!--If item is checked, trigger the visibility of the mark-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <!--If item is checked, trigger the visibility of the mark and change the color of the selected bullet into a darker gray for better highlighting-->
+                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="RadioOuter" Property="BorderBrush" Value="{DynamicResource ColorForegroundBrush}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="RadioMark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="RadioMark" Property="Opacity" Value="0.3"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

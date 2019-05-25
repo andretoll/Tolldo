@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Tolldo.Views.UserControls.SubtaskItemUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:ext="clr-namespace:Tolldo.Extensions"
+             xmlns:dd="urn:gong-wpf-dragdrop"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <!-- Each ListBoxItem -->
+    <Grid ToolTip="{Binding Name}"
+          Margin="0 10 0 0"
+          Tag="{Binding RelativeSource={RelativeSource 
+                        Mode=FindAncestor, 
+                        AncestorType={x:Type ListBox}}, 
+                        Path=DataContext}">
+
+        <Grid.RowDefinitions>
+            <!-- Main panel -->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Main panel -->
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <!-- Checkbox, name and description -->
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- CheckBox and Information -->
+            <StackPanel Grid.Column="0">
+
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
+
+                    <!-- CheckBox and name -->
+                    <CheckBox IsChecked="{Binding Completed}"
+                              Content="{Binding Name}"
+                              FontSize="22"
+                              Style="{StaticResource TaskSquareCheckBox}"/>
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </Grid>
+    
+    </Grid>
+
+</UserControl>

@@ -1,5 +1,6 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Tolldo.Models;
@@ -34,6 +35,9 @@ namespace Tolldo.ViewModels
 
         // New task
         private TaskViewModel _newTask;
+
+        // Tasks
+        private ObservableCollection<TaskViewModel> _tasks;
 
         #endregion
 
@@ -122,6 +126,20 @@ namespace Tolldo.ViewModels
             set
             {
                 _newTask = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // Tasks
+        public ObservableCollection<TaskViewModel> Tasks
+        {
+            get
+            {
+                return _tasks;
+            }
+            set
+            {
+                _tasks = value;
                 NotifyPropertyChanged();
             }
         }
@@ -325,8 +343,10 @@ namespace Tolldo.ViewModels
             // Create new object
             TaskViewModel task = new TaskViewModel()
             {
-                Name = NewTask.Name
+                Name = NewTask.Name,
+                Subtasks = new ObservableCollection<Subtask>()
             };
+
             // Add new task
             Tasks.Add(task);
 
@@ -388,8 +408,8 @@ namespace Tolldo.ViewModels
         void IDropTarget.Drop(IDropInfo dropInfo)
         {
             // Get source and target
-            TodoTask sourceItem = dropInfo.Data as TodoTask;
-            TodoTask targetItem = dropInfo.TargetItem as TodoTask;
+            TaskViewModel sourceItem = dropInfo.Data as TaskViewModel;
+            TaskViewModel targetItem = dropInfo.TargetItem as TaskViewModel;
 
             // Let the tasks switch places
             Tasks.Move(Tasks.IndexOf(sourceItem), Tasks.IndexOf(targetItem));

@@ -121,8 +121,35 @@
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
+            <!-- When expanded in ViewModel-->
+            <DataTrigger Binding="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
+            </DataTrigger>
 
         </Style.Triggers>
+    </Style>
+
+    <!-- ListBoxItemBorderlessCheckbox-->
+    <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemBorderlessCheckbox">
+        <Setter Property="BorderThickness" Value="0 0 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource GrayBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="Padding" Value="10 5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+
+                        <!-- Content -->
+                        <ContentPresenter />
+
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

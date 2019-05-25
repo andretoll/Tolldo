@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ext="clr-namespace:Tolldo.Extensions"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:uc="clr-namespace:Tolldo.Views.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Each ListBoxItem -->
-    <Grid ToolTip="{Binding Name}"
-          Background="Transparent"
+    <Grid Background="Transparent"
           Tag="{Binding RelativeSource={RelativeSource 
                         Mode=FindAncestor, 
                         AncestorType={x:Type ListBox}}, 
@@ -86,6 +87,7 @@
                     <!-- CheckBox and name -->
                     <CheckBox IsChecked="{Binding Completed}"
                               Content="{Binding Name}"
+                              FontSize="26"
                               Style="{StaticResource TaskCheckBox}"/>
 
                     <!-- Description -->
@@ -97,9 +99,40 @@
                                Margin="46 5 0 0"
                                Opacity="0.5"
                                Text="{Binding Description}" />
+                    
+                    <!-- Subtasks -->
+                    <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
+                             Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+                             Style="{StaticResource ListBoxBase}"
+                             ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}"
+                             dd:DragDrop.IsDropTarget="True"
+                             dd:DragDrop.IsDragSource="True"
+                             dd:DragDrop.DropHandler="{Binding}">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <uc:SubtaskItemUserControl />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <!-- Ignore internal scrollviewer -->
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ItemsControl">
+                                <Border>
+                                    <ItemsPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </ListBox.Template>
+                        
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                    </ListBox>
 
                 </StackPanel>
-
 
                 <!-- OR -->
 
@@ -108,7 +141,7 @@
                       VerticalAlignment="Center">
 
                     <Grid.ColumnDefinitions>
-                        <!-- Checkbox -->
+                        <!-- Icon -->
                         <ColumnDefinition Width="auto" />
                         <!-- TextBox -->
                         <ColumnDefinition Width="*" />
@@ -138,12 +171,12 @@
                     <Grid Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}">
 
                         <Button Style="{StaticResource ColorBackgroundButton}"
-                            IsDefault="True"
-                            Command="{Binding ToggleRenameCommand}"
-                            FontFamily="{StaticResource FontAwesome}"
-                            Margin="0 0 15 0"
-                            ToolTip="Save current name"
-                            Content="&#xf0c7;" />
+                                IsDefault="True"
+                                Command="{Binding ToggleRenameCommand}"
+                                FontFamily="{StaticResource FontAwesome}"
+                                Margin="0 0 15 0"
+                                ToolTip="Save current name"
+                                Content="&#xf0c7;" />
 
                     </Grid>
 
@@ -153,22 +186,77 @@
 
             <!-- Actions -->
             <StackPanel Grid.Column="1"
-                    Orientation="Horizontal">
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
 
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+
+                        <Style.Triggers>
+                            <!-- Show panel when hover -->
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <!-- Show panel when expanded -->
+                            <DataTrigger Binding="{Binding ExpandedActive}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        
+                    </Style>
+                </StackPanel.Style>
+
+                <!-- Rename button -->
+                <Button Command="{Binding ToggleRenameCommand}"
+                        Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+                        Style="{StaticResource FlatSmallIconButton}"
+                        Focusable="False"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        ToolTip="Rename"
+                        Margin="10 0"
+                        FontSize="20"
+                        Content="&#xf044;"
+                        FontFamily="{StaticResource FontAwesome}" />
+
+                <!-- Expand button -->
                 <Button Command="{Binding ToggleExpandedCommand}"
+                        Focusable="False"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         ToolTip="Expand"
                         Margin="10 0"
-                        FontSize="20"
+                        FontSize="24"
                         FontFamily="{StaticResource FontAwesome}">
 
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatSmallIconButton}">
-                            <Setter Property="Content" Value="&#xf078;" />
+                            <Setter Property="Content" Value="&#xf13a;" />
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="0" CenterX="12" CenterY="13" />
+                                </Setter.Value>
+                            </Setter>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                    <Setter Property="Content" Value="&#xf077;" />
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(RotateTransform.Angle)"
+                                                                 From="0"
+                                                                 To="180"
+                                                                 Duration="0:0:0.5" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <RotateTransform Angle="0" CenterX="10" CenterY="10" />
+                                        </Setter.Value>
+                                    </Setter>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -191,46 +279,132 @@
             <Grid>
 
                 <StackPanel>
-                    
-                    <!-- Description -->
-                    <StackPanel Grid.Column="0">
-                        
+
+                    <!-- Edit subtasks -->
+                    <StackPanel Margin="0 0 0 20"
+                                Orientation="Vertical">
+
+                        <!-- Label -->
                         <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   TextDecorations="Underline"
+                                   Foreground="{DynamicResource ColorForegroundBrush}"
+                                   Text="Subtasks" />
+
+                        <!-- Edit subtasks -->
+                        <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
+                                 Style="{StaticResource ListBoxBase}"
+                                 Background="Transparent"
+                                 Margin="0 10"
+                                 ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}">
+
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+
+                                    <!-- Each subtask -->
+                                    <Grid ToolTip="{Binding Name}">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Delete Button -->
+                                        <Button Style="{StaticResource FlatSmallIconButton}"
+                                                Command="{Binding DataContext.DeleteSubtaskCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                                CommandParameter="{Binding Path=.}"
+                                                Grid.Column="0"
+                                                ToolTip="Delete"
+                                                VerticalAlignment="Center"
+                                                FontSize="18"
+                                                FontFamily="{StaticResource FontAwesome}"
+                                                Margin="0 0 10 0"
+                                                Content="&#xf2ed;" />
+
+                                        <!-- Editing input -->
+                                        <TextBox Style="{StaticResource LongTextBox}"
+                                                 Grid.Column="1"
+                                                 Padding="0 5"
+                                                 Text="{Binding Name}"/>
+
+                                    </Grid>
+
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <!-- Ignore internal scrollviewer -->
+                            <ListBox.Template>
+                                <ControlTemplate TargetType="ItemsControl">
+                                    <Border>
+                                        <ItemsPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </ListBox.Template>
+
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+
+                        </ListBox>
+
+                        <!-- New subtask -->
+                        <Border Padding="10 0">
+                            <Grid>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Save button -->
+                                <Button Style="{StaticResource FlatSmallIconButton}"
+                                        IsDefault="True"
+                                        ToolTip="Save"
+                                        Grid.Column="0"
+                                        Command="{Binding AddSubtaskCommand}"
+                                        VerticalAlignment="Center"
+                                        FontSize="22"
+                                        FontFamily="{StaticResource FontAwesome}"                                            
+                                        Margin="0 0 10 0"
+                                        Content="&#xf0fe;" />
+
+                                <!-- New subtask input -->
+                                <TextBox Style="{StaticResource LongTextBox}"
+                                         Text="{Binding NewSubtaskName, UpdateSourceTrigger=PropertyChanged}"
+                                         Grid.Column="1"
+                                         ext:FocusExtension.IsFocused="{Binding NewSubtaskAdded}"
+                                         Visibility="{Binding NewSubtaskActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}"
+                                         Padding="0 5"/>
+
+                            </Grid>
+                        </Border>
+
+                    </StackPanel>
+
+                    <!-- Description -->
+                    <StackPanel>
+
+                        <!-- Label -->
+                        <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   TextDecorations="Underline"
                                    Foreground="{DynamicResource ColorForegroundBrush}"
                                    Text="Description" />
 
+                        <!-- Input -->
                         <TextBox Style="{StaticResource LongTextBox}"
                                  Text="{Binding Description}"
                                  Padding="5"
                                  Margin="0 10"/>
 
                     </StackPanel>
-
-                    <!-- Task type -->
-                    <StackPanel Grid.Column="1">
-                        
-                        <TextBlock Style="{StaticResource MediumTextBlock}"
-                                   Foreground="{DynamicResource ColorForegroundBrush}"
-                                   Text="Task type" />
-
-                        <ComboBox Width="100"
-                                  HorizontalAlignment="Left"
-                                  Margin="0 10">
-                            
-                            <!-- TEST -->
-                            <ComboBoxItem Content="Item 1" />
-                            <ComboBoxItem Content="Item 2" />
-                            <ComboBoxItem Content="Item 3" />
-
-                        </ComboBox>
-
-                    </StackPanel>
                     
+                    
+
                 </StackPanel>
 
-            </Grid>
-
-            
+            </Grid>            
 
         </StackPanel>
 

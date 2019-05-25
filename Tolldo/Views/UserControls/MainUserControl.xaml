@@ -170,7 +170,7 @@
             </Viewbox>
 
             <!-- Background image -->
-            <Image Stretch="Fill"      
+            <Image Stretch="UniformToFill"    
                    ClipToBounds="True"
                    Source="/Images/welcome_winter.jpg">
                 <Image.Effect>

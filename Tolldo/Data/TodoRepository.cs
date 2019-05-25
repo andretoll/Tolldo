@@ -51,76 +51,98 @@ namespace Tolldo.Data
                 Name = "Thesis",
                 Description = "We must complete the thesis!",
 
-                Tasks = new ObservableCollection<TodoTask>()
+                Tasks = new ObservableCollection<TaskViewModel>()
                 {
                     new TaskViewModel()
                     {
                         Id = 1,
                         Name = "Write introduction",
                         Description = "Obviously we have to start with this part...",
-                        Completed = true
+                        Completed = true,
+                        Subtasks = new ObservableCollection<Subtask>()
+                        {
+                            new Subtask()
+                            {
+                                Id = 1,
+                                Name = "Think about the first words",
+                                Completed = true
+                            },
+                            new Subtask()
+                            {
+                                Id = 2,
+                                Name = "Write down the references",
+                                Completed = true
+                            }
+                        }
                     },
 
                     new TaskViewModel()
                     {
                         Id = 2,
                         Name = "Write Theoretical background",
-                        Completed = true
+                        Completed = true,
+                        Subtasks = new ObservableCollection<Subtask>()
+                        {
+                            new Subtask()
+                            {
+                                Id = 1,
+                                Name = "Think about the first words",
+                                Completed = true
+                            },
+                            new Subtask()
+                            {
+                                Id = 2,
+                                Name = "Write down the references",
+                                Completed = true
+                            }
+                        }
                     },
 
                     new TaskViewModel()
                     {
                         Id = 3,
                         Name = "Write Methodology",
-                        Completed = true
+                        Completed = true,
+                        Subtasks = new ObservableCollection<Subtask>()
+                        {
+                            new Subtask()
+                            {
+                                Id = 1,
+                                Name = "Think about the first words",
+                                Completed = true
+                            },
+                            new Subtask()
+                            {
+                                Id = 2,
+                                Name = "Write down the references",
+                                Completed = true
+                            }
+                        }
                     },
 
                     new TaskViewModel()
                     {
                         Id = 4,
                         Name = "Cry",
-                        Completed = true
+                        Completed = true,
+                        Subtasks = new ObservableCollection<Subtask>()
+                        {
+                            new Subtask()
+                            {
+                                Id = 1,
+                                Name = "Think about the first words",
+                                Completed = true
+                            },
+                            new Subtask()
+                            {
+                                Id = 2,
+                                Name = "Write down the references",
+                                Completed = true
+                            }
+                        }
                     }
                 }
-            });
-
-            _todos.Add(new TodoViewModel(dialogService)
-            {
-                Id = 2,
-                Name = "App To-Do",
-                Description = "Product backlog.",
-
-                Tasks = new ObservableCollection<TodoTask>()
-                {
-                    new TaskViewModel()
-                    {
-                        Id = 1,
-                        Name = "Dynamic colors",
-                        Completed = true
-                    },
-
-                    new TaskViewModel()
-                    {
-                        Id = 2,
-                        Name = "Sorting functionality"
-                    },
-
-                    new TaskViewModel()
-                    {
-                        Id = 3,
-                        Name = "Optimization"
-                    }
-                }
-            });
-
-            _todos.Add(new TodoViewModel(dialogService)
-            {
-                Id = 3,
-                Name = "Before moving",
-                Description = "The things I have to do before moving.",
-
-                Tasks = new ObservableCollection<TodoTask>()
-            });
+            }) ;
 
             // END: TEMORARY DATA
 

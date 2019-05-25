@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Tolldo.Models
@@ -11,8 +13,14 @@ namespace Tolldo.Models
         #region Private Members
 
         private string _name;
-        private string _description;
-        private bool _completed;
+        private string _description;        
+        private ObservableCollection<Subtask> _subtasks;
+
+        #endregion
+
+        #region Public Members
+
+        public bool _completed;
 
         #endregion
 
@@ -55,6 +63,28 @@ namespace Tolldo.Models
             set
             {
                 _completed = value;
+                NotifyPropertyChanged();
+
+                // If subtasks exist, set all subtasks' completion status equal to the task's
+                if (Subtasks != null)
+                {
+                    foreach (var subtask in Subtasks)
+                    {
+                        subtask.Completed = value;
+                    } 
+                }
+            }
+        }
+
+        public ObservableCollection<Subtask> Subtasks
+        {
+            get
+            {
+                return _subtasks;
+            }
+            set
+            {
+                _subtasks = value;
                 NotifyPropertyChanged();
             }
         }

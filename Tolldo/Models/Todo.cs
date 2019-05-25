@@ -17,8 +17,6 @@ namespace Tolldo.Models
 
         public string Description { get; set; }
 
-        public ObservableCollection<TodoTask> Tasks { get; set; }
-
         #endregion
 
         #region Events

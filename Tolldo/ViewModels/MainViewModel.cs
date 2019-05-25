@@ -108,6 +108,11 @@ namespace Tolldo.ViewModels
         public bool DarkThemeEnabled
         {
             get { return _themeManager.DarkThemeEnabled; }
+            set
+            {
+                _themeManager.SetTheme(!_themeManager.DarkThemeEnabled);
+                NotifyPropertyChanged();
+            }
         }
 
         // Indicates if search mode is active
@@ -188,38 +193,64 @@ namespace Tolldo.ViewModels
             }
             set
             {                       
+                // If previous selected todo is not null, unsubscribe from events and clear properties
                 if (_selectedTodo != null)
                 {
                     // Unsubscribe from PropertyChanged for each task from previous todo
                     foreach (var task in _selectedTodo.Tasks)
                     {
                         task.PropertyChanged -= Task_PropertyChanged;
+
+                        // If subtasks exist
+                        if (task.Subtasks != null)
+                        {
+                            // Unsubscribe from PropertyChanged for each subtask of each task
+                            foreach (var subtask in task.Subtasks)
+                            {
+                                subtask.PropertyChanged -= task.Subtask_PropertyChanged;
+                            }
+                        }                        
                     }
+
                     // Unsubscribe from CollectionChanged for tasks
                     _selectedTodo.Tasks.CollectionChanged -= Tasks_CollectionChanged;
 
                     // Reset active modes
                     _selectedTodo.RenameActive = false;                    
 
+                    // Set selected todo to null
                     _selectedTodo = null;                    
                 }                
 
                 _selectedTodo = value;
                 NotifyPropertyChanged();
 
+                // If no todo is selected, return
                 if (value == null)
                 {
                     return;
                 }
 
-                // Set last known
+                // Save last selected todo
                 SettingsManager.SaveSetting(SettingsManager.Setting.LastTodo.ToString(), _selectedTodo.Id);
 
                 // Subscribe to PropertyChanged for each task
                 foreach (var task in _selectedTodo.Tasks)
                 {
+                    // Subscribe to property changed for each task
                     task.PropertyChanged += Task_PropertyChanged;
-                }
+
+                    // If subtasks exist
+                    if (task.Subtasks != null)
+                    {
+                        // Subscribe to property changed for each subtask of each task
+                        foreach (var subtask in task.Subtasks)
+                        {
+                            subtask.PropertyChanged += task.Subtask_PropertyChanged;
+                        }
+                    }
+                }                
+
                 // Subscribe to CollectionChagned for tasks
                 _selectedTodo.Tasks.CollectionChanged += Tasks_CollectionChanged;
 
@@ -292,7 +323,7 @@ namespace Tolldo.ViewModels
         }
 
         /// <summary>
-        /// Event that fires when a child property changes.
+        /// Event that fires when a task's property changes.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -382,7 +413,7 @@ namespace Tolldo.ViewModels
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
             AddNewTodoCommand = new RelayCommand.RelayCommand(p => { AddTodo(NewTodoName); }, p => !string.IsNullOrEmpty(NewTodoName));
             AddRandomTodoCommand = new RelayCommand.RelayCommand(p => { AddRandomTodo(); });
-            InvertThemeCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetTheme(!_themeManager.DarkThemeEnabled); });
+            InvertThemeCommand = new RelayCommand.RelayCommand(p => { DarkThemeEnabled = !DarkThemeEnabled; });
             TogglePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = !IsPopupMenuOpen; });
             ClosePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = false; });
             CloseMessageBoxCommand = new RelayCommand.RelayCommand(p => { UnsetMessage(); });
@@ -434,7 +465,7 @@ namespace Tolldo.ViewModels
             TodoViewModel todo = new TodoViewModel(_dialogService)
             {
                 Name = name,
-                Tasks = new ObservableCollection<TodoTask>()
+                Tasks = new ObservableCollection<TaskViewModel>()
             };
 
             // Add to collections
