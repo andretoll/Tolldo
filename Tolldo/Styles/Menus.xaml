@@ -12,6 +12,7 @@
     <Style TargetType="{x:Type ContextMenu}" x:Key="ContextMenuBase">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect ShadowDepth="8" Opacity="0.35"/>
@@ -25,7 +26,7 @@
                     <Border x:Name="Border"
                             Margin="10"
                             Background="{DynamicResource PrimaryBackgroundBrush}"
-                            BorderThickness="0"
+                            BorderThickness="1"
                             BorderBrush="{DynamicResource GrayBackgroundBrush}">
 
 

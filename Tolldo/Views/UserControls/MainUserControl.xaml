@@ -130,6 +130,7 @@
             <Viewbox Panel.ZIndex="1"
                      MaxWidth="600"
                      Margin="30">
+                
                 <StackPanel Orientation="Vertical"
                             Panel.ZIndex="1"
                             HorizontalAlignment="Center"
@@ -138,7 +139,7 @@
                     <TextBlock Style="{StaticResource HeaderTextBlock}"
                                FontSize="42"
                                HorizontalAlignment="Center"
-                               Foreground="{StaticResource GrayBackgroundBrush}"
+                               Foreground="{StaticResource LightForegroundBrush}"
                                Margin="0 20"
                                Text="Welcome!" />
 
@@ -159,14 +160,15 @@
                                Text="Click below to create one." />
 
                     <!-- Create new todo -->
-                    <Button Style="{StaticResource FlatButton}"
+                    <Button Style="{StaticResource PrimaryButton}"
                             Command="{Binding AddRandomTodoCommand}"
-                            MaxWidth="100"
+                            HorizontalAlignment="Center"
                             Margin="0 20"
                             FontSize="14"
                             Content="Create list"/>
 
                 </StackPanel>
+                
             </Viewbox>
 
             <!-- Background image -->

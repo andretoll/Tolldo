@@ -10,7 +10,7 @@ namespace Tolldo.ViewModels
     /// <summary>
     /// The ViewModel for a single Task-object. Based on the TodoTask class.
     /// </summary>
-    public class TaskViewModel : TodoTask, IDropTarget
+    public class TaskViewModel : TodoTask
     {
         #region Private Members
 
@@ -132,6 +132,7 @@ namespace Tolldo.ViewModels
         public ICommand ToggleRenameCommand { get; set; }
         public ICommand ToggleExpandedCommand { get; set; }
         public ICommand CheckTaskCommand { get; set; }
+        public ICommand UncheckTaskCommand { get; set; }
         public ICommand AddSubtaskCommand { get; set; }
         public ICommand DeleteSubtaskCommand { get; set; }
 
@@ -151,7 +152,8 @@ namespace Tolldo.ViewModels
             // Commands
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
             ToggleExpandedCommand = new RelayCommand.RelayCommand(p => { ExpandedActive = !ExpandedActive; });
-            CheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = !this.Completed; });
+            CheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = true; });
+            UncheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = false; });
             AddSubtaskCommand = new RelayCommand.RelayCommand(p => { AddSubtask(); _dialogService.SetMessage("Subtask added."); }, p => NewSubtaskName.Length > 0);
             DeleteSubtaskCommand = new RelayCommand.RelayCommand(p => { DeleteSubtask(p as Subtask); _dialogService.SetMessage("Subtask deleted."); });
         }
@@ -192,41 +194,6 @@ namespace Tolldo.ViewModels
         {
             if (subtask != null)
                 Subtasks.Remove(subtask);
-        }
-
-        #endregion
-
-        #region DragDrop Interface
-
-        /// <summary>
-        /// Method called when dragging an item.
-        /// </summary>
-        /// <param name="dropInfo"></param>
-        void IDropTarget.DragOver(IDropInfo dropInfo)
-        {
-            // Get source and target
-            Subtask sourceItem = dropInfo.Data as Subtask;
-            Subtask targetItem = dropInfo.TargetItem as Subtask;
-
-            if (sourceItem != null && targetItem != null)
-            {
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-                dropInfo.Effects = System.Windows.DragDropEffects.Copy;
-            }
-        }
-
-        /// <summary>
-        /// Method called when dropping an item.
-        /// </summary>
-        /// <param name="dropInfo"></param>
-        void IDropTarget.Drop(IDropInfo dropInfo)
-        {
-            // Get source and target
-            Subtask sourceItem = dropInfo.Data as Subtask;
-            Subtask targetItem = dropInfo.TargetItem as Subtask;
-
-            // Let the tasks switch places
-            Subtasks.Move(Subtasks.IndexOf(sourceItem), Subtasks.IndexOf(targetItem));
         }
 
         #endregion

@@ -126,6 +126,9 @@
             <DataTrigger Binding="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
                 <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
             </DataTrigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="IsSelected" Value="True" />
+            </Trigger>
 
         </Style.Triggers>
     </Style>
@@ -133,6 +136,7 @@
     <!-- ListBoxItemBorderlessCheckbox-->
     <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemBorderlessCheckbox">
         <Setter Property="BorderThickness" Value="0 0 0 0" />
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="BorderBrush" Value="{DynamicResource GrayBackgroundBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
         <Setter Property="Padding" Value="10 5" />
@@ -150,7 +154,7 @@
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>        
     </Style>
 
 </ResourceDictionary>
