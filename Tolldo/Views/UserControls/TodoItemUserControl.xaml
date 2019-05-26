@@ -165,7 +165,7 @@
                 Style="{StaticResource FlatSmallIconButton}"
                 ToolTip="Reorder"                
                 Visibility="{Binding DataContext.SearchMode, Converter={StaticResource reversedBooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}"
-                Foreground="{StaticResource DarkerColorForegroundBrush}"
+                Foreground="{DynamicResource DarkerColorForegroundBrush}"
                 Cursor="SizeAll"
                 FontSize="20"
                 Margin="10 0"

@@ -14,6 +14,13 @@
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
     </Style>
 
+    <!-- Large text block -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="LargeTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
+        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
+        <Setter Property="FontSize" Value="19" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+    </Style>
+    
     <!-- Medium text block -->
     <Style TargetType="{x:Type TextBlock}" x:Key="MediumTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
@@ -54,6 +61,7 @@
     <!-- Longer TextBox -->
     <Style TargetType="{x:Type TextBox}" x:Key="LongTextBox" BasedOn="{StaticResource StandardTextBox}">
         <Setter Property="MaxLength" Value="80" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DarkColorForegroundBrush}" />
     </Style>
 
 </ResourceDictionary>

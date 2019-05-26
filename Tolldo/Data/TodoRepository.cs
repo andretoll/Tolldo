@@ -53,7 +53,7 @@ namespace Tolldo.Data
 
                 Tasks = new ObservableCollection<TaskViewModel>()
                 {
-                    new TaskViewModel()
+                    new TaskViewModel(dialogService)
                     {
                         Id = 1,
                         Name = "Write introduction",
@@ -76,7 +76,7 @@ namespace Tolldo.Data
                         }
                     },
 
-                    new TaskViewModel()
+                    new TaskViewModel(dialogService)
                     {
                         Id = 2,
                         Name = "Write Theoretical background",
@@ -98,7 +98,7 @@ namespace Tolldo.Data
                         }
                     },
 
-                    new TaskViewModel()
+                    new TaskViewModel(dialogService)
                     {
                         Id = 3,
                         Name = "Write Methodology",
@@ -120,7 +120,7 @@ namespace Tolldo.Data
                         }
                     },
 
-                    new TaskViewModel()
+                    new TaskViewModel(dialogService)
                     {
                         Id = 4,
                         Name = "Cry",

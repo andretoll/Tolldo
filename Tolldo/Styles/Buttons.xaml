@@ -105,6 +105,7 @@
     
     <!-- Flat small button with icon -->
     <Style TargetType="{x:Type Button}" x:Key="FlatSmallIconButton" BasedOn="{StaticResource FlatButton}">
+        <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
         <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect Opacity="0"/>
@@ -114,7 +115,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border CornerRadius="50">
-                        <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}" 
+                        
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                   Foreground="{TemplateBinding Foreground}"
                                    FontFamily="{StaticResource FontAwesome}"
                                    FontSize="{TemplateBinding FontSize}" 
                                    VerticalAlignment="Center"
@@ -140,6 +143,24 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+
+            <!-- When hovering -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+            </Trigger>
+
+            <!-- When disabled -->
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource GrayBackgroundBrush}" />
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Opacity="0" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            
+        </Style.Triggers>
     </Style>
     
     <!-- List button with text and icon -->
@@ -205,6 +226,98 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Opacity" Value="0.85" />
             </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Primary button -->
+    <Style TargetType="{x:Type Button}" x:Key="PrimaryButton" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Border BorderThickness="2"
+                            CornerRadius="5"
+                            Padding="20 5"
+                            MinWidth="100"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   VerticalAlignment="Center"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   Style="{StaticResource MediumTextBlock}"
+                                   HorizontalAlignment="Center"/>
+
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+
+            <!-- When hovering -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource PrimaryForegroundBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryBackgroundBrush}" />
+            </Trigger>
+
+            <!-- When pressed -->
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource GrayBackgroundBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource GrayBackgroundBrush}" />
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <!-- Success button -->
+    <Style TargetType="{x:Type Button}" x:Key="SuccessButton" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="LimeGreen" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Border BorderThickness="2"
+                            CornerRadius="5"
+                            Padding="20 5"
+                            MinWidth="100"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   VerticalAlignment="Center"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   Style="{StaticResource MediumTextBlock}"
+                                   HorizontalAlignment="Center"/>
+
+                    </Border>
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+
+            <!-- When hovering -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="LimeGreen" />
+                <Setter Property="Foreground" Value="{DynamicResource LightForegroundBrush}" />
+            </Trigger>
+
+            <!-- When pressed -->
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="DarkGreen" />
+                <Setter Property="BorderBrush" Value="DarkGreen" />
+            </Trigger>
+
         </Style.Triggers>
     </Style>
     

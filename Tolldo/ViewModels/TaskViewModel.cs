@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
 using Tolldo.Models;
+using Tolldo.Services;
 
 namespace Tolldo.ViewModels
 {
@@ -13,6 +14,9 @@ namespace Tolldo.ViewModels
     {
         #region Private Members
 
+        // Dialog service
+        private IDialogService _dialogService;
+
         // Indicates if renaming task mode is active
         private bool _renameActive;
 
@@ -21,6 +25,9 @@ namespace Tolldo.ViewModels
 
         // New subtask name
         private string _newSubtaskName;
+
+        // Indicates if a subtask has been added
+        private bool _newSubtaskAdded;
 
         #endregion
 
@@ -52,21 +59,7 @@ namespace Tolldo.ViewModels
                 _expandedActive = value;
                 NotifyPropertyChanged();
             }
-        }
-
-        private bool _newSubtaskAdded;
-        public bool NewSubtaskAdded
-        {
-            get
-            {
-                return _newSubtaskAdded;
-            }
-            set
-            {
-                _newSubtaskAdded = value;
-                NotifyPropertyChanged();
-            }
-        }
+        }        
 
         // Indicates if new subtask mode is active
         public string NewSubtaskName
@@ -78,6 +71,20 @@ namespace Tolldo.ViewModels
             set
             {
                 _newSubtaskName = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // Indicates if a subtask has been added
+        public bool NewSubtaskAdded
+        {
+            get
+            {
+                return _newSubtaskAdded;
+            }
+            set
+            {
+                _newSubtaskAdded = value;
                 NotifyPropertyChanged();
             }
         }
@@ -136,14 +143,17 @@ namespace Tolldo.ViewModels
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public TaskViewModel()
+        public TaskViewModel(IDialogService dialogService)
         {
+            // Initialize dialog service
+            _dialogService = dialogService;
+
             // Commands
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
             ToggleExpandedCommand = new RelayCommand.RelayCommand(p => { ExpandedActive = !ExpandedActive; });
             CheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = !this.Completed; });
-            AddSubtaskCommand = new RelayCommand.RelayCommand(p => { AddSubtask(); }, p => NewSubtaskName.Length > 0);
-            DeleteSubtaskCommand = new RelayCommand.RelayCommand(p => { DeleteSubtask(p as Subtask); });
+            AddSubtaskCommand = new RelayCommand.RelayCommand(p => { AddSubtask(); _dialogService.SetMessage("Subtask added."); }, p => NewSubtaskName.Length > 0);
+            DeleteSubtaskCommand = new RelayCommand.RelayCommand(p => { DeleteSubtask(p as Subtask); _dialogService.SetMessage("Subtask deleted."); });
         }
 
         #endregion

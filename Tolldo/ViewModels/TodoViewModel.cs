@@ -86,7 +86,7 @@ namespace Tolldo.ViewModels
                 // Set text when beginning the new task
                 if (value)
                 {
-                    NewTask = new TaskViewModel();
+                    NewTask = new TaskViewModel(_dialogService);
                     NewTask.Name = "";
                 }
                 else
@@ -341,7 +341,7 @@ namespace Tolldo.ViewModels
         private void AddTask()
         {
             // Create new object
-            TaskViewModel task = new TaskViewModel()
+            TaskViewModel task = new TaskViewModel(_dialogService)
             {
                 Name = NewTask.Name,
                 Subtasks = new ObservableCollection<Subtask>()
@@ -354,7 +354,7 @@ namespace Tolldo.ViewModels
             SelectedTask = task;
 
             // Clear new task
-            NewTask = new TaskViewModel();
+            NewTask = new TaskViewModel(_dialogService);
 
             // Update UI
             UpdateProgress();

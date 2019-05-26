@@ -284,17 +284,28 @@
                                 Orientation="Vertical">
 
                         <!-- Label -->
-                        <TextBlock Style="{StaticResource MediumTextBlock}"
-                                   TextDecorations="Underline"
-                                   Foreground="{DynamicResource ColorForegroundBrush}"
-                                   Text="Subtasks" />
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Style="{StaticResource MediumTextBlock}"
+                                       Margin="0 0 10 0"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource LightForegroundBrush}"
+                                       FontFamily="{StaticResource FontAwesome}"
+                                       FontSize="18"
+                                       Text="&#xf560;" />
+
+                            <TextBlock Style="{StaticResource LargeTextBlock}"
+                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                       Text="Subtasks" />                            
+
+                        </StackPanel>
 
                         <!-- Edit subtasks -->
                         <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
                                  Visibility="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
                                  Style="{StaticResource ListBoxBase}"
                                  Background="Transparent"
-                                 Margin="0 10"
+                                 Margin="0 10 0 0"
                                  ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}">
 
                             <ListBox.ItemTemplate>
@@ -309,7 +320,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <!-- Delete Button -->
-                                        <Button Style="{StaticResource FlatSmallIconButton}"
+                                        <Button Style="{DynamicResource FlatSmallIconButton}"
                                                 Command="{Binding DataContext.DeleteSubtaskCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
                                                 CommandParameter="{Binding Path=.}"
                                                 Grid.Column="0"
@@ -349,7 +360,8 @@
                         </ListBox>
 
                         <!-- New subtask -->
-                        <Border Padding="10 0">
+                        <Border Padding="8 0">
+
                             <Grid>
 
                                 <Grid.ColumnDefinitions>
@@ -374,8 +386,7 @@
                                          Text="{Binding NewSubtaskName, UpdateSourceTrigger=PropertyChanged}"
                                          Grid.Column="1"
                                          ext:FocusExtension.IsFocused="{Binding NewSubtaskAdded}"
-                                         Visibility="{Binding NewSubtaskActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}"
-                                         Padding="0 5"/>
+                                         Padding="0 5" />
 
                             </Grid>
                         </Border>
@@ -386,20 +397,43 @@
                     <StackPanel>
 
                         <!-- Label -->
-                        <TextBlock Style="{StaticResource MediumTextBlock}"
-                                   TextDecorations="Underline"
-                                   Foreground="{DynamicResource ColorForegroundBrush}"
-                                   Text="Description" />
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Style="{StaticResource MediumTextBlock}"
+                                       Margin="0 0 10 0"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource LightForegroundBrush}"
+                                       FontFamily="{StaticResource FontAwesome}"
+                                       FontSize="18"
+                                       Text="&#xf303;" />
+
+                            <TextBlock Style="{StaticResource LargeTextBlock}"
+                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                       Text="Description" />
+                            
+                        </StackPanel>
 
                         <!-- Input -->
                         <TextBox Style="{StaticResource LongTextBox}"
                                  Text="{Binding Description}"
                                  Padding="5"
-                                 Margin="0 10"/>
+                                 Margin="15 15 10 15"/>
 
                     </StackPanel>
-                    
-                    
+
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 20"
+                                HorizontalAlignment="Center">
+                        
+                        <!-- Done button -->
+                        <Button Style="{StaticResource SuccessButton}"
+                                VerticalAlignment="Center"
+                                Margin="0 0 10 0"
+                                ToolTip="Save"
+                                Command="{Binding ToggleExpandedCommand}"
+                                Content="Done" />
+
+                    </StackPanel>
 
                 </StackPanel>
 
