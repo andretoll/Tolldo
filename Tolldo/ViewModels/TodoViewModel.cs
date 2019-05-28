@@ -39,6 +39,9 @@ namespace Tolldo.ViewModels
         // Tasks
         private ObservableCollection<TaskViewModel> _tasks;
 
+        // Indicates if drag is active
+        private bool _dragHandleActive;
+
         #endregion
 
         #region Public Properties
@@ -144,6 +147,20 @@ namespace Tolldo.ViewModels
             }
         }
 
+        // Indicates if drag is active
+        public bool DragHandleActive
+        {
+            get
+            {
+                return _dragHandleActive;
+            }
+            set
+            {
+                _dragHandleActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -156,6 +173,8 @@ namespace Tolldo.ViewModels
 
         public ICommand SaveNewTaskCommand { get; set; }
         public ICommand DeleteTaskCommand { get; set; }
+
+        public ICommand ActivateDragCommand { get; set; }
 
         #endregion        
 
@@ -177,6 +196,8 @@ namespace Tolldo.ViewModels
 
             SaveNewTaskCommand = new RelayCommand.RelayCommand(p => { AddTask(); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
             DeleteTaskCommand = new RelayCommand.RelayCommand(p => { DeleteTask(); });
+
+            ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
         }
 
         #endregion
@@ -390,6 +411,11 @@ namespace Tolldo.ViewModels
         /// <param name="dropInfo"></param>
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
+            if (!DragHandleActive)
+            {
+                return;
+            }
+
             // Get source and target
             TodoTask sourceItem = dropInfo.Data as TodoTask;
             TodoTask targetItem = dropInfo.TargetItem as TodoTask;
@@ -413,6 +439,8 @@ namespace Tolldo.ViewModels
 
             // Let the tasks switch places
             Tasks.Move(Tasks.IndexOf(sourceItem), Tasks.IndexOf(targetItem));
+
+            DragHandleActive = false;
         }
 
         #endregion

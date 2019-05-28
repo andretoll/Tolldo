@@ -14,8 +14,8 @@
           Tag="{Binding RelativeSource={RelativeSource 
                         Mode=FindAncestor, 
                         AncestorType={x:Type ListBox}}, 
-                        Path=DataContext}">       
-        
+                        Path=DataContext}">
+
         <Grid.RowDefinitions>
             <!-- Main panel -->
             <RowDefinition Height="*" />
@@ -30,6 +30,7 @@
 
                 <!-- Check -->
                 <MenuItem Style="{StaticResource MenuItemBase}"
+                          Visibility="{Binding SelectedTask.Completed, Mode=OneTime, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
                           Command="{Binding SelectedTask.CheckTaskCommand}"
                           FontFamily="{StaticResource FontAwesomeRegular}"
                           Foreground="{DynamicResource PrimaryForegroundBrush}"
@@ -38,6 +39,7 @@
 
                 <!-- Uncheck -->
                 <MenuItem Style="{StaticResource MenuItemBase}"
+                          Visibility="{Binding SelectedTask.Completed, Mode=OneTime, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}"
                           Command="{Binding SelectedTask.UncheckTaskCommand}"
                           FontFamily="{StaticResource FontAwesomeRegular}"
                           Foreground="{DynamicResource PrimaryForegroundBrush}"
@@ -66,7 +68,7 @@
         </Grid.ContextMenu>
 
         <!-- Main panel -->
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Background="Transparent" >
 
             <Grid.RowDefinitions>
                 <!-- Checkbox, name and description -->
@@ -76,10 +78,11 @@
             </Grid.RowDefinitions>
 
             <!-- CheckBox, description and actions -->
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0" Background="Transparent" >
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
@@ -150,6 +153,7 @@
 
                 <!-- Actions -->
                 <StackPanel Grid.Column="1"
+                            Background="Transparent"
                             VerticalAlignment="Top"
                             Orientation="Horizontal">
 
@@ -228,46 +232,76 @@
 
                     </Button>
 
+                    
+
                 </StackPanel>
+
+                <!-- Drag handle -->
+                <Button Grid.Column="2"
+                        Style="{StaticResource FlatSmallIconButton}"
+                        HorizontalAlignment="Right"                            
+                        ToolTip="Reorder"
+                        Foreground="{DynamicResource DarkerColorForegroundBrush}"
+                        Cursor="SizeAll"
+                        FontSize="20"
+                        Margin="10 0"
+                        Padding="10"
+                        Content="&#xf0c9;">
+
+                    <!-- When drag occurs, activate drag -->
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DragEnter">
+                            <i:InvokeCommandAction Command="{Binding DataContext.ActivateDragCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                </Button>
 
             </Grid>
 
+            <!-- Subtasks -->
             <Grid Grid.Row="1">
-                
-                <!-- Subtasks -->
-                <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
-                         HorizontalAlignment="Left"
-                         Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
-                         Style="{StaticResource ListBoxBase}"
-                         ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}">
 
-                    <ListBox.ContextMenu>
-                        <ContextMenu IsEnabled="False" Visibility="Collapsed" />
-                    </ListBox.ContextMenu>
+                <Border BorderThickness="1 0 0 0"
+                        Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+                        Margin="12 0 0 0"
+                        BorderBrush="{DynamicResource ColorGradientBrush}">
+                    <!-- Subtasks -->
+                    <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
+                             HorizontalAlignment="Left"                             
+                             Style="{StaticResource ListBoxBase}"
+                             ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}">
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <uc:SubtaskItemUserControl />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
+                        <ListBox.ContextMenu>
+                            <ContextMenu IsEnabled="False" Visibility="Collapsed" />
+                        </ListBox.ContextMenu>
 
-                    <!-- Ignore internal scrollviewer -->
-                    <ListBox.Template>
-                        <ControlTemplate TargetType="ItemsControl">
-                            <Border>
-                                <ItemsPresenter />
-                            </Border>
-                        </ControlTemplate>
-                    </ListBox.Template>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border>
+                                    <uc:SubtaskItemUserControl />
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
 
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
+                        <!-- Ignore internal scrollviewer -->
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ItemsControl">
+                                <Border>
+                                    <ItemsPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </ListBox.Template>
 
-                </ListBox>
-                
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                    </ListBox>
+                </Border>
+
             </Grid>
             
         </Grid>
@@ -425,6 +459,7 @@
 
                     </StackPanel>
 
+                    <!-- Buttons -->
                     <StackPanel Orientation="Horizontal"
                                 Margin="0 20"
                                 HorizontalAlignment="Center">

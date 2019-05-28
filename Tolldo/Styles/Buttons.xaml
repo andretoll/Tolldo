@@ -232,8 +232,8 @@
     <!-- Primary button -->
     <Style TargetType="{x:Type Button}" x:Key="PrimaryButton" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource LightForegroundBrush}" />
         <Setter Property="FontSize" Value="17" />
         <Setter Property="Template">
             <Setter.Value>
@@ -262,14 +262,14 @@
 
             <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource PrimaryForegroundBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryBackgroundBrush}" />
+                <Setter Property="Background" Value="{StaticResource LightForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource DarkForegroundBrush}" />
             </Trigger>
 
             <!-- When pressed -->
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{DynamicResource GrayBackgroundBrush}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource GrayBackgroundBrush}" />
+                <Setter Property="Background" Value="{StaticResource GrayBackgroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource GrayBackgroundBrush}" />
             </Trigger>
 
         </Style.Triggers>
@@ -279,7 +279,7 @@
     <Style TargetType="{x:Type Button}" x:Key="SuccessButton" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
-        <Setter Property="BorderBrush" Value="LimeGreen" />
+        <Setter Property="BorderBrush" Value="{DynamicResource GreenGradientBrush}" />
         <Setter Property="FontSize" Value="17" />
         <Setter Property="Template">
             <Setter.Value>
@@ -308,7 +308,7 @@
 
             <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LimeGreen" />
+                <Setter Property="Background" Value="{DynamicResource GreenGradientBrush}" />
                 <Setter Property="Foreground" Value="{DynamicResource LightForegroundBrush}" />
             </Trigger>
 

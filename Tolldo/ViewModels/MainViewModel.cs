@@ -565,7 +565,7 @@ namespace Tolldo.ViewModels
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
             // If search mode is active, disable dragging
-            if (SearchMode || !_dragHandleActive)
+            if (SearchMode || !DragHandleActive)
             {
                 return;
             }

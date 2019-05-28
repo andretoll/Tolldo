@@ -38,7 +38,7 @@
         </Grid.ColumnDefinitions>
         
         <!-- Message box outer -->
-        <Border Visibility="{Binding Message, NotifyOnTargetUpdated=True, Converter={StaticResource emptyStringToVisibilityConverter}}"
+        <Border Visibility="{Binding Message, FallbackValue=Collapsed, NotifyOnTargetUpdated=True, Converter={StaticResource emptyStringToVisibilityConverter}}"
                 Grid.Column="0"
                 Grid.ColumnSpan="3">
 

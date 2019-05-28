@@ -10,6 +10,7 @@
     
     <!-- Each ListViewItem -->
     <Grid ToolTip="{Binding Name}"
+          Margin="0 0 10 0"
           Background="Transparent"
           Height="40"
           Tag="{Binding RelativeSource={RelativeSource 
@@ -160,7 +161,6 @@
         <!-- Drag handle -->
         <Button Grid.Column="2"
                 IsTabStop="False"
-                x:Name="DragHandle"
                 HorizontalAlignment="Right"
                 Style="{StaticResource FlatSmallIconButton}"
                 ToolTip="Reorder"                
