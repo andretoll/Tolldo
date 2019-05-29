@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tolldo.Services
 {
@@ -24,7 +20,7 @@ namespace Tolldo.Services
         /// <summary>
         /// Gets the current message.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Message</returns>
         public string GetMessage()
         {
             return _message;

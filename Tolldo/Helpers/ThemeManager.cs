@@ -175,8 +175,6 @@ namespace Tolldo.Helpers
             Application.Current.Resources[brushName] = brush;
         }
 
-        #endregion
-
-        
+        #endregion        
     }
 }

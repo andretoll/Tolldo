@@ -96,21 +96,7 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-
-            <!-- When focused and not selected -->
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsFocused" Value="True" />
-                    <Condition Property="IsSelected" Value="False" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-            <!-- When hovering -->
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
-            </Trigger>
+            
             <!-- When loaded -->
             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                 <BeginStoryboard>
@@ -122,13 +108,11 @@
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
+            
             <!-- When expanded in ViewModel-->
             <DataTrigger Binding="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
                 <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
             </DataTrigger>
-            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="IsSelected" Value="True" />
-            </Trigger>
 
         </Style.Triggers>
     </Style>

@@ -93,7 +93,7 @@
                      HorizontalAlignment="Left"
                      ext:FocusExtension.IsFocused="{Binding RenameActive, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource StandardTextBox}"
-                     Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}">
+                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}">
 
                 <i:Interaction.Triggers>
 
@@ -130,7 +130,7 @@
                     Grid.Column="1">
 
             <!-- Completed icon -->
-            <TextBlock Text="&#xf058;"
+            <TextBlock Text="&#xf00c;"
                        ToolTip="Completed"
                        FontFamily="{StaticResource FontAwesome}"
                        Visibility="{Binding Completed, Converter={StaticResource booleanToVisibilityConverter}}"
@@ -140,7 +140,7 @@
                        VerticalAlignment="Center" />
 
             <!-- Empty icon -->
-            <TextBlock Text="&#xf06a;"
+            <TextBlock Text="&#xf12a;"
                        ToolTip="Empty"
                        FontFamily="{StaticResource FontAwesome}"
                        Visibility="{Binding Tasks.Count, Converter={StaticResource emptyToVisibilityConverter}}"

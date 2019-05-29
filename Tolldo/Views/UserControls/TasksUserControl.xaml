@@ -19,11 +19,11 @@
 
             <Grid.ColumnDefinitions>
                 <!-- Left -->
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
                 <!-- Center -->
                 <ColumnDefinition Width="*" />
                 <!-- Right -->
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!-- Banner image -->
@@ -31,7 +31,7 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="3" 
-                   Source="/Images/welcome_winter.jpg"/>
+                   Source="/Images/welcome_winter.jpg" />
 
             <!-- Banner overlay -->
             <Rectangle Fill="Black"
@@ -58,7 +58,7 @@
                        VerticalAlignment="Bottom"
                        Margin="0 0 0 5"
                        Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat={}{0:0}%}" />
-
+            
         </Grid>
 
         <!-- Progress -->
@@ -163,15 +163,17 @@
 
                         <!-- Just for show -->
                         <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   Grid.Column="0"
                                    VerticalAlignment="Center"
-                                   Margin="0 0 20 0"
                                    Foreground="{StaticResource LightForegroundBrush}"
                                    FontFamily="{StaticResource FontAwesome}"
+                                   Margin="4 0 0 0"
                                    FontSize="22"
-                                   Text="&#xf055;" />
+                                   Text="&#xf0fe;" />
 
                         <!-- Name for task -->
                         <TextBox Style="{StaticResource LongTextBox}"
+                                 Margin="10 0 0 0"
                                  Grid.Column="1"
                                  Foreground="{StaticResource LightForegroundBrush}"
                                  CaretBrush="{StaticResource LightForegroundBrush}"
@@ -275,6 +277,7 @@
                         </Grid.Style>
 
                         <Border Padding="12 10"
+                                Focusable="False"
                                 Height="50">
                             <Border.Style>
                                 <Style TargetType="{x:Type Border}">
@@ -287,24 +290,26 @@
                                 </Style>
                             </Border.Style>
 
-                            <Grid>
+                            <Grid Focusable="False">
                                 <Grid.ColumnDefinitions>
                                     <!-- Checkbox -->
                                     <ColumnDefinition Width="auto" />
                                     <!-- TextBox -->
                                     <ColumnDefinition Width="*" />
-                                    <!-- Actions -->
-                                    <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
-
-                                <!-- Just for show -->
-                                <TextBlock Style="{StaticResource MediumTextBlock}"
-                                           VerticalAlignment="Center"
-                                           Margin="0 0 10 0"
-                                           Foreground="{DynamicResource ColorForegroundBrush}"
-                                           FontFamily="{StaticResource FontAwesome}"
-                                           FontSize="22"
-                                           Text="&#xf055;" />
+                                
+                                <!-- Save button -->
+                                <Button Style="{StaticResource FlatSmallIconButton}"
+                                        IsDefault="True"
+                                        Focusable="False"
+                                        ToolTip="Save"
+                                        Grid.Column="0"
+                                        Command="{Binding SaveNewTaskCommand}"
+                                        VerticalAlignment="Center"
+                                        FontSize="22"
+                                        FontFamily="{StaticResource FontAwesome}"                                            
+                                        Margin="2 0 10 0"
+                                        Content="&#xf0fe;" />
 
                                 <!-- Name for task -->
                                 <TextBox Style="{StaticResource LongTextBox}"
@@ -328,18 +333,7 @@
 
                                 </TextBox>
 
-                                <!-- Save button -->
-                                <Button Grid.Column="2"
-                                        IsDefault="True"
-                                        ToolTip="Add Task"
-                                        Focusable="False"
-                                        Visibility="{Binding NewTaskActive, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                        Command="{Binding SaveNewTaskCommand}"
-                                        Margin="10 0 0 0"
-                                        Style="{StaticResource FlatIconButtonSquare}"
-                                        FontFamily="{StaticResource FontAwesome}"
-                                        FontSize="16"
-                                        Content="&#xf0c7;"/>
+                                
                             </Grid>
                             
                         </Border>

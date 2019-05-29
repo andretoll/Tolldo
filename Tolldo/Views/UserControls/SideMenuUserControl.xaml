@@ -29,20 +29,26 @@
                            Text="Add new" />
 
                 <!-- New list button -->
-                <Button Style="{StaticResource FlatIconButtonSquare}"
-                        IsDefault="True"
-                        Command="{Binding AddNewTodoCommand}"
-                        DockPanel.Dock="Right"
-                        ToolTip="Add new list"
-                        HorizontalAlignment="Left"
-                        Margin="20 0 0 0"
-                        FontSize="16"
-                        Content="&#xf067;" />
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                        
 
-                <!-- New list input -->
-                <TextBox Style="{StaticResource StandardTextBox}"
-                         Text="{Binding NewTodoName, UpdateSourceTrigger=PropertyChanged}"
-                         Width="200"/>
+                    <!-- New list input -->
+                    <TextBox Style="{StaticResource StandardTextBox}"
+                             HorizontalAlignment="Left"
+                             Width="200"
+                             Text="{Binding NewTodoName, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Button Style="{StaticResource FlatIconButtonSquare}"
+                            IsDefault="True"
+                            Command="{Binding AddNewTodoCommand}"
+                            DockPanel.Dock="Right"
+                            ToolTip="Add new list"
+                            HorizontalAlignment="Right"
+                            Margin="20 0 0 0"
+                            FontSize="16"
+                            Content="&#xf067;" />
+
+                </StackPanel>
 
             </DockPanel>
             

@@ -10,11 +10,21 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Each ListBoxItem -->
-    <Grid Background="Transparent" 
-          Tag="{Binding RelativeSource={RelativeSource 
+    <Grid Tag="{Binding RelativeSource={RelativeSource 
                         Mode=FindAncestor, 
                         AncestorType={x:Type ListBox}}, 
                         Path=DataContext}">
+
+        <!-- Apply style when dragging -->
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding DragActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                        <Setter Property="Opacity" Value="0.3" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
 
         <Grid.RowDefinitions>
             <!-- Main panel -->
@@ -87,20 +97,18 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Info -->
-                <StackPanel Orientation="Vertical"
+                <StackPanel Orientation="Horizontal"
                             Grid.Column="0"
                             Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
 
-                    <WrapPanel Orientation="Horizontal">
-
-                        <!-- CheckBox and name -->
-                        <CheckBox IsChecked="{Binding Completed}"
+                    <!-- CheckBox and name -->
+                    <CheckBox IsChecked="{Binding Completed}"
                                   Content="{Binding Name}"
                                   FontSize="26"
                                   Style="{StaticResource TaskCheckBox}"/>
 
-                        <!-- Description -->
-                        <TextBlock Style="{StaticResource SmallTextBlock}"
+                    <!-- Description -->
+                    <TextBlock Style="{StaticResource SmallTextBlock}"
                                    Visibility="{Binding Description, Converter={StaticResource emptyStringToVisibilityConverter}}"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"
@@ -109,7 +117,6 @@
                                    Margin="10 0 0 0"
                                    Opacity="0.5"
                                    Text="{Binding Description}" />
-                    </WrapPanel>
 
                 </StackPanel>
                 <!-- OR -->
@@ -153,8 +160,7 @@
 
                 <!-- Actions -->
                 <StackPanel Grid.Column="1"
-                            Background="Transparent"
-                            VerticalAlignment="Top"
+                            VerticalAlignment="Center"
                             Orientation="Horizontal">
 
                     <StackPanel.Style>
@@ -177,26 +183,26 @@
 
                     <!-- Rename button -->
                     <Button Command="{Binding ToggleRenameCommand}"
-                        Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
-                        Style="{StaticResource FlatSmallIconButton}"
-                        Focusable="False"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        ToolTip="Rename"
-                        Margin="10 0"
-                        FontSize="20"
-                        Content="&#xf044;"
-                        FontFamily="{StaticResource FontAwesome}" />
+                            Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+                            Style="{StaticResource FlatSmallIconButton}"
+                            Focusable="False"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            ToolTip="Rename"
+                            Margin="10 0"
+                            FontSize="20"
+                            Content="&#xf303;"
+                            FontFamily="{StaticResource FontAwesome}" />
 
                     <!-- Expand button -->
                     <Button Command="{Binding ToggleExpandedCommand}"
-                        Focusable="False"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        ToolTip="Expand"
-                        Margin="10 0"
-                        FontSize="24"
-                        FontFamily="{StaticResource FontAwesome}">
+                            Focusable="False"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            ToolTip="Expand"
+                            Margin="10 0"
+                            FontSize="22"
+                            FontFamily="{StaticResource FontAwesome}">
 
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatSmallIconButton}">
@@ -314,169 +320,167 @@
                     Margin="0 10"
                     BorderBrush="{DynamicResource GrayBackgroundBrush}" />
 
-            <Grid>
+            <StackPanel>
 
-                <StackPanel>
+                <!-- Edit subtasks -->
+                <StackPanel Margin="0 0 0 20"
+                            Orientation="Vertical">
+
+                    <!-- Label -->
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Style="{StaticResource MediumTextBlock}"
+                                   Margin="0 0 10 0"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                   FontFamily="{StaticResource FontAwesome}"
+                                   FontSize="18"
+                                   Text="&#xf560;" />
+
+                        <TextBlock Style="{StaticResource LargeTextBlock}"
+                                   Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                   Text="Subtasks" />                            
+
+                    </StackPanel>
 
                     <!-- Edit subtasks -->
-                    <StackPanel Margin="0 0 0 20"
-                                Orientation="Vertical">
+                    <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
+                                Visibility="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
+                                Style="{StaticResource ListBoxBase}"
+                                Margin="0 10 0 0"
+                                ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}">
 
-                        <!-- Label -->
-                        <StackPanel Orientation="Horizontal">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
 
-                            <TextBlock Style="{StaticResource MediumTextBlock}"
-                                       Margin="0 0 10 0"
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource LightForegroundBrush}"
-                                       FontFamily="{StaticResource FontAwesome}"
-                                       FontSize="18"
-                                       Text="&#xf560;" />
+                                <!-- Each subtask -->
+                                <Grid ToolTip="{Binding Name}">
 
-                            <TextBlock Style="{StaticResource LargeTextBlock}"
-                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
-                                       Text="Subtasks" />                            
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                        </StackPanel>
+                                    <!-- Delete Button -->
+                                    <Button Style="{DynamicResource FlatSmallIconButton}"
+                                            Command="{Binding DataContext.DeleteSubtaskCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
+                                            CommandParameter="{Binding Path=.}"
+                                            Grid.Column="0"
+                                            ToolTip="Delete"
+                                            VerticalAlignment="Center"
+                                            FontSize="18"
+                                            FontFamily="{StaticResource FontAwesome}"
+                                            Margin="0 0 10 0"
+                                            Content="&#xf2ed;" />
 
-                        <!-- Edit subtasks -->
-                        <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
-                                 Visibility="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
-                                 Style="{StaticResource ListBoxBase}"
-                                 Margin="0 10 0 0"
-                                 ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}">
+                                    <!-- Editing input -->
+                                    <TextBox Style="{StaticResource LongTextBox}"
+                                                Grid.Column="1"
+                                                Padding="0 5"
+                                                Text="{Binding Name}"/>
 
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
+                                </Grid>
 
-                                    <!-- Each subtask -->
-                                    <Grid ToolTip="{Binding Name}">
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
 
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
+                        <!-- Ignore internal scrollviewer -->
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ItemsControl">
+                                <Border>
+                                    <ItemsPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </ListBox.Template>
 
-                                        <!-- Delete Button -->
-                                        <Button Style="{DynamicResource FlatSmallIconButton}"
-                                                Command="{Binding DataContext.DeleteSubtaskCommand, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                                                CommandParameter="{Binding Path=.}"
-                                                Grid.Column="0"
-                                                ToolTip="Delete"
-                                                VerticalAlignment="Center"
-                                                FontSize="18"
-                                                FontFamily="{StaticResource FontAwesome}"
-                                                Margin="0 0 10 0"
-                                                Content="&#xf2ed;" />
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
 
-                                        <!-- Editing input -->
-                                        <TextBox Style="{StaticResource LongTextBox}"
-                                                 Grid.Column="1"
-                                                 Padding="0 5"
-                                                 Text="{Binding Name}"/>
+                    </ListBox>
 
-                                    </Grid>
+                    <!-- New subtask -->
+                    <Border Padding="6 5">
 
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
+                        <Grid>
 
-                            <!-- Ignore internal scrollviewer -->
-                            <ListBox.Template>
-                                <ControlTemplate TargetType="ItemsControl">
-                                    <Border>
-                                        <ItemsPresenter />
-                                    </Border>
-                                </ControlTemplate>
-                            </ListBox.Template>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel />
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
+                            <!-- Save button -->
+                            <Button Style="{StaticResource FlatSmallIconButton}"
+                                    IsDefault="True"
+                                    Focusable="False"
+                                    ToolTip="Save"
+                                    Grid.Column="0"
+                                    Command="{Binding AddSubtaskCommand}"
+                                    VerticalAlignment="Center"
+                                    FontSize="22"
+                                    FontFamily="{StaticResource FontAwesome}"                                            
+                                    Margin="0 0 10 0"
+                                    Content="&#xf0fe;" />
 
-                        </ListBox>
+                            <!-- New subtask input -->
+                            <TextBox Style="{StaticResource LongTextBox}"
+                                     Text="{Binding NewSubtaskName, UpdateSourceTrigger=PropertyChanged}"
+                                     Grid.Column="1"
+                                     ext:FocusExtension.IsFocused="{Binding NewSubtaskAdded}"
+                                     Padding="0 5" />
 
-                        <!-- New subtask -->
-                        <Border Padding="8 0">
-
-                            <Grid>
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Save button -->
-                                <Button Style="{StaticResource FlatSmallIconButton}"
-                                        IsDefault="True"
-                                        ToolTip="Save"
-                                        Grid.Column="0"
-                                        Command="{Binding AddSubtaskCommand}"
-                                        VerticalAlignment="Center"
-                                        FontSize="22"
-                                        FontFamily="{StaticResource FontAwesome}"                                            
-                                        Margin="0 0 10 0"
-                                        Content="&#xf0fe;" />
-
-                                <!-- New subtask input -->
-                                <TextBox Style="{StaticResource LongTextBox}"
-                                         Text="{Binding NewSubtaskName, UpdateSourceTrigger=PropertyChanged}"
-                                         Grid.Column="1"
-                                         ext:FocusExtension.IsFocused="{Binding NewSubtaskAdded}"
-                                         Padding="0 5" />
-
-                            </Grid>
-                        </Border>
-
-                    </StackPanel>
-
-                    <!-- Description -->
-                    <StackPanel>
-
-                        <!-- Label -->
-                        <StackPanel Orientation="Horizontal">
-
-                            <TextBlock Style="{StaticResource MediumTextBlock}"
-                                       Margin="0 0 10 0"
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource LightForegroundBrush}"
-                                       FontFamily="{StaticResource FontAwesome}"
-                                       FontSize="18"
-                                       Text="&#xf303;" />
-
-                            <TextBlock Style="{StaticResource LargeTextBlock}"
-                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
-                                       Text="Description" />
-                            
-                        </StackPanel>
-
-                        <!-- Input -->
-                        <TextBox Style="{StaticResource LongTextBox}"
-                                 Text="{Binding Description}"
-                                 Padding="5"
-                                 Margin="15 15 10 15"/>
-
-                    </StackPanel>
-
-                    <!-- Buttons -->
-                    <StackPanel Orientation="Horizontal"
-                                Margin="0 20"
-                                HorizontalAlignment="Center">
-                        
-                        <!-- Done button -->
-                        <Button Style="{StaticResource SuccessButton}"
-                                VerticalAlignment="Center"
-                                Margin="0 0 10 0"
-                                ToolTip="Save"
-                                Command="{Binding ToggleExpandedCommand}"
-                                Content="Done" />
-
-                    </StackPanel>
+                        </Grid>
+                    </Border>
 
                 </StackPanel>
 
-            </Grid>            
+                <!-- Description -->
+                <StackPanel>
+
+                    <!-- Label -->
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Style="{StaticResource MediumTextBlock}"
+                                    Margin="0 0 10 0"
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                    FontFamily="{StaticResource FontAwesome}"
+                                    FontSize="18"
+                                    Text="&#xf303;" />
+
+                        <TextBlock Style="{StaticResource LargeTextBlock}"
+                                    Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                    Text="Description" />
+                            
+                    </StackPanel>
+
+                    <!-- Input -->
+                    <TextBox Style="{StaticResource LongTextBox}"
+                                Text="{Binding Description}"
+                                Padding="5"
+                                Margin="15 15 10 15"/>
+
+                </StackPanel>
+
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal"
+                            Margin="0 20"
+                            HorizontalAlignment="Center">
+                        
+                    <!-- Done button -->
+                    <Button Style="{StaticResource SuccessButton}"
+                            VerticalAlignment="Center"
+                            Margin="0 0 10 0"
+                            ToolTip="Save"
+                            Command="{Binding ToggleExpandedCommand}"
+                            Content="Done" />
+
+                </StackPanel>
+
+            </StackPanel>
+
 
         </StackPanel>
 

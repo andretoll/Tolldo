@@ -10,7 +10,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Tolldo.Data;
 using Tolldo.Helpers;
-using Tolldo.Models;
 using Tolldo.Services;
 
 namespace Tolldo.ViewModels
@@ -22,51 +21,54 @@ namespace Tolldo.ViewModels
     {
         #region Private Members
 
+        #region Services
+
         // Theme manager
         private ThemeManager _themeManager;
-
         // Dialog service
         private readonly IDialogService _dialogService;
-
         // Data repository
-        private TodoRepository _repo;
+        private ITodoRepository _repo; 
+
+        #endregion
+
+        #region User Interface
 
         // Indicates if side menu is open or closed
         private bool _isMenuOpen = true;
-
         // Indicates if popup menu is open or closed
         private bool _isPopupMenuOpen = false;
-
         // Indicates if accents menu is open or closed
         private bool _isAccentsMenuOpen = false;
-
         // Indicates if search mode is active
         private bool _searchMode;
-
         // Search string
         private string _searchString;
-
         // Message
         private string _message;
-
-        // Filtered todos
-        private ListCollectionView _filteredTodos;
-
-        // Selected todo
-        private TodoViewModel _selectedTodo;
-
-        // Previously deleted todo
-        private TodoViewModel _deletedTodo;
-
-        // New todo
-        private string _newTodoName;
-
         // Indicates if drag is active
         private bool _dragHandleActive;
 
         #endregion
 
+        #region Objects
+
+        // Filtered todos
+        private ListCollectionView _filteredTodos;
+        // Selected todo
+        private TodoViewModel _selectedTodo;
+        // Previously deleted todo
+        private TodoViewModel _deletedTodo;
+        // New todo name
+        private string _newTodoName;
+
+        #endregion
+
+        #endregion
+
         #region Public Properties
+
+        #region User Interface
 
         // Indicates if side menu is open or closed
         public bool IsMenuOpen
@@ -167,6 +169,24 @@ namespace Tolldo.ViewModels
             }
         }
 
+        // Indicates if drag is active
+        public bool DragHandleActive
+        {
+            get
+            {
+                return _dragHandleActive;
+            }
+            set
+            {
+                _dragHandleActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Objects
+
         // Todos
         public ObservableCollection<TodoViewModel> Todos { get; set; }
 
@@ -192,7 +212,7 @@ namespace Tolldo.ViewModels
                 return _selectedTodo;
             }
             set
-            {                       
+            {
                 // If previous selected todo is not null, unsubscribe from events and clear properties
                 if (_selectedTodo != null)
                 {
@@ -209,18 +229,18 @@ namespace Tolldo.ViewModels
                             {
                                 subtask.PropertyChanged -= task.Subtask_PropertyChanged;
                             }
-                        }                        
+                        }
                     }
 
                     // Unsubscribe from CollectionChanged for tasks
                     _selectedTodo.Tasks.CollectionChanged -= Tasks_CollectionChanged;
 
                     // Reset active modes
-                    _selectedTodo.RenameActive = false;                    
+                    _selectedTodo.RenameActive = false;
 
                     // Set selected todo to null
-                    _selectedTodo = null;                    
-                }                
+                    _selectedTodo = null;
+                }
 
                 _selectedTodo = value;
                 NotifyPropertyChanged();
@@ -249,7 +269,7 @@ namespace Tolldo.ViewModels
                             subtask.PropertyChanged += task.Subtask_PropertyChanged;
                         }
                     }
-                }                
+                }
 
                 // Subscribe to CollectionChagned for tasks
                 _selectedTodo.Tasks.CollectionChanged += Tasks_CollectionChanged;
@@ -257,7 +277,7 @@ namespace Tolldo.ViewModels
                 // Set initial progress
                 SelectedTodo.Progress = 0;
                 SelectedTodo.LastProgress = 0;
-                SelectedTodo.UpdateProgress();                
+                SelectedTodo.UpdateProgress();
             }
         }
 
@@ -287,21 +307,9 @@ namespace Tolldo.ViewModels
                 _newTodoName = value;
                 NotifyPropertyChanged();
             }
-        }
+        }    
 
-        // Indicates if drag is active
-        public bool DragHandleActive
-        {
-            get
-            {
-                return _dragHandleActive;
-            }
-            set
-            {
-                _dragHandleActive = value;
-                NotifyPropertyChanged();
-            }
-        }
+        #endregion
 
         #endregion
 
@@ -317,8 +325,13 @@ namespace Tolldo.ViewModels
             // Notify property changed
             if (sender != null)
             {
-                UnsetMessage();
+                DeletedTodo = null;
+                Message = null;
                 Message = sender.ToString();
+            }
+            else
+            {
+                Message = null;
             }
         }
 
@@ -351,7 +364,7 @@ namespace Tolldo.ViewModels
             // If an item was added, subscribe to its property changes
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                (e.NewItems[0] as TodoTask).PropertyChanged += Task_PropertyChanged;
+                (e.NewItems[0] as TaskViewModel).PropertyChanged += Task_PropertyChanged;
             }
         }
 
@@ -394,11 +407,11 @@ namespace Tolldo.ViewModels
             // Initialize theme manager
             _themeManager = new ThemeManager();
 
-            // Initialize data repository
-            _repo = new TodoRepository();
+            // Initialize first data repository
+            _repo = new TodoRepository(_dialogService);
 
-            // Get data
-            Todos = new ObservableCollection<TodoViewModel>(_repo.GetTodos(_dialogService));
+            // Get data and create filtered view
+            Todos = new ObservableCollection<TodoViewModel>(_repo.GetTodos());
             _filteredTodos = new ListCollectionView(Todos);
 
             // Check last opened list
@@ -411,17 +424,17 @@ namespace Tolldo.ViewModels
             ToggleSearchModeCommand = new RelayCommand.RelayCommand(p => { SearchMode = !SearchMode; });
             ClearSearchStringCommand = new RelayCommand.RelayCommand(p => { SearchString = ""; SearchMode = !SearchMode; SearchMode = !SearchMode; });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
-            AddNewTodoCommand = new RelayCommand.RelayCommand(p => { AddTodo(NewTodoName); }, p => !string.IsNullOrEmpty(NewTodoName));
-            AddRandomTodoCommand = new RelayCommand.RelayCommand(p => { AddRandomTodo(); });
-            InvertThemeCommand = new RelayCommand.RelayCommand(p => { DarkThemeEnabled = !DarkThemeEnabled; });
             TogglePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = !IsPopupMenuOpen; });
             ClosePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = false; });
-            CloseMessageBoxCommand = new RelayCommand.RelayCommand(p => { UnsetMessage(); });
+            CloseMessageBoxCommand = new RelayCommand.RelayCommand(p => { SetMessage(); });
             ToggleAccentsMenuCommand = new RelayCommand.RelayCommand(p => { IsAccentsMenuOpen = !IsAccentsMenuOpen; });
-            SetAccentCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetAccent((string)p); });
+            InvertThemeCommand = new RelayCommand.RelayCommand(p => { DarkThemeEnabled = !DarkThemeEnabled; SetMessage(DarkThemeEnabled ? "Dark theme enabled." : "Light theme enabled."); });
+            SetAccentCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetAccent((string)p); SetMessage("Accent applied."); });
 
-            DeleteTodoCommand = new RelayCommand.RelayCommand(p => { DeleteTodo(SelectedTodo); });
-            UndeleteTodoCommand = new RelayCommand.RelayCommand(p => { UndeleteTodo(); });
+            AddNewTodoCommand = new RelayCommand.RelayCommand(async p => { await AddTodo(NewTodoName); SetMessage("List added."); }, p => !string.IsNullOrEmpty(NewTodoName));
+            AddRandomTodoCommand = new RelayCommand.RelayCommand(async p => { await AddRandomTodo(); SetMessage("List added."); });            
+            DeleteTodoCommand = new RelayCommand.RelayCommand(async p => { await DeleteTodo(SelectedTodo); });
+            UndeleteTodoCommand = new RelayCommand.RelayCommand(async p => { await UndeleteTodo(); });
 
             // Set welcome message
             SetMessage("Welcome back!");
@@ -459,16 +472,23 @@ namespace Tolldo.ViewModels
         /// Adds a new Todo-item
         /// </summary>
         /// <param name="name">Name of the new Todo-item.</param>
-        private void AddTodo(string name)
+        private async Task AddTodo(string name)
         {
-            // Create new object
+            // Create new
             TodoViewModel todo = new TodoViewModel(_dialogService)
             {
-                Name = name,
+                Name = name,                
                 Tasks = new ObservableCollection<TaskViewModel>()
             };
 
-            // Add to collections
+            // Add item to database
+            await _repo.AddTodo(todo).ContinueWith(p =>
+            {
+                // Get Id of added item
+                todo.Id = p.Result;                
+            });
+
+            // Add item to collection
             Todos.Add(todo);
 
             // Set as the selected Todo-item
@@ -476,18 +496,15 @@ namespace Tolldo.ViewModels
 
             // Clear new todo
             NewTodoName = string.Empty;
-
-            // Set message
-            SetMessage("List added.");
         }
 
         /// <summary>
         /// Adds a random Todo-item
         /// </summary>
-        private void AddRandomTodo()
+        private async Task AddRandomTodo()
         {
             // Add todo with random name
-            AddTodo(RandomNameGenerator.GetRandomTodoName());
+            await AddTodo(RandomNameGenerator.GetRandomName());
 
             // Enter rename mode
             SelectedTodo.RenameActive = true;
@@ -497,13 +514,26 @@ namespace Tolldo.ViewModels
         /// Deletes a Todo-item from the collection.
         /// </summary>
         /// <param name="todo">The Todo-item to be deleted.</param>
-        private void DeleteTodo(TodoViewModel todo)
+        private async Task DeleteTodo(TodoViewModel todo)
         {
-            // Remove item
-            Todos.Remove(todo);
+            if (todo == null)
+                return;            
+
+            // Delete item from database
+            var success = await _repo.DeleteTodo(todo);
+
+            // If failed, set message and return
+            if (!success)
+            {
+                SetMessage("Deletion failed. Try again later.");
+                return;                
+            }
 
             // Reset selected item
             SelectedTodo = null;
+
+            // Remove item from view
+            Todos.Remove(todo);
 
             // Set message
             SetMessage("List deleted.");
@@ -515,43 +545,41 @@ namespace Tolldo.ViewModels
         /// <summary>
         /// Undeletes the last known deleted Todo-item
         /// </summary>
-        private void UndeleteTodo()
+        private async Task UndeleteTodo()
         {
             if (DeletedTodo == null)
             {
                 return;
-            }
+            }           
 
-            // Undelete todo-item
+            // Re-add item to database
+            await _repo.AddTodo(DeletedTodo).ContinueWith(p =>
+            {
+                // Get Id of added item
+                DeletedTodo.Id = p.Result;
+            });
+
+            // Re-add item to collection
             Todos.Add(DeletedTodo);
+
+            // Select
+            SelectedTodo = DeletedTodo;
 
             // Clear last deleted
             DeletedTodo = null;
 
             // Unset message
-            UnsetMessage();
+            SetMessage(null);
         }
 
         /// <summary>
         /// Sets a message to be displayed.
         /// </summary>
         /// <param name="msg">The message to be displayed.</param>
-        private void SetMessage(string msg)
+        private void SetMessage(string msg = null)
         {
             // Set message
             _dialogService.SetMessage(msg);
-        }
-
-        /// <summary>
-        /// Unsets the current message.
-        /// </summary>
-        private void UnsetMessage()
-        {
-            // Unset message
-            Message = null;
-
-            // Unset deleted items
-            DeletedTodo = null;
         }
 
         #endregion
@@ -571,8 +599,8 @@ namespace Tolldo.ViewModels
             }
 
             // Get source and target
-            Todo sourceItem = dropInfo.Data as Todo;
-            Todo targetItem = dropInfo.TargetItem as Todo;
+            TodoViewModel sourceItem = dropInfo.Data as TodoViewModel;
+            TodoViewModel targetItem = dropInfo.TargetItem as TodoViewModel;
 
             if (sourceItem != null && targetItem != null)
             {

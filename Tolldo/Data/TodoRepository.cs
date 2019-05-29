@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Tolldo.Models;
 using Tolldo.Services;
 using Tolldo.ViewModels;
@@ -11,144 +14,275 @@ namespace Tolldo.Data
     /// </summary>
     public class TodoRepository : ITodoRepository
     {
-        #region Private Members
+        #region Protected Members
 
-        /// <summary>
-        /// A list of Todo-items.
-        /// </summary>
-        private List<TodoViewModel> _todos;
+        protected IMapper _mapper;
+        protected IDialogService _dialogService;
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Default constructor.
+        /// Default constructor. Accepts dependency injection of type <see cref="IDialogService"/>.
         /// </summary>
-        public TodoRepository()
+        /// <param name="dialogService">Accepts dependency injection of type <see cref="IDialogService"/>.</param>
+        public TodoRepository(IDialogService dialogService)
         {
-            _todos = new List<TodoViewModel>();
-        }
+            // Initialize services and ensure data store
+            _dialogService = dialogService;
+            EnsureDataBase();
+
+            // Initialize automapper with profile. Inject the dialog service
+            _mapper = new Mapper(new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new AutoMapperProfiles(dialogService));
+            }));
+        }        
 
         #endregion
 
-        #region Public Helpers
+        #region Interface Implementation
 
         /// <summary>
-        /// Returns a <see cref="List{T}"/> of <see cref="TodoViewModel"/> items.
+        /// Ensures that the database for the context exists.
         /// </summary>
-        /// <param name="dialogService">The dialog service to broadcast messages.</param>
-        /// <returns></returns>
-        public List<TodoViewModel> GetTodos(IDialogService dialogService)
+        public void EnsureDataBase()
         {
-            // TEMPORARY DATA
-            if (_todos == null)
-                _todos = new List<TodoViewModel>();
-
-            _todos.Add(new TodoViewModel(dialogService)
+            using (var context = new TolldoDbContext())
             {
-                Id = 1,
-                Name = "Thesis",
-                Description = "We must complete the thesis!",
-
-                Tasks = new ObservableCollection<TaskViewModel>()
-                {
-                    new TaskViewModel(dialogService)
-                    {
-                        Id = 1,
-                        Name = "Write introduction",
-                        Description = "Obviously we have to start with this part...",
-                        Completed = true,
-                        Subtasks = new ObservableCollection<Subtask>()
-                        {
-                            new Subtask()
-                            {
-                                Id = 1,
-                                Name = "Think about the first words",
-                                Completed = true
-                            },
-                            new Subtask()
-                            {
-                                Id = 2,
-                                Name = "Write down the references",
-                                Completed = true
-                            }
-                        }
-                    },
-
-                    new TaskViewModel(dialogService)
-                    {
-                        Id = 2,
-                        Name = "Write Theoretical background",
-                        Completed = true,
-                        Subtasks = new ObservableCollection<Subtask>()
-                        {
-                            new Subtask()
-                            {
-                                Id = 1,
-                                Name = "Think about the first words",
-                                Completed = true
-                            },
-                            new Subtask()
-                            {
-                                Id = 2,
-                                Name = "Write down the references",
-                                Completed = true
-                            }
-                        }
-                    },
-
-                    new TaskViewModel(dialogService)
-                    {
-                        Id = 3,
-                        Name = "Write Methodology",
-                        Completed = true,
-                        Subtasks = new ObservableCollection<Subtask>()
-                        {
-                            new Subtask()
-                            {
-                                Id = 1,
-                                Name = "Think about the first words",
-                                Completed = true
-                            },
-                            new Subtask()
-                            {
-                                Id = 2,
-                                Name = "Write down the references",
-                                Completed = true
-                            }
-                        }
-                    },
-
-                    new TaskViewModel(dialogService)
-                    {
-                        Id = 4,
-                        Name = "Cry",
-                        Completed = true,
-                        Subtasks = new ObservableCollection<Subtask>()
-                        {
-                            new Subtask()
-                            {
-                                Id = 1,
-                                Name = "Think about the first words",
-                                Completed = true
-                            },
-                            new Subtask()
-                            {
-                                Id = 2,
-                                Name = "Write down the references",
-                                Completed = true
-                            }
-                        }
-                    }
-                }
-            }) ;
-
-            // END: TEMORARY DATA
-
-            return _todos;
+                context.Database.EnsureCreated();
+            }            
         }
-    } 
 
-    #endregion
+        /// <summary>
+        /// Returns the todo-items from the data context.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<TodoViewModel> GetTodos()
+        {
+            // Get todos, tasks and subtasks
+            using (var context = new TolldoDbContext())
+            {
+                // Get items from database
+                var todos = Task.FromResult(
+                context.Todos
+                .Include(t => t.Tasks)
+                .ThenInclude(t => t.Subtasks)
+                .ToListAsync()).Result.Result;
+
+                // Map items
+                var todoViewModels = _mapper.Map<List<TodoViewModel>>(todos);
+
+                // Return items
+                return todoViewModels;
+            }      
+        }
+
+        /// <summary>
+        /// Adds a todo-item to the data context.
+        /// </summary>
+        /// <param name="item">Item to add.</param>
+        /// <returns>Primary key for inserted item.</returns>
+        public async Task<int> AddTodo(TodoViewModel item)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Create item to add
+                var itemToAdd = _mapper.Map<Todo>(item);
+
+                // Add item to database
+                context.Add(itemToAdd);
+                await context.SaveChangesAsync();
+
+                return itemToAdd.Id; 
+            }
+        }
+
+        /// <summary>
+        /// Deletes a todo-item from the data context.
+        /// </summary>
+        /// <param name="item">Item to delete.</param>
+        /// <returns>Success value.</returns>
+        public async Task<bool> DeleteTodo(TodoViewModel item)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Get item to remove
+                var itemToRemove = await context.Todos.Where(i => i.Id == item.Id).FirstOrDefaultAsync();
+
+                if (itemToRemove == null)
+                    return false;
+
+                // Remove item from database
+                context.Remove(itemToRemove);
+                return await context.SaveChangesAsync() > 0 ? true : false;
+            }                
+        }
+
+        /// <summary>
+        /// Updates a todo-item in the data context.
+        /// </summary>
+        /// <param name="item">Item to update.</param>
+        /// <returns>Success value.</returns>
+        public async Task<bool> UpdateTodo(TodoViewModel item)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Get item to update
+                var itemToUpdate = await context.Todos.Where(i => i.Id == item.Id).FirstOrDefaultAsync();
+                _mapper.Map(item, itemToUpdate);
+
+                if (itemToUpdate == null)
+                    return false;
+
+                // Update item in database   
+                itemToUpdate.Tasks = null;
+                context.Update(itemToUpdate);
+
+                // Ignore tasks
+                context.Entry(itemToUpdate).Collection(x => x.Tasks).IsModified = false;
+
+                return await context.SaveChangesAsync() > 0 ? true : false;
+            }                
+        }
+
+        /// <summary>
+        /// Adds a task-item to the data context.
+        /// </summary>
+        /// <param name="item">Item to add.</param>
+        /// <param name="id">Foreign key to the item.</param>
+        /// <returns>Primary key for inserted item.</returns>
+        public async Task<int> AddTask(TaskViewModel item, int id)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Create item to add
+                var itemToAdd = _mapper.Map<TodoTask>(item);
+
+                // Add foreign key
+                itemToAdd.TodoId = id;
+
+                // Add item to database
+                context.Add(itemToAdd);
+                await context.SaveChangesAsync();
+
+                return itemToAdd.Id;
+            }                
+        }
+
+        /// <summary>
+        /// Deletes a task-item from the data context.
+        /// </summary>
+        /// <param name="item">Item to delete.</param>
+        /// <returns>Success value.</returns>
+        public async Task<bool> DeleteTask(TaskViewModel item)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Get item to remove
+                var itemToRemove = await context.Tasks.Where(i => i.Id == item.Id).FirstOrDefaultAsync();
+
+                if (itemToRemove == null)
+                    return false;
+
+                // Remove item from database
+                context.Remove(itemToRemove);
+                return await context.SaveChangesAsync() > 0 ? true : false;
+            }                
+        }
+
+        /// <summary>
+        /// Updates a todo-item in the data context.
+        /// </summary>
+        /// <param name="item">Item to update.</param>
+        /// <returns>Success value.</returns>
+        public async Task<bool> UpdateTask(TaskViewModel item)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Get item to update
+                var itemToUpdate = await context.Tasks.Where(i => i.Id == item.Id).FirstOrDefaultAsync();
+                _mapper.Map(item, itemToUpdate);
+
+                if (itemToUpdate == null)
+                    return false;
+
+                // Update item in database
+                itemToUpdate.Subtasks = null;
+                context.Update(itemToUpdate);
+
+                return await context.SaveChangesAsync() > 0 ? true : false;
+            }                
+        }
+
+        /// <summary>
+        /// Adds a subtask-item to the data context.
+        /// </summary>
+        /// <param name="item">Item to add.</param>
+        /// <param name="id">Foreign key to the item.</param>
+        /// <returns>Primary key for inserted item.</returns>
+        public async Task<int> AddSubtask(SubtaskViewModel item, int id)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Create item to add
+                var itemToAdd = _mapper.Map<Subtask>(item);
+
+                // Add foreign key
+                itemToAdd.TodoTaskId = id;
+
+                // Add item to database
+                context.Add(itemToAdd);
+                await context.SaveChangesAsync();
+
+                return itemToAdd.Id;
+            }                
+        }
+
+        /// <summary>
+        /// Deletes a subtask-item from the data context.
+        /// </summary>
+        /// <param name="item">Item to delete.</param>
+        /// <returns>Success value.</returns>
+        public async Task<bool> DeleteSubtask(SubtaskViewModel item)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Get item to remove
+                var itemToRemove = await context.Subtasks.Where(i => i.Id == item.Id).FirstOrDefaultAsync();
+
+                if (itemToRemove == null)
+                    return false;
+
+                // Remove item from database
+                context.Remove(itemToRemove);
+                return await context.SaveChangesAsync() > 0 ? true : false;
+            }                
+        }     
+
+        /// <summary>
+        /// Updates a subtask-item in the data context.
+        /// </summary>
+        /// <param name="item">Item to update.</param>
+        /// <returns>Success value.</returns>
+        public async Task<bool> UpdateSubtask(SubtaskViewModel item)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                // Get item to update
+                var itemToUpdate = await context.Subtasks.Where(i => i.Id == item.Id).FirstOrDefaultAsync();
+                _mapper.Map(item, itemToUpdate);
+
+                if (itemToUpdate == null)
+                    return false;
+
+                // Update item in database
+                context.Update(itemToUpdate);
+                return await context.SaveChangesAsync() > 0 ? true : false;
+            }                
+        }
+
+        #endregion
+    }
 }

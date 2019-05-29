@@ -16,7 +16,7 @@
 
     <!-- Large text block -->
     <Style TargetType="{x:Type TextBlock}" x:Key="LargeTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
-        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
         <Setter Property="FontSize" Value="19" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
     </Style>

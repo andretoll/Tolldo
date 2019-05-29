@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tolldo.Services
 {
@@ -13,8 +9,16 @@ namespace Tolldo.Services
     {
         event EventHandler MessageChanged;
 
+        /// <summary>
+        /// Set the specified message.
+        /// </summary>
+        /// <param name="message">Message to set.</param>
         void SetMessage(string message);
 
+        /// <summary>
+        /// Get the current message.
+        /// </summary>
+        /// <returns>Message.</returns>
         string GetMessage();
     }
 }

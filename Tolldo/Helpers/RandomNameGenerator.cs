@@ -9,15 +9,16 @@ namespace Tolldo.Data
     public static class RandomNameGenerator
     {
         /// <summary>
-        /// Generate random To-do name
+        /// Generate random Todo name.
         /// </summary>
         /// <returns></returns>
-        public static string GetRandomTodoName()
+        public static string GetRandomName()
         {
             List<string> names = new List<string>()
             {
                 "Things to do",
-                "Awesome recipie",
+                "Things not to do",
+                "Awesome things",
                 "Time to be productive",
                 "Bucketlist",
                 "Procrastination"

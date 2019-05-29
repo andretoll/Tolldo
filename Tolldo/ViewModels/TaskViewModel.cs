@@ -1,27 +1,49 @@
-﻿using GongSolutions.Wpf.DragDrop;
-using System.Collections.Specialized;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Tolldo.Models;
+using Tolldo.Data;
 using Tolldo.Services;
 
 namespace Tolldo.ViewModels
 {
     /// <summary>
-    /// The ViewModel for a single Task-object. Based on the TodoTask class.
+    /// The ViewModel for a single Task-object. Based on the <see cref="BaseViewModel"/> class.
     /// </summary>
-    public class TaskViewModel : TodoTask
+    public class TaskViewModel : BaseViewModel
     {
         #region Private Members
 
+        #region Services
+
         // Dialog service
         private IDialogService _dialogService;
+        // Data repository
+        private ITodoRepository _repo;
+
+        #endregion
+
+        #region Model
+
+        private string _name;
+
+        private string _description;
+
+        private bool _completed;
+
+        private ObservableCollection<SubtaskViewModel> _subtasks;
+
+        #endregion
+
+        #region User Interface
 
         // Indicates if renaming task mode is active
         private bool _renameActive;
+        private string _renameValue;
 
         // Indicates if expanded mode is active
         private bool _expandedActive;
+        private string _descriptionValue;
 
         // New subtask name
         private string _newSubtaskName;
@@ -31,7 +53,76 @@ namespace Tolldo.ViewModels
 
         #endregion
 
+        #endregion
+
         #region Public Properties
+
+        #region Model
+
+        public int Id { get; set; }
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool Completed
+        {
+            get
+            {
+                return _completed;
+            }
+            set
+            {               
+                _completed = value;
+
+                // Evaluate the completion status of subtasks
+                Task.Run(async () => 
+                {
+                    await CompleteSubtasks();
+                });
+
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<SubtaskViewModel> Subtasks
+        {
+            get
+            {
+                return _subtasks;
+            }
+            set
+            {
+                _subtasks = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region User Interface
 
         // Indicates if renaming task mode is active
         public bool RenameActive
@@ -44,6 +135,12 @@ namespace Tolldo.ViewModels
             {
                 _renameActive = value;
                 NotifyPropertyChanged();
+
+                // If true, save name
+                if (value)
+                    _renameValue = this.Name;
+                else
+                    _renameValue = null;
             }
         }
 
@@ -58,8 +155,14 @@ namespace Tolldo.ViewModels
             {
                 _expandedActive = value;
                 NotifyPropertyChanged();
+
+                // If true, save description
+                if (value)
+                    _descriptionValue = this.Description;
+                else
+                    _descriptionValue = null;
             }
-        }        
+        }
 
         // Indicates if new subtask mode is active
         public string NewSubtaskName
@@ -91,40 +194,6 @@ namespace Tolldo.ViewModels
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// Event that fires when a subtask's property changes.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void Subtask_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            // Determine task completion if the completed property of any subtask changed
-            if (e.PropertyName == "Completed")
-            {
-                // Indicates if all subtasks are completed
-                bool subtasksComplete = true;
-
-                foreach (var subtask in Subtasks)
-                {
-                    if (!subtask.Completed)
-                    {
-                        // If any subtask is incomplete, set false
-                        subtasksComplete = false;
-                        break;
-                    }
-                }
-
-                // If value has changed, set completed status indirectly to avoid infinite loop
-                if (_completed != subtasksComplete)
-                {
-                    _completed = subtasksComplete;
-                    NotifyPropertyChanged(nameof(Completed)); 
-                }
-            }
-        }
-
         #endregion
 
         #region Commands
@@ -136,26 +205,130 @@ namespace Tolldo.ViewModels
         public ICommand AddSubtaskCommand { get; set; }
         public ICommand DeleteSubtaskCommand { get; set; }
 
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Event that fires when a subtask's property changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void Subtask_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Determine task completion if the completed property of any subtask changed
+            if (e.PropertyName == "Completed")
+            {             
+                // Indicates if all subtasks are completed
+                bool subtasksComplete = true;
+
+                foreach (var subtask in Subtasks)
+                {
+                    // If subtask is uncomplted
+                    if (!subtask.Completed)
+                    {
+                        // If any subtask is incompleted, set false
+                        subtasksComplete = false;
+                        break;
+                    }
+                }
+
+                // If global completion has changed, set completed status indirectly to avoid infinite loop
+                if (_completed != subtasksComplete)
+                {
+                    _completed = subtasksComplete;
+                    NotifyPropertyChanged(nameof(Completed));
+                }
+
+                // Update subtask in database
+                var success = await _repo.UpdateSubtask(sender as SubtaskViewModel);
+                if (!success)
+                    SetMessage("Something went wrong. Try again.");
+            }
+            else if (e.PropertyName == "Name")
+            {
+                // Update subtask in database
+                var success = await _repo.UpdateSubtask(sender as SubtaskViewModel);
+                if (!success)
+                    SetMessage("Something went wrong. Try again.");
+            }
+        }
+
+        /// <summary>
+        /// Event that fires when a property in <see cref="TaskViewModel"/> changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void TaskViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Evaluate calling property
+            switch (e.PropertyName)
+            {
+                // Name
+                case nameof(RenameActive):
+
+                    // If rename has been made and value has changed, update item
+                    if (!RenameActive & _renameValue != null & this.Name != _renameValue)
+                    {
+                        var success = await _repo.UpdateTask(this);
+                        if (success)
+                            SetMessage("Task updated.");
+                        else SetMessage("Something went wrong. Try again.");
+                    }
+                    break;
+
+                // Description
+                case nameof(ExpandedActive):
+
+                    // If description has been changed, update item
+                    if (!ExpandedActive & _descriptionValue != null & this.Description != _descriptionValue)
+                    {
+                        var success = await _repo.UpdateTask(this);
+                        if (success)
+                            SetMessage("Task updated.");
+                        else SetMessage("Something went wrong. Try again.");
+                    }
+                    break;
+
+                // Completed
+                case nameof(Completed):
+
+                    // Update item in database
+                    if (Completed == _completed)
+                    {
+                        var success = await _repo.UpdateTask(this);
+                        if (!success)
+                            SetMessage("Something went wrong. Try again."); 
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Default constructor.
+        /// Default constructor. Accepts a dependency property of the type <see cref="IDialogService"/>.
         /// </summary>
         public TaskViewModel(IDialogService dialogService)
         {
-            // Initialize dialog service
+            // Initialize services
             _dialogService = dialogService;
+            _repo = new TodoRepository(_dialogService);
+
+            this.PropertyChanged += TaskViewModel_PropertyChanged;
 
             // Commands
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
             ToggleExpandedCommand = new RelayCommand.RelayCommand(p => { ExpandedActive = !ExpandedActive; });
             CheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = true; });
             UncheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = false; });
-            AddSubtaskCommand = new RelayCommand.RelayCommand(p => { AddSubtask(); _dialogService.SetMessage("Subtask added."); }, p => NewSubtaskName.Length > 0);
-            DeleteSubtaskCommand = new RelayCommand.RelayCommand(p => { DeleteSubtask(p as Subtask); _dialogService.SetMessage("Subtask deleted."); });
+            AddSubtaskCommand = new RelayCommand.RelayCommand(async p => { await AddSubtask(); SetMessage("Subtask added."); }, p => NewSubtaskName.Length > 0);
+            DeleteSubtaskCommand = new RelayCommand.RelayCommand(async p => { await DeleteSubtask(p as SubtaskViewModel); });
         }
 
         #endregion
@@ -163,21 +336,29 @@ namespace Tolldo.ViewModels
         #region Private Helpers
 
         /// <summary>
-        /// Adds the current new subtask to the collection.
+        /// Adds a new subtask to the collection.
         /// </summary>
-        private void AddSubtask()
+        private async Task AddSubtask()
         {
-            Subtask subtask = new Subtask()
+            // New Subtask
+            SubtaskViewModel subtask = new SubtaskViewModel()
             {
-                Id = 1,
-                Completed = true,
                 Name = this.NewSubtaskName
             };
 
             // Subscribe to property changed event for new subtask
             subtask.PropertyChanged += Subtask_PropertyChanged;
-            subtask.Completed = this.Completed;
 
+            // Start uncompleted
+            subtask.Completed = false;
+
+            // Add subtask to database
+            await _repo.AddSubtask(subtask, this.Id).ContinueWith(async p =>
+            {
+                subtask.Id = await p;
+            });
+
+            // Add item to view
             Subtasks.Add(subtask);
 
             // Reset new subtask
@@ -187,13 +368,58 @@ namespace Tolldo.ViewModels
         }
 
         /// <summary>
+        /// Completes or incompleted all subtasks based on its parent task.
+        /// </summary>
+        /// <returns></returns>
+        private async Task CompleteSubtasks()
+        {
+            if (Subtasks != null)
+            {
+                await Task.Run(() =>
+                {
+                    bool b = Completed;
+                    foreach (var subtask in Subtasks)
+                    {
+                        subtask.Completed = b;
+                    }
+                });
+            }       
+        }
+
+        /// <summary>
         /// Deletes the specified subtask from the collection.
         /// </summary>
         /// <param name="subtask">The subtask to delete.</param>
-        private void DeleteSubtask(Subtask subtask)
+        private async Task DeleteSubtask(SubtaskViewModel subtask)
         {
-            if (subtask != null)
-                Subtasks.Remove(subtask);
+            if (subtask == null)
+                return;            
+
+            // Delete item from database
+            var success = await _repo.DeleteSubtask(subtask);
+
+            // If failed, set message and return
+            if (!success)
+            {
+                SetMessage("Deletion failed. Try again later.");
+                return;
+            }
+
+            // Remove item from view
+            Subtasks.Remove(subtask);
+
+            // Set message
+            SetMessage("Subtask deleted.");
+        }
+
+        /// <summary>
+        /// Sets a message to be displayed.
+        /// </summary>
+        /// <param name="msg">The message to be displayed.</param>
+        private void SetMessage(string msg = null)
+        {
+            // Set message
+            _dialogService.SetMessage(msg);
         }
 
         #endregion

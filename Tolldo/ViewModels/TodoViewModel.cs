@@ -1,34 +1,59 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Tolldo.Models;
+using Tolldo.Data;
 using Tolldo.Services;
 
 namespace Tolldo.ViewModels
 {
     /// <summary>
-    /// The ViewModel for a single Todo-object. Based on the <see cref="Todo"/> class and implements the <see cref="IDropTarget"/> interface.
+    /// The ViewModel for a single Todo-object. Based on the <see cref="BaseViewModel"/> class and implements the <see cref="IDropTarget"/> interface.
     /// </summary>
-    public class TodoViewModel : Todo, IDropTarget
+    public class TodoViewModel : BaseViewModel, IDropTarget
     {
         #region Private Members
 
+        #region Services
+
         // Dialog service
         private readonly IDialogService _dialogService;
+        // Data repository
+        private ITodoRepository _repo;
 
-        // Current progress
+        #endregion
+
+        #region Model
+
+        private string _name;
+
+        private string _imageUrl;
+
+        private ObservableCollection<TaskViewModel> _tasks;
+
         private int _progress;
 
-        // Last known progress
         private int _lastProgress;
 
+        #endregion
+
+        #region User Interface
+
         // Indicates if renaming mode is active
-        private bool _renameActive;        
+        private bool _renameActive;
+        private string _renameValue;
 
         // Indicates if new task is being created
         private bool _newTaskActive;
+
+        // Indicates if drag is active
+        private bool _dragHandleActive;
+
+        #endregion
+
+        #region Objects
 
         // Selected task
         private TaskViewModel _selectedTask;
@@ -36,15 +61,58 @@ namespace Tolldo.ViewModels
         // New task
         private TaskViewModel _newTask;
 
-        // Tasks
-        private ObservableCollection<TaskViewModel> _tasks;
-
-        // Indicates if drag is active
-        private bool _dragHandleActive;
+        #endregion
 
         #endregion
 
         #region Public Properties
+
+        #region Model
+
+        public int Id { get; set; }
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public string ImageUrl
+        {
+            get
+            {
+                return _imageUrl;
+            }
+            set
+            {
+                _imageUrl = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<TaskViewModel> Tasks
+        {
+            get
+            {
+                return _tasks;
+            }
+            set
+            {
+                _tasks = value;
+                NotifyPropertyChanged();
+            }
+        } 
+
+        #endregion
+
+        #region User Interface
 
         // Indicates if renaming mode is active
         public bool RenameActive
@@ -57,20 +125,12 @@ namespace Tolldo.ViewModels
             {
                 _renameActive = value;
                 NotifyPropertyChanged();
-            }
-        }        
 
-        // The new name for renaming
-        public string NewName
-        {
-            get
-            {
-                return this.Name;
-            }
-            set
-            {
-                this.Name = value;
-                NotifyPropertyChanged("Name");
+                // If true, save name
+                if (value)
+                    _renameValue = this.Name;
+                else
+                    _renameValue = null;
             }
         }
 
@@ -98,6 +158,24 @@ namespace Tolldo.ViewModels
                 }
             }
         }
+
+        // Indicates if drag is active
+        public bool DragHandleActive
+        {
+            get
+            {
+                return _dragHandleActive;
+            }
+            set
+            {
+                _dragHandleActive = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Objects
 
         // Selected task
         public TaskViewModel SelectedTask
@@ -133,72 +211,7 @@ namespace Tolldo.ViewModels
             }
         }
 
-        // Tasks
-        public ObservableCollection<TaskViewModel> Tasks
-        {
-            get
-            {
-                return _tasks;
-            }
-            set
-            {
-                _tasks = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        // Indicates if drag is active
-        public bool DragHandleActive
-        {
-            get
-            {
-                return _dragHandleActive;
-            }
-            set
-            {
-                _dragHandleActive = value;
-                NotifyPropertyChanged();
-            }
-        }
-
         #endregion
-
-        #region Commands
-
-        public ICommand CompleteAllTasksCommand { get; set; }
-        public ICommand UncompleteAllTasksCommand { get; set; }
-
-        public ICommand ToggleRenameCommand { get; set; }
-        public ICommand ToggleNewTaskCommand { get; set; }
-
-        public ICommand SaveNewTaskCommand { get; set; }
-        public ICommand DeleteTaskCommand { get; set; }
-
-        public ICommand ActivateDragCommand { get; set; }
-
-        #endregion        
-
-        #region Constructor
-
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public TodoViewModel(IDialogService dialogService)
-        {
-            _dialogService = dialogService;
-
-            // Initialize commands
-            CompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await CompleteAllTasks(); }, p => Tasks.Count > 0);
-            UncompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await UncompleteAllTasks(); }, p => Tasks.Count > 0);
-
-            ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
-            ToggleNewTaskCommand = new RelayCommand.RelayCommand(p => { NewTaskActive = bool.Parse((string)p); });
-
-            SaveNewTaskCommand = new RelayCommand.RelayCommand(p => { AddTask(); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
-            DeleteTaskCommand = new RelayCommand.RelayCommand(p => { DeleteTask(); });
-
-            ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
-        }
 
         #endregion
 
@@ -273,7 +286,75 @@ namespace Tolldo.ViewModels
 
                 return Tasks.Count > 0 ? true : false;
             }
-        }        
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand CompleteAllTasksCommand { get; set; }
+        public ICommand UncompleteAllTasksCommand { get; set; }
+        public ICommand ToggleRenameCommand { get; set; }
+        public ICommand ToggleNewTaskCommand { get; set; }
+        public ICommand SaveNewTaskCommand { get; set; }
+        public ICommand DeleteTaskCommand { get; set; }
+        public ICommand ActivateDragCommand { get; set; }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Event that fires when a property in <see cref="TodoViewModel"/> changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void TodoViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Evaluate calling property
+            switch (e.PropertyName)
+            {
+                // Update name
+                case nameof(RenameActive):
+
+                    if (!RenameActive & _renameValue != null & this.Name != _renameValue)
+                    {
+                        var success = await _repo.UpdateTodo(this);
+                        if (success)
+                            SetMessage("Todo updated.");
+                        else SetMessage("Something went wrong. Try again.");
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        } 
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public TodoViewModel(IDialogService dialogService)
+        {
+            // Initialize services
+            _dialogService = dialogService;
+            _repo = new TodoRepository(_dialogService);
+
+            this.PropertyChanged += TodoViewModel_PropertyChanged;
+
+            // Initialize commands
+            CompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await CompleteAllTasks(); }, p => Tasks.Count > 0);
+            UncompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await UncompleteAllTasks(); }, p => Tasks.Count > 0);
+            ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
+            ToggleNewTaskCommand = new RelayCommand.RelayCommand(p => { NewTaskActive = bool.Parse((string)p); });
+            SaveNewTaskCommand = new RelayCommand.RelayCommand(async p => { await AddTask(); SetMessage("Task added."); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
+            DeleteTaskCommand = new RelayCommand.RelayCommand(async p => { await DeleteTask(SelectedTask); });
+            ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
+        }
 
         #endregion
 
@@ -323,13 +404,9 @@ namespace Tolldo.ViewModels
                         task.Completed = true;
                     }
                 }
-
-                // For smoother animation
-                LastProgress = temp;
-                Progress = 100;
-
-                _dialogService.SetMessage("All tasks completed!");
             });
+
+            SetMessage("All tasks completed!");
         }
 
         /// <summary>
@@ -349,26 +426,29 @@ namespace Tolldo.ViewModels
                         task.Completed = false;
                     }
                 }
-
-                // For smoother animation
-                LastProgress = temp;
-                Progress = 0;
             });
         }
 
         /// <summary>
         /// Saves the new task to the collection.
         /// </summary>
-        private void AddTask()
+        private async Task AddTask()
         {
             // Create new object
             TaskViewModel task = new TaskViewModel(_dialogService)
             {
                 Name = NewTask.Name,
-                Subtasks = new ObservableCollection<Subtask>()
+                Description = "",
+                Subtasks = new ObservableCollection<SubtaskViewModel>()
             };
 
-            // Add new task
+            // Add item to database
+            await _repo.AddTask(task, this.Id).ContinueWith(async p =>
+            {
+                task.Id = await p;
+            });
+
+            // Add item to collection
             Tasks.Add(task);
 
             // Set as the selected task
@@ -379,26 +459,47 @@ namespace Tolldo.ViewModels
 
             // Update UI
             UpdateProgress();
-
-            // Set message
-            _dialogService.SetMessage("Task added.");
         }
 
         /// <summary>
         /// Deletes the specified task.
         /// </summary>
-        private void DeleteTask()
+        private async Task DeleteTask(TaskViewModel task)
         {
-            if (SelectedTask == null)
-                return;
+            if (task == null)
+                return;            
 
-            Tasks.Remove(SelectedTask);
+            // Delete item from database
+            var success = await _repo.DeleteTask(task);
+
+            // If failed, set message and return
+            if (!success)
+            {
+                SetMessage("Deletion failed. Try again later.");
+                return;
+            }
+
+            // Reset selected item
+            SelectedTask = null;
+
+            // Remove item from view
+            Tasks.Remove(task);
+
+            // Set message
+            SetMessage("Task deleted.");
 
             // Update UI
             UpdateProgress();
+        }
 
+        /// <summary>
+        /// Sets a message to be displayed.
+        /// </summary>
+        /// <param name="msg">The message to be displayed.</param>
+        private void SetMessage(string msg)
+        {
             // Set message
-            _dialogService.SetMessage("Task deleted.");
+            _dialogService.SetMessage(msg);
         }
 
         #endregion
@@ -417,8 +518,11 @@ namespace Tolldo.ViewModels
             }
 
             // Get source and target
-            TodoTask sourceItem = dropInfo.Data as TodoTask;
-            TodoTask targetItem = dropInfo.TargetItem as TodoTask;
+            TaskViewModel sourceItem = dropInfo.Data as TaskViewModel;
+            TaskViewModel targetItem = dropInfo.TargetItem as TaskViewModel;
+
+            //sourceItem.DragActive = true;
+            sourceItem.RenameActive = false;
 
             if (sourceItem != null && targetItem != null)
             {
@@ -440,6 +544,7 @@ namespace Tolldo.ViewModels
             // Let the tasks switch places
             Tasks.Move(Tasks.IndexOf(sourceItem), Tasks.IndexOf(targetItem));
 
+            //sourceItem.DragActive = false;
             DragHandleActive = false;
         }
 
