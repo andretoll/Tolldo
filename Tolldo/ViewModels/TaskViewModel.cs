@@ -444,9 +444,10 @@ namespace Tolldo.ViewModels
 
             var success = await _repo.UpdateTask(this);
 
-            if (success)
+            if (!success)
+                SetMessage("Something went wrong. Try again.");
+            else if (msg)
                 SetMessage("Task updated.");
-            else SetMessage("Something went wrong. Try again.");
 
             IsBusy = false;
         }
