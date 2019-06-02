@@ -29,8 +29,7 @@
                            Text="Add new" />
 
                 <!-- New list button -->
-                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                        
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">                                        
 
                     <!-- New list input -->
                     <TextBox Style="{StaticResource StandardTextBox}"
@@ -38,7 +37,7 @@
                              Width="200"
                              Text="{Binding NewTodoName, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <Button Style="{StaticResource FlatIconButtonSquare}"
+                    <Button Style="{StaticResource FlatIconButton}"
                             IsDefault="True"
                             Command="{Binding AddNewTodoCommand}"
                             DockPanel.Dock="Right"
@@ -82,22 +81,22 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Search button -->
-                    <Button Style="{StaticResource FlatIconButton}"
+                    <Button Style="{StaticResource FlatSmallIconButton}"
                             Grid.Column="0"
+                            FontSize="22"
                             ToolTip="Search"
                             Command="{Binding ToggleSearchModeCommand}"
                             HorizontalAlignment="Left"
-                            FontSize="16"
                             Content="&#xf002;" />
 
                     <!-- Menu button -->
-                    <Button Style="{StaticResource FlatIconButton}"
+                    <Button Style="{StaticResource FlatSmallIconButton}"
                             ext:FocusExtension.IsFocused="{Binding IsPopupMenuOpen}"
                             Grid.Column="1"
+                            FontSize="22"
                             ToolTip="Sort"
                             Command="{Binding TogglePopupMenuCommand}"
                             HorizontalAlignment="Right"
-                            FontSize="16"
                             Content="&#xf0dc;">
 
                         <!-- When losing focus, close menu -->
@@ -191,6 +190,7 @@
 
             <!-- List of Todo-items -->
             <ListView ItemsSource="{Binding FilteredTodos, UpdateSourceTrigger=PropertyChanged}"
+                      IsSynchronizedWithCurrentItem="False"
                       Grid.Row="3"
                       ScrollViewer.CanContentScroll="False"
                       SelectedItem="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"

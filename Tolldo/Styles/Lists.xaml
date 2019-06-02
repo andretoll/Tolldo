@@ -43,7 +43,6 @@
             <!-- When selected -->
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
-                <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource ColorForegroundBrush}" />
             </Trigger>
             
@@ -54,7 +53,7 @@
                     <Condition Property="IsMouseOver" Value="True" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
                     <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBackgroundBrush}" />
                 </MultiTrigger.Setters>
             </MultiTrigger>

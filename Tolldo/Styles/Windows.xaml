@@ -10,6 +10,7 @@
     <!-- Title bar textblock -->
     <Style TargetType="{x:Type TextBlock}" x:Key="WindowHeaderTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0 6" />
@@ -157,7 +158,6 @@
                                              Margin="0">
 
                                         <TextBlock Style="{StaticResource WindowHeaderTextBlock}" 
-                                                   FontFamily="{StaticResource LatoBold}"
                                                    Foreground="{StaticResource TitleGradientBrush}"
                                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}" />
 

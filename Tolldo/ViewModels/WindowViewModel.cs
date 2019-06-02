@@ -14,7 +14,7 @@ namespace Tolldo.ViewModels
         private Window _window;
 
         // Minimum window width and height
-        private const int _windowMinimumWidth = 400;
+        private const int _windowMinimumWidth = 410;
         private const int _windowMinimumHeight = 400;
 
         // Thickness for resize border cursor

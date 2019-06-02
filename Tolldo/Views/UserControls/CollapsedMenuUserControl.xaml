@@ -7,26 +7,27 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Collapsed menu -->
-    <DockPanel Margin="20">
+    <DockPanel Margin="20"
+               Width="50">
 
         <!-- Upper -->
         <StackPanel DockPanel.Dock="Top"
                     Orientation="Vertical">
 
             <!-- Collapse button -->
-            <Button Style="{StaticResource FlatIconButton}"
-                    Margin="0 0 0 15"
+            <Button Style="{StaticResource FlatSmallIconButton}"
+                    Margin="0 0 0 25"
                     ToolTip="Show/Collapse"
                     Command="{Binding CollapseMenuCommand}"
-                    FontSize="16"
+                    FontSize="22"
                     Content="&#xf0c9;" />
 
             <!-- Home button -->
-            <Button Style="{StaticResource FlatIconButton}"
-                    Margin="0 0 0 15"
+            <Button Style="{StaticResource FlatSmallIconButton}"
+                    Margin="0 0 0 25"
                     ToolTip="Home"
                     Command="{Binding NavigateHomeCommand}"
-                    FontSize="16"
+                    FontSize="22"
                     Content="&#xf015;" />
 
         </StackPanel>
@@ -36,12 +37,13 @@
                     VerticalAlignment="Bottom">
 
             <!-- Accents container -->
-            <Border CornerRadius="20">
+            <Border CornerRadius="20"
+                    Padding="5 10"
+                    BorderThickness="1">
 
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="BorderThickness" Value="0" />
                         <Setter Property="Effect">
                             <Setter.Value>
                                 <DropShadowEffect ShadowDepth="1"
@@ -51,7 +53,7 @@
                         <Style.Triggers>
                             <!-- When menu opens -->
                             <DataTrigger Binding="{Binding IsAccentsMenuOpen}" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                                <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -111,15 +113,16 @@
                                     Background="{StaticResource OrangeColorGradientBrush}"
                                     ToolTip="Orange"
                                     FontSize="16" />
+                            
                         </StackPanel>
 
                     </StackPanel>
                     
                     <!-- Accents menu button -->
-                    <Button Style="{StaticResource FlatIconButton}"
+                    <Button Style="{StaticResource FlatSmallIconButton}"
                             Command="{Binding ToggleAccentsMenuCommand}"
                             ToolTip="Accent"
-                            FontSize="16"
+                            FontSize="22"
                             Content="&#xf1fc;" />
 
                 </StackPanel>
@@ -127,12 +130,12 @@
             </Border>
 
             <!-- Theme button -->
-            <Button Margin="0 15 0 0"
+            <Button Margin="0 25 0 0"
                     Command="{Binding InvertThemeCommand}"
-                    FontSize="16" >
+                    FontSize="22" >
 
                 <Button.Style>
-                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatIconButton}">
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatSmallIconButton}">
                         <Setter Property="Content" Value="&#xf185;" />
                         <Setter Property="ToolTip" Value="Theme" />
                         <Style.Triggers>
@@ -151,10 +154,10 @@
             </Button>
 
             <!-- Settings button -->
-            <Button Style="{StaticResource FlatIconButton}"
-                    Margin="0 15 0 0"
+            <Button Style="{StaticResource FlatSmallIconButton}"
+                    Margin="0 25 0 0"
                     ToolTip="Settings"
-                    FontSize="16"
+                    FontSize="22"
                     Content="&#xf085;"/>
 
         </StackPanel>

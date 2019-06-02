@@ -16,23 +16,23 @@
 
     <!-- Large text block -->
     <Style TargetType="{x:Type TextBlock}" x:Key="LargeTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
-        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
-        <Setter Property="FontSize" Value="19" />
+        <Setter Property="FontSize" Value="18" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="Opacity" Value="0.9" />
     </Style>
     
     <!-- Medium text block -->
     <Style TargetType="{x:Type TextBlock}" x:Key="MediumTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
-        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="Opacity" Value="0.9" />
     </Style>
 
     <!-- Small text block -->
     <Style TargetType="{x:Type TextBlock}" x:Key="SmallTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
-        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+        <Setter Property="Opacity" Value="0.9" />
     </Style> 
 
     <!-- Standard text box -->
@@ -41,7 +41,6 @@
         <Setter Property="TextWrapping" Value="NoWrap" />
         <Setter Property="MaxLines" Value="1" />
         <Setter Property="MaxLength" Value="20" />
-        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0 0 0 1" />
         <Setter Property="SelectionBrush" Value="{DynamicResource ColorForegroundBrush}" />
@@ -62,6 +61,29 @@
     <Style TargetType="{x:Type TextBox}" x:Key="LongTextBox" BasedOn="{StaticResource StandardTextBox}">
         <Setter Property="MaxLength" Value="80" />
         <Setter Property="BorderBrush" Value="{DynamicResource DarkColorForegroundBrush}" />
+    </Style>
+    
+    <!-- Tooltip -->
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToolTip}">
+
+                    <Border CornerRadius="2"
+                            Padding="5"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                            Background="{DynamicResource SecondaryBackgroundBrush}">
+
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToolTip}}, Path=PlacementTarget.ToolTip}"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource PrimaryForegroundBrush}"/>
+
+                    </Border>            
+                    
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

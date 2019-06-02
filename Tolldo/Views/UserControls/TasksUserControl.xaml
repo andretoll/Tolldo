@@ -19,11 +19,11 @@
 
             <Grid.ColumnDefinitions>
                 <!-- Left -->
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
                 <!-- Center -->
                 <ColumnDefinition Width="*" />
                 <!-- Right -->
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
             <!-- Banner image -->
@@ -31,7 +31,7 @@
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
                    Grid.ColumnSpan="3" 
-                   Source="/Images/welcome_winter.jpg" />
+                   Source="/Images/Banners/banner_winter.jpg" />
 
             <!-- Banner overlay -->
             <Rectangle Fill="Black"

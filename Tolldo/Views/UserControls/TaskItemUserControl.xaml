@@ -15,17 +15,6 @@
                         AncestorType={x:Type ListBox}}, 
                         Path=DataContext}">
 
-        <!-- Apply style when dragging -->
-        <Grid.Style>
-            <Style TargetType="{x:Type Grid}">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding DragActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                        <Setter Property="Opacity" Value="0.3" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Grid.Style>
-
         <Grid.RowDefinitions>
             <!-- Main panel -->
             <RowDefinition Height="*" />
@@ -78,7 +67,8 @@
         </Grid.ContextMenu>
 
         <!-- Main panel -->
-        <Grid Grid.Row="0" Background="Transparent" >
+        <Grid Grid.Row="0" 
+              Background="Transparent" >
 
             <Grid.RowDefinitions>
                 <!-- Checkbox, name and description -->
@@ -88,7 +78,8 @@
             </Grid.RowDefinitions>
 
             <!-- CheckBox, description and actions -->
-            <Grid Grid.Row="0" Background="Transparent" >
+            <Grid Grid.Row="0" 
+                  Background="Transparent" >
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -181,19 +172,6 @@
                         </Style>
                     </StackPanel.Style>
 
-                    <!-- Rename button -->
-                    <Button Command="{Binding ToggleRenameCommand}"
-                            Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
-                            Style="{StaticResource FlatSmallIconButton}"
-                            Focusable="False"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            ToolTip="Rename"
-                            Margin="10 0"
-                            FontSize="20"
-                            Content="&#xf303;"
-                            FontFamily="{StaticResource FontAwesome}" />
-
                     <!-- Expand button -->
                     <Button Command="{Binding ToggleExpandedCommand}"
                             Focusable="False"
@@ -207,9 +185,10 @@
                         <Button.Style>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatSmallIconButton}">
                                 <Setter Property="Content" Value="&#xf13a;" />
+                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
                                 <Setter Property="RenderTransform">
                                     <Setter.Value>
-                                        <RotateTransform Angle="0" CenterX="12" CenterY="13" />
+                                        <RotateTransform Angle="0"/>
                                     </Setter.Value>
                                 </Setter>
                                 <Style.Triggers>
@@ -236,9 +215,7 @@
                             </Style>
                         </Button.Style>
 
-                    </Button>
-
-                    
+                    </Button>                    
 
                 </StackPanel>
 
@@ -313,13 +290,12 @@
         </Grid>
 
         <!-- Expanded -->
-        <StackPanel Grid.Row="1"
-                    Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}">
-
-            <Border BorderThickness="0 1 0 0"
-                    Margin="0 10"
-                    BorderBrush="{DynamicResource GrayBackgroundBrush}" />
-
+        <Border Grid.Row="1"
+                Margin="0 10 10 0"
+                Padding="10"
+                Background="{DynamicResource SecondaryBackgroundBrush}"
+                Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}">
+            
             <StackPanel>
 
                 <!-- Edit subtasks -->
@@ -329,17 +305,9 @@
                     <!-- Label -->
                     <StackPanel Orientation="Horizontal">
 
-                        <TextBlock Style="{StaticResource MediumTextBlock}"
-                                   Margin="0 0 10 0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{DynamicResource PrimaryForegroundBrush}"
-                                   FontFamily="{StaticResource FontAwesome}"
-                                   FontSize="18"
-                                   Text="&#xf560;" />
-
                         <TextBlock Style="{StaticResource LargeTextBlock}"
                                    Foreground="{DynamicResource PrimaryForegroundBrush}"
-                                   Text="Subtasks" />                            
+                                   Text="Subtasks" />
 
                     </StackPanel>
 
@@ -442,18 +410,10 @@
                     <!-- Label -->
                     <StackPanel Orientation="Horizontal">
 
-                        <TextBlock Style="{StaticResource MediumTextBlock}"
-                                    Margin="0 0 10 0"
-                                    VerticalAlignment="Center"
-                                    Foreground="{DynamicResource PrimaryForegroundBrush}"
-                                    FontFamily="{StaticResource FontAwesome}"
-                                    FontSize="18"
-                                    Text="&#xf303;" />
-
                         <TextBlock Style="{StaticResource LargeTextBlock}"
                                     Foreground="{DynamicResource PrimaryForegroundBrush}"
                                     Text="Description" />
-                            
+
                     </StackPanel>
 
                     <!-- Input -->
@@ -468,7 +428,7 @@
                 <StackPanel Orientation="Horizontal"
                             Margin="0 20"
                             HorizontalAlignment="Center">
-                        
+
                     <!-- Done button -->
                     <Button Style="{StaticResource SuccessButton}"
                             VerticalAlignment="Center"
@@ -480,9 +440,8 @@
                 </StackPanel>
 
             </StackPanel>
-
-
-        </StackPanel>
+            
+        </Border>
 
     </Grid>
     

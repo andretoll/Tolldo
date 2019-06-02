@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Tolldo"
         xmlns:usercontrols="clr-namespace:Tolldo.Views.UserControls"
         mc:Ignorable="d"
-        Title="TOLLDO" Height="600" Width="1200" 
+        Title="TOLLDO" Height="800" Width="1280" 
         MinHeight="{Binding WindowMinimumHeight}" 
         MinWidth="{Binding WindowMinimumWidth}"
         WindowStyle="None"

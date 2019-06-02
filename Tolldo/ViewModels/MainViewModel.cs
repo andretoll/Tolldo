@@ -352,6 +352,18 @@ namespace Tolldo.ViewModels
                     _dialogService.SetMessage("All tasks completed! Well done!");
                 }
             }
+            // If a task was expanded, collapse others
+            if (e.PropertyName == "ExpandedActive" && (sender as TaskViewModel).ExpandedActive)
+            {
+                foreach (var task in SelectedTodo.Tasks)
+                {
+                    if (task.Id == (sender as TaskViewModel).Id)
+                        continue;
+
+                    if (task.ExpandedActive)
+                        task.ExpandedActive = false;
+                }
+            }
         }
 
         /// <summary>
@@ -455,9 +467,11 @@ namespace Tolldo.ViewModels
                 FilteredTodos.Filter = null;
                 return;
             }
-            
-            // Apply filter
+
+            // Apply filter and keep selected item
+            var a = SelectedTodo;
             FilteredTodos.Filter = new Predicate<object>(o => ((TodoViewModel)o).Name.ToLower().Contains(keyword.ToLower()));
+            SelectedTodo = a;
         }
 
         /// <summary>

@@ -135,12 +135,12 @@
         </member>
         <member name="P:Microsoft.Extensions.Configuration.Binder.Resources.Error_FailedBinding">
             <summary>
-            Failed to convert '{0}' to type '{1}'.
+            Failed to convert configuration value to type '{0}'.
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.Configuration.Binder.Resources.FormatError_FailedBinding(System.Object,System.Object)">
+        <member name="M:Microsoft.Extensions.Configuration.Binder.Resources.FormatError_FailedBinding(System.Object)">
             <summary>
-            Failed to convert '{0}' to type '{1}'.
+            Failed to convert configuration value to type '{0}'.
             </summary>
         </member>
         <member name="P:Microsoft.Extensions.Configuration.Binder.Resources.Error_FailedToActivate">
