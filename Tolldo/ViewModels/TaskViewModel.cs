@@ -51,6 +51,9 @@ namespace Tolldo.ViewModels
         // Indicates if a subtask has been added
         private bool _newSubtaskAdded;
 
+        // Indicates if app is busy
+        private bool _isBusy;
+
         #endregion
 
         #endregion
@@ -97,8 +100,22 @@ namespace Tolldo.ViewModels
             {               
                 _completed = value;
 
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool IsCompleted
+        {
+            get
+            {
+                return _completed;
+            }
+            set
+            {
+                _completed = value;
+
                 // Evaluate the completion status of subtasks
-                Task.Run(async () => 
+                Task.Run(async () =>
                 {
                     await CompleteSubtasks();
                 });
@@ -192,6 +209,23 @@ namespace Tolldo.ViewModels
             }
         }
 
+        // Indicates if app is busy
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                if (_isBusy == value)
+                    return;
+
+                _isBusy = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         #endregion
 
         #endregion
@@ -237,13 +271,11 @@ namespace Tolldo.ViewModels
                 if (_completed != subtasksComplete)
                 {
                     _completed = subtasksComplete;
-                    NotifyPropertyChanged(nameof(Completed));
+                    NotifyPropertyChanged(nameof(IsCompleted));
                 }
 
                 // Update subtask in database
-                var success = await _repo.UpdateSubtask(sender as SubtaskViewModel);
-                if (!success)
-                    SetMessage("Something went wrong. Try again.");
+                await UpdateSubtask(sender as SubtaskViewModel);            
             }
             else if (e.PropertyName == "Name")
             {
@@ -270,10 +302,7 @@ namespace Tolldo.ViewModels
                     // If rename has been made and value has changed, update item
                     if (!RenameActive & _renameValue != null & this.Name != _renameValue)
                     {
-                        var success = await _repo.UpdateTask(this);
-                        if (success)
-                            SetMessage("Task updated.");
-                        else SetMessage("Something went wrong. Try again.");
+                        await UpdateTask(true);
                     }
                     break;
 
@@ -283,29 +312,21 @@ namespace Tolldo.ViewModels
                     // If description has been changed, update item
                     if (!ExpandedActive & _descriptionValue != null & this.Description != _descriptionValue)
                     {
-                        var success = await _repo.UpdateTask(this);
-                        if (success)
-                            SetMessage("Task updated.");
-                        else SetMessage("Something went wrong. Try again.");
+                        await UpdateTask(true);
                     }
                     break;
 
                 // Completed
-                case nameof(Completed):
+                case nameof(IsCompleted):
 
                     // Update item in database
-                    if (Completed == _completed)
-                    {
-                        var success = await _repo.UpdateTask(this);
-                        if (!success)
-                            SetMessage("Something went wrong. Try again."); 
-                    }
+                    await UpdateTask(false);
                     break;
 
                 default:
                     break;
             }
-        }
+        }    
 
         #endregion
 
@@ -325,8 +346,8 @@ namespace Tolldo.ViewModels
             // Commands
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
             ToggleExpandedCommand = new RelayCommand.RelayCommand(p => { ExpandedActive = !ExpandedActive; });
-            CheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = true; });
-            UncheckTaskCommand = new RelayCommand.RelayCommand(p => { this.Completed = false; });
+            CheckTaskCommand = new RelayCommand.RelayCommand(p => { this.IsCompleted = true; });
+            UncheckTaskCommand = new RelayCommand.RelayCommand(p => { this.IsCompleted = false; });
             AddSubtaskCommand = new RelayCommand.RelayCommand(async p => { await AddSubtask(); SetMessage("Subtask added."); }, p => NewSubtaskName.Length > 0);
             DeleteSubtaskCommand = new RelayCommand.RelayCommand(async p => { await DeleteSubtask(p as SubtaskViewModel); });
         }
@@ -349,17 +370,17 @@ namespace Tolldo.ViewModels
             // Subscribe to property changed event for new subtask
             subtask.PropertyChanged += Subtask_PropertyChanged;
 
-            // Start uncompleted
-            subtask.Completed = false;
-
             // Add subtask to database
             await _repo.AddSubtask(subtask, this.Id).ContinueWith(async p =>
             {
                 subtask.Id = await p;
+                subtask.TodoTaskId = this.Id;
             });
 
             // Add item to view
             Subtasks.Add(subtask);
+
+            subtask.Completed = false;
 
             // Reset new subtask
             NewSubtaskName = null;
@@ -410,6 +431,46 @@ namespace Tolldo.ViewModels
 
             // Set message
             SetMessage("Subtask deleted.");
+        }
+
+        /// <summary>
+        /// Updates the current task in database.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        private async Task UpdateTask(bool msg)
+        {
+            IsBusy = true;
+
+            var success = await _repo.UpdateTask(this);
+
+            if (success)
+                SetMessage("Task updated.");
+            else SetMessage("Something went wrong. Try again.");
+
+            IsBusy = false;
+        }
+
+        /// <summary>
+        /// Updates the specified subtask in database.
+        /// </summary>
+        /// <param name="subtask"></param>
+        /// <returns></returns>
+        private async Task UpdateSubtask(SubtaskViewModel subtask)
+        {
+            if (subtask == null)
+                return;
+
+            await Task.Delay(2000);
+
+            IsBusy = true;
+
+            var success = await _repo.UpdateSubtask(subtask);
+
+            if (!success)
+                SetMessage("Something went wrong. Try again.");
+
+            IsBusy = false;
         }
 
         /// <summary>

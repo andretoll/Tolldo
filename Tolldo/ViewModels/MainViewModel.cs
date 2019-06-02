@@ -343,7 +343,7 @@ namespace Tolldo.ViewModels
         private void Task_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Update progress if the completed property changed
-            if (e.PropertyName == "Completed")
+            if (e.PropertyName == "IsCompleted")
             {
                 SelectedTodo.UpdateProgress();
 

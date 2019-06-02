@@ -47,6 +47,8 @@
             }
         }
 
+        public int TodoTaskId { get; set; }
+
         #endregion
     }
 }

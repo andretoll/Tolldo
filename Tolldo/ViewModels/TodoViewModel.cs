@@ -264,7 +264,7 @@ namespace Tolldo.ViewModels
 
                 foreach (var task in Tasks)
                 {
-                    p += task.Completed ? 1 : 0;
+                    p += task.IsCompleted ? 1 : 0;
                 }
 
                 return $"{p}/{Tasks.Count}";
@@ -399,9 +399,9 @@ namespace Tolldo.ViewModels
                 int temp = Progress;
                 foreach (var task in this.Tasks)
                 {
-                    if (!task.Completed)
+                    if (!task.IsCompleted)
                     {
-                        task.Completed = true;
+                        task.IsCompleted = true;
                     }
                 }
             });
@@ -421,9 +421,9 @@ namespace Tolldo.ViewModels
 
                 foreach (var task in this.Tasks)
                 {
-                    if (task.Completed)
+                    if (task.IsCompleted)
                     {
-                        task.Completed = false;
+                        task.IsCompleted = false;
                     }
                 }
             });

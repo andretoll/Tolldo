@@ -11,5 +11,6 @@
     <valueconverters:NullToBoolConverter x:Key="nullToBoolConverter" />
     <valueconverters:VerticalScrollToVisibilityConverter x:Key="verticalScrollToVisibilityConverter" />
     <valueconverters:ReversedVerticalScrollToVisibilityConverter x:Key="reversedVerticalScrollToVisibilityConverter" />
+    <valueconverters:BooleanToBooleanConverter x:Key="booleanToBooleanConverter" />
 
 </ResourceDictionary>

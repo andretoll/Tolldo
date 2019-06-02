@@ -219,6 +219,7 @@
     <Compile Include="Models\Subtask.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IDialogService.cs" />
+    <Compile Include="ValueConverters\BooleanToBooleanConverter.cs" />
     <Compile Include="ValueConverters\NullToBoolConverter.cs" />
     <Compile Include="ValueConverters\ReversedVerticalScrollToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\VerticalScrollToVisibilityConverter.cs" />

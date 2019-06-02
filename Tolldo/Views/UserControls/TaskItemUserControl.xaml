@@ -93,10 +93,11 @@
                             Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
 
                     <!-- CheckBox and name -->
-                    <CheckBox IsChecked="{Binding Completed}"
-                                  Content="{Binding Name}"
-                                  FontSize="26"
-                                  Style="{StaticResource TaskCheckBox}"/>
+                    <CheckBox IsChecked="{Binding IsCompleted}"
+                              IsEnabled="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToBooleanConverter}}"
+                              Content="{Binding Name}"
+                              FontSize="26"
+                              Style="{StaticResource TaskCheckBox}" />
 
                     <!-- Description -->
                     <TextBlock Style="{StaticResource SmallTextBlock}"
