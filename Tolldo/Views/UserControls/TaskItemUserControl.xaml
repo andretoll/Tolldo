@@ -249,7 +249,7 @@
                 <Border BorderThickness="1 0 0 0"
                         Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
                         Margin="12 0 0 0"
-                        BorderBrush="{DynamicResource ColorGradientBrush}">
+                        BorderBrush="{DynamicResource ColorForegroundBrush}">
                     <!-- Subtasks -->
                     <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
                              HorizontalAlignment="Left"                             

@@ -77,4 +77,11 @@
         <GradientStop Color="{StaticResource DarkerOrange}" Offset="1" />
     </LinearGradientBrush>
 
+    <!-- Pink Color Gradient -->
+    <LinearGradientBrush x:Key="PinkColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource DarkerPink}" Offset="0" />
+        <GradientStop Color="{StaticResource Pink}" Offset="0.5" />
+        <GradientStop Color="{StaticResource DarkerPink}" Offset="1" />
+    </LinearGradientBrush>
+
 </ResourceDictionary>

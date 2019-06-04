@@ -1,10 +1,12 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Tolldo.Data;
+using Tolldo.Helpers;
 using Tolldo.Services;
 
 namespace Tolldo.ViewModels
@@ -50,6 +52,9 @@ namespace Tolldo.ViewModels
 
         // Indicates if drag is active
         private bool _dragHandleActive;
+
+        // Indicates if banner image popup menu is open
+        private bool _isImageMenuOpen;
 
         #endregion
 
@@ -170,6 +175,29 @@ namespace Tolldo.ViewModels
             {
                 _dragHandleActive = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        // Indicates if banner image popup menu is open
+        public bool IsImageMenuOpen
+        {
+            get
+            {
+                return _isImageMenuOpen;
+            }
+            set
+            {
+                _isImageMenuOpen = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // List of banner images
+        public List<string> BannerImageCollection
+        {
+            get
+            {
+                return SettingsManager.GetBannerImageList();
             }
         }
 
@@ -299,6 +327,9 @@ namespace Tolldo.ViewModels
         public ICommand SaveNewTaskCommand { get; set; }
         public ICommand DeleteTaskCommand { get; set; }
         public ICommand ActivateDragCommand { get; set; }
+        public ICommand ToggleImageMenuCommand { get; set; }
+        public ICommand CloseImageMenuCommand { get; set; }
+        public ICommand ChangeBannerImageCommand { get; set; }
 
         #endregion
 
@@ -354,6 +385,9 @@ namespace Tolldo.ViewModels
             SaveNewTaskCommand = new RelayCommand.RelayCommand(async p => { await AddTask(); SetMessage("Task added."); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
             DeleteTaskCommand = new RelayCommand.RelayCommand(async p => { await DeleteTask(SelectedTask); });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
+            ToggleImageMenuCommand = new RelayCommand.RelayCommand(p => { IsImageMenuOpen = !IsImageMenuOpen; });
+            CloseImageMenuCommand = new RelayCommand.RelayCommand(p => { IsImageMenuOpen = false; });
+            ChangeBannerImageCommand = new RelayCommand.RelayCommand(async p => { await ChangeBannerImage((string)p); });
         }
 
         #endregion
@@ -490,6 +524,32 @@ namespace Tolldo.ViewModels
 
             // Update UI
             UpdateProgress();
+        }
+
+        /// <summary>
+        /// Changes the current banner image for this todo.
+        /// </summary>
+        /// <param name="url">The url to the image</param>
+        /// <returns></returns>
+        private async Task ChangeBannerImage(string url)
+        {
+            // Close menu after update
+            this.IsImageMenuOpen = false;
+
+            if (string.IsNullOrEmpty(url) | url == this.ImageUrl)
+                return;
+
+            this.ImageUrl = url;
+
+            var success = await _repo.UpdateTodo(this);
+
+            if (!success)
+            {
+                SetMessage("Image could not be set. Try again later.");
+                return;
+            }
+
+            SetMessage("Image updated.");
         }
 
         /// <summary>

@@ -414,7 +414,10 @@ namespace Tolldo.ViewModels
         private async Task DeleteSubtask(SubtaskViewModel subtask)
         {
             if (subtask == null)
-                return;            
+                return;
+
+            // Unsubscribe from property changed event
+            subtask.PropertyChanged -= Subtask_PropertyChanged;
 
             // Delete item from database
             var success = await _repo.DeleteSubtask(subtask);

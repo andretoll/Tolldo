@@ -424,9 +424,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Banners\banner_winter.jpg">
+    <Content Include="Images\Banners\banner_winter.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="Images\splash.png">
@@ -434,15 +434,15 @@
     </SplashScreen>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Banners\banner_blueprint.jpg">
+    <Content Include="Images\Banners\banner_blueprint.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Banners\banner_food.jpg">
+    </Content>
+    <Content Include="Images\Banners\banner_food.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Banners\banner_travel.jpg">
+    </Content>
+    <Content Include="Images\Banners\banner_travel.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\welcome_winter.jpg">

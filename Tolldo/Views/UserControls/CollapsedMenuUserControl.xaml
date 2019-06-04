@@ -113,7 +113,16 @@
                                     Background="{StaticResource OrangeColorGradientBrush}"
                                     ToolTip="Orange"
                                     FontSize="16" />
-                            
+
+                            <!-- Color 4 -->
+                            <Button Style="{StaticResource ColorBackgroundButton}"
+                                    Command="{Binding SetAccentCommand}"
+                                    CommandParameter="Pink"
+                                    Margin="0 0 0 5"
+                                    Background="{StaticResource PinkColorGradientBrush}"
+                                    ToolTip="Pink"
+                                    FontSize="16" />
+
                         </StackPanel>
 
                     </StackPanel>

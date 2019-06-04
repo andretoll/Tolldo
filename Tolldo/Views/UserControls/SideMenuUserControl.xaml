@@ -105,6 +105,7 @@
                                 <i:InvokeCommandAction Command="{Binding ClosePopupMenuCommand}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
+                        
                     </Button>
 
                 </Grid>

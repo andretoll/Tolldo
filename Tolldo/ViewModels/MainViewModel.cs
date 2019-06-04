@@ -147,7 +147,9 @@ namespace Tolldo.ViewModels
                 NotifyPropertyChanged();
 
                 if (value.Length > 0)
+                {
                     FilterTodos(value);
+                }
                 else
                 {
                     ClearFilter();
@@ -469,9 +471,7 @@ namespace Tolldo.ViewModels
             }
 
             // Apply filter and keep selected item
-            var a = SelectedTodo;
             FilteredTodos.Filter = new Predicate<object>(o => ((TodoViewModel)o).Name.ToLower().Contains(keyword.ToLower()));
-            SelectedTodo = a;
         }
 
         /// <summary>
@@ -488,10 +488,11 @@ namespace Tolldo.ViewModels
         /// <param name="name">Name of the new Todo-item.</param>
         private async Task AddTodo(string name)
         {
-            // Create new
+            // Create new todo with name, image url and empty list of tasks
             TodoViewModel todo = new TodoViewModel(_dialogService)
             {
-                Name = name,                
+                Name = name,
+                ImageUrl = SettingsManager.GetDefaultBannerImage(),
                 Tasks = new ObservableCollection<TaskViewModel>()
             };
 

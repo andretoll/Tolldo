@@ -12,10 +12,10 @@
     <Style TargetType="{x:Type ContextMenu}" x:Key="ContextMenuBase">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HasDropShadow" Value="True" />
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect ShadowDepth="8" Opacity="0.35"/>
+                <DropShadowEffect ShadowDepth="10"
+                                  Opacity="0.45"/>
             </Setter.Value>
         </Setter>
 
@@ -25,8 +25,7 @@
 
                     <Border x:Name="Border"
                             Margin="10"
-                            Background="{DynamicResource PrimaryBackgroundBrush}"
-                            BorderThickness="1"
+                            Background="{DynamicResource SecondaryBackgroundBrush}"
                             BorderBrush="{DynamicResource GrayBackgroundBrush}">
 
 
@@ -93,12 +92,12 @@
 
                                     <!-- When hovering -->
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
                                     </Trigger>
 
                                     <!-- When disabled -->
                                     <Trigger Property="IsEnabled" Value="false">
-                                        <Setter Property="Opacity" Value="0.5" />
+                                        <Setter Property="Opacity" Value="0.35" />
                                     </Trigger>
 
                                 </Style.Triggers>
@@ -151,7 +150,7 @@
 
                                     <!-- When hovering -->
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
                                     </Trigger>
 
                                 </Style.Triggers>

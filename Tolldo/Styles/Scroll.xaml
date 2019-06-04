@@ -82,6 +82,7 @@
                                     <Thumb Style="{StaticResource ScrollBarThumb}" />
                                 </Track.Thumb>
                             </Track>
+                            
                         </Border>
 
                     </Grid>
@@ -98,23 +99,31 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
-                            <Grid x:Name="Bg" SnapsToDevicePixels="true">
-                                
-                                <Track x:Name="PART_Track"
-                                       Grid.Column="1"
-                                       IsEnabled="{TemplateBinding IsMouseOver}">
-                                    <Track.DecreaseRepeatButton>
-                                        <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" />
-                                    </Track.DecreaseRepeatButton>
-                                    <Track.IncreaseRepeatButton>
-                                        <RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" />
-                                    </Track.IncreaseRepeatButton>
-                                    <Track.Thumb>
-                                        <Thumb Style="{StaticResource ScrollBarThumb}" />
-                                    </Track.Thumb>
-                                </Track>
-                                
-                            </Grid>                            
+                            <Grid x:Name="Bg" SnapsToDevicePixels="true" Background="Transparent">
+
+                                <Border Padding="4 0"
+                                        Margin="4 0"
+                                        CornerRadius="5"
+                                        Background="{DynamicResource PrimaryBackgroundBrush}">
+
+                                    <Track x:Name="PART_Track"
+                                           IsEnabled="{TemplateBinding IsMouseOver}"
+                                           Height="8"
+                                           VerticalAlignment="Center">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageUpCommand}" />
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Opacity="0" Command="{x:Static ScrollBar.PageDownCommand}" />
+                                        </Track.IncreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource ScrollBarThumb}" />
+                                        </Track.Thumb>
+                                    </Track>
+
+                                </Border>
+
+                            </Grid>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

@@ -123,6 +123,12 @@ namespace Tolldo.Helpers
                     SetBrush("DarkOrange", "DarkColorForegroundBrush");
                     SetLinearBrush("DarkerOrange", "Orange", "ColorGradientBrush");
                     break;
+                case "Pink":
+                    SetBrush("Pink", "ColorForegroundBrush");
+                    SetBrush("DarkerPink", "DarkerColorForegroundBrush");
+                    SetBrush("DarkPink", "DarkColorForegroundBrush");
+                    SetLinearBrush("DarkerPink", "Pink", "ColorGradientBrush");
+                    break;
                 default:
                     SetBrush("Blue", "ColorForegroundBrush");
                     SetBrush("DarkerBlue", "DarkerColorForegroundBrush");

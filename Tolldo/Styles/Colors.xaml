@@ -33,4 +33,9 @@
     <Color x:Key="DarkerGreen">#40a33e</Color>
     <Color x:Key="DarkGreen">#338231</Color>
 
+    <!-- Pink -->
+    <Color x:Key="Pink">#dd52be</Color>
+    <Color x:Key="DarkerPink">#a23d78</Color>
+    <Color x:Key="DarkPink">#82315e</Color>
+
 </ResourceDictionary>
