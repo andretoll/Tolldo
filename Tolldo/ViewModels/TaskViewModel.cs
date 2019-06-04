@@ -31,6 +31,8 @@ namespace Tolldo.ViewModels
 
         private bool _completed;
 
+        private int _order;
+
         private ObservableCollection<SubtaskViewModel> _subtasks;
 
         #endregion
@@ -120,6 +122,19 @@ namespace Tolldo.ViewModels
                     await CompleteSubtasks();
                 });
 
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int Order
+        {
+            get
+            {
+                return _order;
+            }
+            set
+            {
+                _order = value;
                 NotifyPropertyChanged();
             }
         }

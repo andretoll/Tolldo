@@ -195,15 +195,19 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Just for show -->
-                        <TextBlock Style="{StaticResource MediumTextBlock}"
-                                   Grid.Column="0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{StaticResource LightForegroundBrush}"
-                                   FontFamily="{StaticResource FontAwesome}"
-                                   Margin="4 0 0 0"
-                                   FontSize="22"
-                                   Text="&#xf0fe;" />
+                        <!-- Save button -->
+                        <Button Style="{StaticResource FlatSmallIconButton}"
+                                IsDefault="True"
+                                Focusable="False"
+                                Foreground="{StaticResource LightForegroundBrush}"
+                                ToolTip="Save"
+                                Grid.Column="0"
+                                Command="{Binding SaveNewTaskCommand}"
+                                VerticalAlignment="Center"
+                                FontSize="22"
+                                FontFamily="{StaticResource FontAwesome}"                                            
+                                Margin="4 0 10 0"
+                                Content="&#xf0fe;" />
 
                         <!-- Name for task -->
                         <TextBox Style="{StaticResource LongTextBox}"
@@ -228,18 +232,6 @@
 
                         </TextBox>
 
-                        <!-- Save button -->
-                        <Button Grid.Column="2"
-                                IsDefault="True"
-                                ToolTip="Add Task"
-                                Focusable="False"
-                                Visibility="{Binding NewTaskActive, Converter={StaticResource booleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
-                                Command="{Binding SaveNewTaskCommand}"
-                                Margin="10 0 0 0"
-                                Style="{StaticResource FlatIconButtonSquare}"
-                                FontFamily="{StaticResource FontAwesome}"
-                                FontSize="16"
-                                Content="&#xf0c7;"/>
                     </Grid>
                     
                 </Border>
@@ -366,7 +358,6 @@
                                     </i:Interaction.Triggers>
 
                                 </TextBox>
-
                                 
                             </Grid>
                             
@@ -404,6 +395,7 @@
 
                     <!-- None -->
                     <Button Command="{Binding ChangeBannerImageCommand}"
+                            Width="150"
                             ToolTip="None"
                             Grid.Column="0"
                             Focusable="False"
@@ -476,7 +468,8 @@
                                                             <ControlTemplate TargetType="{x:Type Button}">
                                                                 <Border Background="{TemplateBinding Background}">
 
-                                                                    <Image Stretch="UniformToFill">
+                                                                    <Image Stretch="Fill"
+                                                                           Width="150">
 
                                                                         <Image.Source>
                                                                             <BitmapImage UriSource="{Binding}" DecodePixelWidth="200" />

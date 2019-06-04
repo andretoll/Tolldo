@@ -326,6 +326,7 @@ namespace Tolldo.ViewModels
         public ICommand ToggleNewTaskCommand { get; set; }
         public ICommand SaveNewTaskCommand { get; set; }
         public ICommand DeleteTaskCommand { get; set; }
+        public ICommand CopyTaskCommand { get; set; }
         public ICommand ActivateDragCommand { get; set; }
         public ICommand ToggleImageMenuCommand { get; set; }
         public ICommand CloseImageMenuCommand { get; set; }
@@ -384,6 +385,7 @@ namespace Tolldo.ViewModels
             ToggleNewTaskCommand = new RelayCommand.RelayCommand(p => { NewTaskActive = bool.Parse((string)p); });
             SaveNewTaskCommand = new RelayCommand.RelayCommand(async p => { await AddTask(); SetMessage("Task added."); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
             DeleteTaskCommand = new RelayCommand.RelayCommand(async p => { await DeleteTask(SelectedTask); });
+            CopyTaskCommand = new RelayCommand.RelayCommand(async p => { await CopyTask(SelectedTask); });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
             ToggleImageMenuCommand = new RelayCommand.RelayCommand(p => { IsImageMenuOpen = !IsImageMenuOpen; });
             CloseImageMenuCommand = new RelayCommand.RelayCommand(p => { IsImageMenuOpen = false; });
@@ -473,6 +475,7 @@ namespace Tolldo.ViewModels
             {
                 Name = NewTask.Name,
                 Description = "",
+                Order = Tasks.Count + 1,
                 Subtasks = new ObservableCollection<SubtaskViewModel>()
             };
 
@@ -498,6 +501,8 @@ namespace Tolldo.ViewModels
         /// <summary>
         /// Deletes the specified task.
         /// </summary>
+        /// <param name="task">The task to delete.</param>
+        /// <returns></returns>
         private async Task DeleteTask(TaskViewModel task)
         {
             if (task == null)
@@ -524,6 +529,45 @@ namespace Tolldo.ViewModels
 
             // Update UI
             UpdateProgress();
+
+            // Update task order
+            await UpdateTaskOrder();
+        }
+
+        /// <summary>
+        /// Copies the specified task.
+        /// </summary>
+        /// <param name="task">The task to copy.</param>
+        /// <returns></returns>
+        private async Task CopyTask(TaskViewModel task)
+        {
+            if (task == null)
+                return;
+
+            // Create new object
+            TaskViewModel newTask = new TaskViewModel(_dialogService)
+            {
+                Name = task.Name,
+                Description = task.Description,
+                Completed = task.Completed,
+                Order = task.Order + 1,
+                Subtasks = new ObservableCollection<SubtaskViewModel>()
+            };
+
+            // Add item to database
+            await _repo.AddTask(newTask, this.Id).ContinueWith(async p =>
+            {
+                newTask.Id = await p;
+            });
+
+            // Add item to collection
+            Tasks.Insert(Tasks.IndexOf(task) + 1, newTask);
+
+            // Update UI
+            UpdateProgress();
+
+            // Update task order
+            await UpdateTaskOrder();
         }
 
         /// <summary>
@@ -550,6 +594,30 @@ namespace Tolldo.ViewModels
             }
 
             SetMessage("Image updated.");
+        }
+
+        /// <summary>
+        /// Updates the current task order.
+        /// </summary>
+        /// <returns></returns>
+        private async Task UpdateTaskOrder()
+        {
+            // Update UI
+            int order = 1;
+            foreach (var task in this.Tasks)
+            {
+                task.Order = order;
+                order++;
+            }
+
+            // Change order property and update database
+            await Task.Run(async () =>
+            {
+                foreach (var task in this.Tasks)
+                {
+                    await _repo.UpdateTask(task);
+                }
+            });
         }
 
         /// <summary>
@@ -595,7 +663,7 @@ namespace Tolldo.ViewModels
         /// Method called when dropping an item.
         /// </summary>
         /// <param name="dropInfo"></param>
-        void IDropTarget.Drop(IDropInfo dropInfo)
+        async void IDropTarget.Drop(IDropInfo dropInfo)
         {
             // Get source and target
             TaskViewModel sourceItem = dropInfo.Data as TaskViewModel;
@@ -604,7 +672,9 @@ namespace Tolldo.ViewModels
             // Let the tasks switch places
             Tasks.Move(Tasks.IndexOf(sourceItem), Tasks.IndexOf(targetItem));
 
-            //sourceItem.DragActive = false;
+            // Update task order
+            await UpdateTaskOrder();    
+
             DragHandleActive = false;
         }
 

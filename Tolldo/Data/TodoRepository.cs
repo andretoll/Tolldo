@@ -65,14 +65,20 @@ namespace Tolldo.Data
             using (var context = new TolldoDbContext())
             {
                 // Get items from database
-                var todos = Task.FromResult(
-                context.Todos
-                .Include(t => t.Tasks)
-                .ThenInclude(t => t.Subtasks)
-                .ToListAsync()).Result.Result;
+                var todos = context.Todos
+                .Include(a => a.Tasks)                
+                .ThenInclude(b => b.Subtasks)
+                .ToList();
 
                 // Map items
                 var todoViewModels = _mapper.Map<List<TodoViewModel>>(todos);
+
+                // Order tasks by order property
+                foreach (var todo in todoViewModels)
+                {
+                    var tasks = todo.Tasks.OrderBy(a => a.Order).ToList();
+                    todo.Tasks = new System.Collections.ObjectModel.ObservableCollection<TaskViewModel>(tasks);
+                }
 
                 // Return items
                 return todoViewModels;

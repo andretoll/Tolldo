@@ -72,6 +72,9 @@ namespace Tolldo.Helpers
 
                 // Set inverted
                 SetBrush("Light", "InvertedBackgroundBrush");
+
+                // Set primary gradient
+                SetLinearBrush("Dark", "DarkGray", "PrimaryGradientBrush");
             }
             else
             {
@@ -89,6 +92,9 @@ namespace Tolldo.Helpers
 
                 // Set inverted
                 SetBrush("Dark", "InvertedBackgroundBrush");
+
+                // Set primary gradient
+                SetLinearBrush("Light", "LightGray", "PrimaryGradientBrush");
             }
 
             // Save settings
@@ -172,9 +178,11 @@ namespace Tolldo.Helpers
             // Create new brush
             LinearGradientBrush brush = new LinearGradientBrush();
             brush.StartPoint = new Point(0, 0);
-            brush.EndPoint = new Point(1, 1);
+            brush.EndPoint = new Point(1, 0);
             brush.GradientStops.Add(new GradientStop(firstColor, 0.0));
+            brush.GradientStops.Add(new GradientStop(secondColor, 0.1));
             brush.GradientStops.Add(new GradientStop(secondColor, 0.50));
+            brush.GradientStops.Add(new GradientStop(secondColor, 0.9));
             brush.GradientStops.Add(new GradientStop(firstColor, 1.0));
 
             // Apply new brush

@@ -78,7 +78,6 @@
         <Setter Property="BorderThickness" Value="0 0 0 1" />
         <Setter Property="BorderBrush" Value="{DynamicResource GrayBackgroundBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
-        <Setter Property="Padding" Value="10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
