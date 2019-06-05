@@ -33,6 +33,8 @@ namespace Tolldo.ViewModels
 
         private string _imageUrl;
 
+        private int _order;
+
         private ObservableCollection<TaskViewModel> _tasks;
 
         private int _progress;
@@ -98,6 +100,19 @@ namespace Tolldo.ViewModels
             set
             {
                 _imageUrl = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public int Order
+        {
+            get
+            {
+                return _order;
+            }
+            set
+            {
+                _order = value;
                 NotifyPropertyChanged();
             }
         }
@@ -649,7 +664,6 @@ namespace Tolldo.ViewModels
             TaskViewModel sourceItem = dropInfo.Data as TaskViewModel;
             TaskViewModel targetItem = dropInfo.TargetItem as TaskViewModel;
 
-            //sourceItem.DragActive = true;
             sourceItem.RenameActive = false;
 
             if (sourceItem != null && targetItem != null)

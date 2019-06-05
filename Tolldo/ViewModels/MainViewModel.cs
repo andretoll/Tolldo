@@ -493,6 +493,7 @@ namespace Tolldo.ViewModels
             {
                 Name = name,
                 ImageUrl = SettingsManager.GetDefaultBannerImage(),
+                Order = Todos.Count + 1,
                 Tasks = new ObservableCollection<TaskViewModel>()
             };
 
@@ -510,7 +511,7 @@ namespace Tolldo.ViewModels
             SelectedTodo = todo;
 
             // Clear new todo
-            NewTodoName = string.Empty;
+            NewTodoName = string.Empty;            
         }
 
         /// <summary>
@@ -555,6 +556,9 @@ namespace Tolldo.ViewModels
 
             // Set as deleted todo
             DeletedTodo = todo;
+
+            // Update todo order
+            await UpdateTodoOrder();
         }
 
         /// <summary>
@@ -585,6 +589,33 @@ namespace Tolldo.ViewModels
 
             // Unset message
             SetMessage(null);
+
+            // Update todo order
+            await UpdateTodoOrder();
+        }
+
+        /// <summary>
+        /// Updates the current todo order.
+        /// </summary>
+        /// <returns></returns>
+        private async Task UpdateTodoOrder()
+        {
+            // Update UI
+            int order = 1;
+            foreach (var todo in this.Todos)
+            {
+                todo.Order = order;
+                order++;
+            }
+
+            // Change order property and update database
+            await Task.Run(async () =>
+            {
+                foreach (var todo in this.Todos)
+                {
+                    await _repo.UpdateTodo(todo);
+                }
+            });
         }
 
         /// <summary>
@@ -628,7 +659,7 @@ namespace Tolldo.ViewModels
         /// Method called when dropping an item.
         /// </summary>
         /// <param name="dropInfo"></param>
-        void IDropTarget.Drop(IDropInfo dropInfo)
+        async void IDropTarget.Drop(IDropInfo dropInfo)
         {
             // Get source and target
             TodoViewModel sourceItem = dropInfo.Data as TodoViewModel;
@@ -636,6 +667,9 @@ namespace Tolldo.ViewModels
 
             // Let the Todo-items switch places
             Todos.Move(Todos.IndexOf(sourceItem), Todos.IndexOf(targetItem));
+
+            // Update todo order
+            await UpdateTodoOrder();
 
             DragHandleActive = false;
         }

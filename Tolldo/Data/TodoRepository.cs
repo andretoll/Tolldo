@@ -68,6 +68,7 @@ namespace Tolldo.Data
                 var todos = context.Todos
                 .Include(a => a.Tasks)                
                 .ThenInclude(b => b.Subtasks)
+                .OrderBy(a => a.Order)
                 .ToList();
 
                 // Map items

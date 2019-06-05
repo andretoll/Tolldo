@@ -211,7 +211,6 @@
 
                         <!-- Name for task -->
                         <TextBox Style="{StaticResource LongTextBox}"
-                                 Margin="10 0 0 0"
                                  Grid.Column="1"
                                  Foreground="{StaticResource LightForegroundBrush}"
                                  CaretBrush="{StaticResource LightForegroundBrush}"

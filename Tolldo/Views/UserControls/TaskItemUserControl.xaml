@@ -129,7 +129,7 @@
                                    VerticalAlignment="Center"
                                    TextWrapping="NoWrap"
                                    TextTrimming="CharacterEllipsis"
-                                   Margin="10 0 0 0"
+                                   Margin="10 1 0 0"
                                    Opacity="0.5"
                                    Text="{Binding Description}" />
 
@@ -316,10 +316,9 @@
 
             <!-- Expanded -->
             <Border Grid.Row="1"
-                Margin="0 10 10 0"
-                Padding="10"
-                Background="{DynamicResource SecondaryBackgroundBrush}"
-                Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}">
+                    Margin="10 10 10 0"
+                    Padding="10"
+                    Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}">
 
                 <StackPanel>
 
