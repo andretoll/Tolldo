@@ -183,7 +183,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource GrayBackgroundBrush}" />
         <Setter Property="Effect">
             <Setter.Value>
-                <DropShadowEffect Opacity="0.35" ShadowDepth="4" />
+                <DropShadowEffect Opacity="0.35" ShadowDepth="8" />
             </Setter.Value>
         </Setter>
     </Style>

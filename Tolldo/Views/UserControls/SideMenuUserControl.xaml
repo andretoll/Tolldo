@@ -65,18 +65,19 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Side menu buttons and search -->
+            <!-- Search border -->
             <Border BorderBrush="{DynamicResource GrayBackgroundBrush}"
                     BorderThickness="0 0 0 1"
                     Grid.Row="0">
 
-                <!-- Buttons -->
-                <Grid Margin="20">
+                <!-- Search -->
+                <Grid Margin="20"
+                      Height="30">
 
                     <Grid.ColumnDefinitions>
-                        <!-- Left button -->
-                        <ColumnDefinition Width="*" />
-                        <!-- Right button -->
+                        <!-- Button -->
+                        <ColumnDefinition Width="auto" />
+                        <!-- Input -->
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
@@ -85,28 +86,43 @@
                             Grid.Column="0"
                             FontSize="22"
                             ToolTip="Search"
+                            Margin="0 0 10 0"
                             Command="{Binding ToggleSearchModeCommand}"
+                            VerticalAlignment="Center"
                             HorizontalAlignment="Left"
                             Content="&#xf002;" />
 
-                    <!-- Menu button -->
-                    <Button Style="{StaticResource FlatSmallIconButton}"
-                            ext:FocusExtension.IsFocused="{Binding IsPopupMenuOpen}"
-                            Grid.Column="1"
-                            FontSize="22"
-                            ToolTip="Sort"
-                            Command="{Binding TogglePopupMenuCommand}"
-                            HorizontalAlignment="Right"
-                            Content="&#xf0dc;">
+                    <!-- Search bar -->
+                    <Grid VerticalAlignment="Center"
+                          Grid.Column="1"
+                          Visibility="{Binding SearchMode, Converter={StaticResource booleanToVisibilityConverter}}">
 
-                        <!-- When losing focus, close menu -->
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="LostFocus">
-                                <i:InvokeCommandAction Command="{Binding ClosePopupMenuCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        
-                    </Button>
+                        <Grid.ColumnDefinitions>
+                            <!-- Text field -->
+                            <ColumnDefinition Width="*" />
+                            <!-- Clear -->
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Search input -->
+                        <TextBox Style="{StaticResource StandardTextBox}"
+                                 Padding="5"
+                                 Grid.Column="0"
+                                 ext:FocusExtension.IsFocused="{Binding SearchMode}"
+                                 Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <!-- Clear text button -->
+                        <Button Style="{StaticResource FlatSmallIconButton}"
+                                Grid.Column="1"
+                                IsCancel="True"
+                                ToolTip="Clear"
+                                Command="{Binding ClearSearchStringCommand}"
+                                HorizontalAlignment="Left"
+                                FontSize="16"
+                                Margin="10 0 0 0"
+                                Content="&#xf057;" />
+
+                    </Grid>
 
                 </Grid>
 
@@ -116,38 +132,7 @@
             <StackPanel Orientation="Vertical"
                         Grid.Row="1">
 
-                <!-- Search bar -->
-                <Grid Margin="0 20 0 0"
-                      Visibility="{Binding SearchMode, Converter={StaticResource booleanToVisibilityConverter}}">
-
-                    <Grid.ColumnDefinitions>
-                        <!-- Text field -->
-                        <ColumnDefinition Width="*" />
-                        <!-- Clear -->
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Search input -->
-                    <TextBox Style="{StaticResource StandardTextBox}"
-                             Padding="5"
-                             MaxWidth="200"
-                             Width="200"
-                             Grid.Column="0"
-                             ext:FocusExtension.IsFocused="{Binding SearchMode}"
-                             Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
-
-                    <!-- Clear text button -->
-                    <Button Style="{StaticResource FlatSmallIconButton}"
-                            Grid.Column="1"
-                            IsCancel="True"
-                            ToolTip="Clear"
-                            Command="{Binding ClearSearchStringCommand}"
-                            HorizontalAlignment="Left"
-                            FontSize="16"
-                            Margin="0 0 15 0"
-                            Content="&#xf057;" />
-
-                </Grid>
+                
 
                 <!-- No results text block -->
                 <TextBlock Style="{StaticResource MediumTextBlock}"
@@ -157,37 +142,6 @@
                            Text="No items."/>
 
             </StackPanel>
-
-            <!-- Menu -->
-            <Border Style="{StaticResource Popup}" 
-                    Grid.Row="1"
-                    Grid.RowSpan="2"
-                    Margin="5"
-                    Background="{DynamicResource SecondaryBackgroundBrush}"
-                    Visibility="{Binding IsPopupMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top">
-
-                <!-- Vertical list of buttons -->
-                <StackPanel Orientation="Vertical">
-
-                    <!-- Sort alphabetically down -->
-                    <Button Style="{StaticResource ListButton}"
-                            Focusable="False"
-                            Content="Alphabetically"
-                            ext:IconExtension.Icon="&#xf15d;"
-                            FontFamily="{StaticResource FontAwesome}" />
-
-                    <!-- Sort alphabetically up -->
-                    <Button Style="{StaticResource ListButton}"
-                            Focusable="False"
-                            Content="Alphabetically"
-                            ext:IconExtension.Icon="&#xf15e;"
-                            FontFamily="{StaticResource FontAwesome}" />
-
-                </StackPanel>
-
-            </Border>
 
             <!-- List of Todo-items -->
             <ListView ItemsSource="{Binding FilteredTodos, UpdateSourceTrigger=PropertyChanged}"

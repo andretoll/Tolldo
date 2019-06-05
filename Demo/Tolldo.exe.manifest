@@ -499,14 +499,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="13995520">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="13997056">
       <assemblyIdentity name="Tolldo" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>wbU00Sp27Qy+9FwQd3EnM51/LKcn98YJHdVERGKyIDk=</dsig:DigestValue>
+        <dsig:DigestValue>kj+LQPBOQxbDxnIiwiTB7LDRfTiqUlPANqj7Z6pnk5Y=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -531,6 +531,15 @@
       <dsig:DigestValue>yuOHurn4TmJqDpv3UVuRtrgtZGJxzmt53j178DZsldk=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="Images\Banners\banner_christmas.jpg" size="438046">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>RY32tJCl16m1zDvXCnWtVOelpgNQSiKyTnE551qPpsQ=</dsig:DigestValue>
+    </hash>
+  </file>
   <file name="Images\Banners\banner_food.jpg" size="1252727">
     <hash>
       <dsig:Transforms>
@@ -538,6 +547,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>Cq8Fnq/sd82Omw2BcWhesiS7dPN73wOoLtkPZOJaVtA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\Banners\banner_halloween.png" size="648807">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>L7Hs9riVcfBVYgbQjRinM/Q1E9bDlTUX/WGvV1Kvpd4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Images\Banners\banner_travel.jpg" size="1155424">
