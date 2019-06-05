@@ -16,7 +16,6 @@
     <!-- ListBox Base -->
     <Style TargetType="{x:Type ListBox}" x:Key="ListBoxBase">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="{DynamicResource SecondaryBackgroundBrush}"/>
     </Style>
 
     <!-- ListViewItem -->
@@ -82,7 +81,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border Background="{TemplateBinding Background}"
-                            Padding="{TemplateBinding Padding}"
+                            Margin="0"
+                            Padding="0"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{TemplateBinding BorderBrush}">
 

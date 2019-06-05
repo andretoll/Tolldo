@@ -36,7 +36,6 @@
                 <MenuItem Style="{StaticResource MenuItemBase}"
                           Command="{Binding SelectedTodo.CompleteAllTasksCommand}"
                           FontFamily="{StaticResource FontAwesomeRegular}"
-                          Foreground="{DynamicResource PrimaryForegroundBrush}"
                           ext:IconExtension.Icon="&#xf058;"                          
                           Header="Complete tasks"/>
                 
@@ -44,7 +43,6 @@
                 <MenuItem Style="{StaticResource MenuItemBase}"
                           Command="{Binding SelectedTodo.UncompleteAllTasksCommand}"
                           FontFamily="{StaticResource FontAwesomeRegular}"
-                          Foreground="{DynamicResource PrimaryForegroundBrush}"
                           ext:IconExtension.Icon="&#xf111;"
                           Header="Uncomplete tasks"/>
 
@@ -52,7 +50,6 @@
                 <MenuItem Style="{StaticResource MenuItemBase}" 
                           Command="{Binding SelectedTodo.ToggleRenameCommand}"
                           FontFamily="{StaticResource FontAwesomeRegular}"
-                          Foreground="{DynamicResource PrimaryForegroundBrush}"
                           ext:IconExtension.Icon="&#xf044;"                          
                           Header="Rename Todo"/>
 
@@ -62,7 +59,6 @@
                 <MenuItem Style="{StaticResource MenuItemDanger}"
                           Command="{Binding DeleteTodoCommand}"
                           FontFamily="{StaticResource FontAwesomeRegular}"
-                          Foreground="Red"
                           ext:IconExtension.Icon="&#xf2ed;"
                           Header="Delete Todo"/>
                 

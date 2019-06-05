@@ -499,14 +499,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="13997056">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="13997568">
       <assemblyIdentity name="Tolldo" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>kj+LQPBOQxbDxnIiwiTB7LDRfTiqUlPANqj7Z6pnk5Y=</dsig:DigestValue>
+        <dsig:DigestValue>Vhx4PG22rs4rMjAtTN9F3BSxLKwpUytL70g0e10GhdE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -10,7 +10,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Each ListBoxItem -->
-    <Border Padding="0 10 10 10"
+    <Border Padding="5 10 10 10"
             Background="{DynamicResource PrimaryGradientBrush}">
         
         <Grid Tag="{Binding RelativeSource={RelativeSource 
@@ -28,14 +28,13 @@
             <!-- Context menu -->
             <Grid.ContextMenu>
                 <ContextMenu Style="{StaticResource ContextMenuBase}"
-                         DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                             DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
 
                     <!-- Check -->
                     <MenuItem Style="{StaticResource MenuItemBase}"
                               Visibility="{Binding SelectedTask.Completed, Mode=OneTime, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
                               Command="{Binding SelectedTask.CheckTaskCommand}"
                               FontFamily="{StaticResource FontAwesomeRegular}"
-                              Foreground="{DynamicResource PrimaryForegroundBrush}"
                               ext:IconExtension.Icon="&#xf058;"                          
                               Header="Check task"/>
 
@@ -44,7 +43,6 @@
                               Visibility="{Binding SelectedTask.Completed, Mode=OneTime, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}"
                               Command="{Binding SelectedTask.UncheckTaskCommand}"
                               FontFamily="{StaticResource FontAwesomeRegular}"
-                              Foreground="{DynamicResource PrimaryForegroundBrush}"
                               ext:IconExtension.Icon="&#xf111;"
                               Header="Uncheck task"/>
                     
@@ -52,7 +50,6 @@
                     <MenuItem Style="{StaticResource MenuItemBase}"
                               Command="{Binding CopyTaskCommand}"
                               FontFamily="{StaticResource FontAwesomeRegular}"
-                              Foreground="{DynamicResource PrimaryForegroundBrush}"
                               ext:IconExtension.Icon="&#xf0c5;"
                               Header="Copy task"/>
 
@@ -60,7 +57,6 @@
                     <MenuItem Style="{StaticResource MenuItemBase}" 
                               Command="{Binding SelectedTask.ToggleRenameCommand}"
                               FontFamily="{StaticResource FontAwesomeRegular}"
-                              Foreground="{DynamicResource PrimaryForegroundBrush}"
                               ext:IconExtension.Icon="&#xf044;"                          
                               Header="Rename task"/>
 
@@ -70,7 +66,6 @@
                     <MenuItem Style="{StaticResource MenuItemDanger}"
                               Command="{Binding DeleteTaskCommand}"
                               FontFamily="{StaticResource FontAwesomeRegular}"
-                              Foreground="Red"
                               ext:IconExtension.Icon="&#xf2ed;"
                               Header="Delete task"/>
 
@@ -151,10 +146,10 @@
 
                         <!-- Name for task -->
                         <TextBox Style="{StaticResource LongTextBox}"
-                             ext:FocusExtension.IsFocused="{Binding RenameActive}"
-                             Grid.Column="1"
-                             FontSize="16"
-                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}">
+                                 ext:FocusExtension.IsFocused="{Binding RenameActive}"
+                                 Grid.Column="1"
+                                 FontSize="16"
+                                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}">
 
                         </TextBox>
 
@@ -162,12 +157,12 @@
                         <Grid Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}">
 
                             <Button Style="{StaticResource ColorBackgroundButton}"
-                                IsDefault="True"
-                                Command="{Binding ToggleRenameCommand}"
-                                FontFamily="{StaticResource FontAwesome}"
-                                Margin="0 0 15 0"
-                                ToolTip="Save current name"
-                                Content="&#xf0c7;" />
+                                    IsDefault="True"
+                                    Command="{Binding ToggleRenameCommand}"
+                                    FontFamily="{StaticResource FontAwesome}"
+                                    Margin="0 0 15 0"
+                                    ToolTip="Save current name"
+                                    Content="&#xf0c7;" />
 
                         </Grid>
 
@@ -175,8 +170,8 @@
 
                     <!-- Actions -->
                     <StackPanel Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
 
                         <StackPanel.Style>
                             <Style TargetType="{x:Type StackPanel}">
@@ -198,13 +193,13 @@
 
                         <!-- Expand button -->
                         <Button Command="{Binding ToggleExpandedCommand}"
-                            Focusable="False"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            ToolTip="Expand"
-                            Margin="10 0"
-                            FontSize="22"
-                            FontFamily="{StaticResource FontAwesome}">
+                                Focusable="False"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                ToolTip="Expand"
+                                Margin="10 0"
+                                FontSize="22"
+                                FontFamily="{StaticResource FontAwesome}">
 
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatSmallIconButton}">

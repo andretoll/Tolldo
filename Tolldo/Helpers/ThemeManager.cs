@@ -68,7 +68,7 @@ namespace Tolldo.Helpers
                 SetBrush("MediumDarkGray", "GrayBackgroundBrush");
 
                 // Set primary foreground
-                SetBrush("LightGray", "PrimaryForegroundBrush");
+                SetBrush("Light", "PrimaryForegroundBrush");
 
                 // Set inverted
                 SetBrush("Light", "InvertedBackgroundBrush");
