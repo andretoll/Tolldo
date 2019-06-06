@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Styles/ComboBoxes.xaml"/>
                 <ResourceDictionary Source="Styles/Menus.xaml"/>
                 <ResourceDictionary Source="Styles/Scroll.xaml"/>
+                <ResourceDictionary Source="Styles/TabControls.xaml"/>
                 <ResourceDictionary Source="Styles/Windows.xaml"/>
 
                 <ResourceDictionary Source="ValueConverters/ValueConverters.xaml"/>

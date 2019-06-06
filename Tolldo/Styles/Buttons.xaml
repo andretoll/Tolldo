@@ -231,23 +231,21 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
-    <!-- Primary button -->
-    <Style TargetType="{x:Type Button}" x:Key="PrimaryButton" BasedOn="{StaticResource BaseStyle}">
-        <Setter Property="Background" Value="Transparent" />
+    
+    <!-- Round Button -->
+    <Style TargetType="{x:Type Button}" x:Key="RoundButton" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Background" Value="{DynamicResource ColorForegroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource LightForegroundBrush}" />
         <Setter Property="FontSize" Value="17" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border BorderThickness="2"
-                            CornerRadius="5"
+                    
+                    <Border CornerRadius="18"
                             Padding="20 5"
                             MinWidth="100"
                             Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}">
+                            BorderThickness="1">
 
                         <TextBlock Text="{TemplateBinding Content}"
                                    Foreground="{TemplateBinding Foreground}"
@@ -255,53 +253,7 @@
                                    FontSize="{TemplateBinding FontSize}"
                                    Style="{StaticResource MediumTextBlock}"
                                    HorizontalAlignment="Center"/>
-
-                    </Border>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-
-            <!-- When hovering -->
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource LightForegroundBrush}" />
-                <Setter Property="Foreground" Value="{StaticResource DarkForegroundBrush}" />
-            </Trigger>
-
-            <!-- When pressed -->
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{StaticResource GrayBackgroundBrush}" />
-                <Setter Property="BorderBrush" Value="{StaticResource GrayBackgroundBrush}" />
-            </Trigger>
-
-        </Style.Triggers>
-    </Style>
-
-    <!-- Success button -->
-    <Style TargetType="{x:Type Button}" x:Key="SuccessButton" BasedOn="{StaticResource BaseStyle}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource GreenGradientBrush}" />
-        <Setter Property="FontSize" Value="17" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border BorderThickness="2"
-                            CornerRadius="5"
-                            Padding="20 5"
-                            MinWidth="100"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}">
-
-                        <TextBlock Text="{TemplateBinding Content}"
-                                   VerticalAlignment="Center"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   FontSize="{TemplateBinding FontSize}"
-                                   Style="{StaticResource MediumTextBlock}"
-                                   HorizontalAlignment="Center"/>
-
+                        
                     </Border>
                     
                 </ControlTemplate>
@@ -311,14 +263,33 @@
 
             <!-- When hovering -->
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource GreenGradientBrush}" />
-                <Setter Property="Foreground" Value="{DynamicResource LightForegroundBrush}" />
+                <Setter Property="Background" Value="{DynamicResource DarkerColorForegroundBrush}" />
+            </Trigger>
+
+            <!-- When pressed -->
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{DynamicResource DarkColorForegroundBrush}" />
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <!-- Primary round button -->
+    <Style TargetType="{x:Type Button}" x:Key="PrimaryButton" BasedOn="{StaticResource RoundButton}" />
+
+    <!-- Success round button -->
+    <Style TargetType="{x:Type Button}" x:Key="SuccessButton" BasedOn="{StaticResource RoundButton}">
+        <Setter Property="Background" Value="ForestGreen" />
+        <Style.Triggers>
+
+            <!-- When hovering -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Green" />
             </Trigger>
 
             <!-- When pressed -->
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" Value="DarkGreen" />
-                <Setter Property="BorderBrush" Value="DarkGreen" />
             </Trigger>
 
         </Style.Triggers>

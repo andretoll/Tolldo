@@ -36,12 +36,14 @@ namespace Tolldo.ViewModels
 
         // Indicates if side menu is open or closed
         private bool _isMenuOpen = true;
+        // Indicates if settings menu is open or closed
+        private bool _isSettingsMenuOpen = false;
         // Indicates if popup menu is open or closed
         private bool _isPopupMenuOpen = false;
         // Indicates if accents menu is open or closed
         private bool _isAccentsMenuOpen = false;
         // Indicates if search mode is active
-        private bool _searchMode;
+        private bool _searchMode = false;
         // Search string
         private string _searchString;
         // Message
@@ -80,6 +82,20 @@ namespace Tolldo.ViewModels
             set
             {
                 _isMenuOpen = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // Indicates if settings menu is open or closed
+        public bool IsSettingsMenuOpen
+        {
+            get
+            {
+                return _isSettingsMenuOpen;
+            }
+            set
+            {
+                _isSettingsMenuOpen = value;
                 NotifyPropertyChanged();
             }
         }
@@ -398,6 +414,8 @@ namespace Tolldo.ViewModels
         public ICommand ClosePopupMenuCommand { get; set; }
         public ICommand CloseMessageBoxCommand { get; set; }
 
+        public ICommand ToggleSettingsMenuCommand { get; set; }
+
         public ICommand InvertThemeCommand { get; set; }
         public ICommand ToggleAccentsMenuCommand { get; set; }
         public ICommand SetAccentCommand { get; set; }
@@ -435,6 +453,7 @@ namespace Tolldo.ViewModels
             // Initialize commands
             NavigateHomeCommand = new RelayCommand.RelayCommand(p => { SelectedTodo = null; });
             CollapseMenuCommand = new RelayCommand.RelayCommand(p => { IsMenuOpen = !IsMenuOpen; });
+            ToggleSettingsMenuCommand = new RelayCommand.RelayCommand(p => { IsSettingsMenuOpen = !IsSettingsMenuOpen; });
             ToggleSearchModeCommand = new RelayCommand.RelayCommand(p => { SearchMode = !SearchMode; });
             ClearSearchStringCommand = new RelayCommand.RelayCommand(p => { SearchString = ""; SearchMode = !SearchMode; SearchMode = !SearchMode; });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });

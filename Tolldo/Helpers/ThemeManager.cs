@@ -177,12 +177,11 @@ namespace Tolldo.Helpers
 
             // Create new brush
             LinearGradientBrush brush = new LinearGradientBrush();
+            brush.MappingMode = BrushMappingMode.RelativeToBoundingBox;
             brush.StartPoint = new Point(0, 0);
-            brush.EndPoint = new Point(1, 0);
+            brush.EndPoint = new Point(1, 1);
             brush.GradientStops.Add(new GradientStop(firstColor, 0.0));
-            brush.GradientStops.Add(new GradientStop(secondColor, 0.1));
             brush.GradientStops.Add(new GradientStop(secondColor, 0.50));
-            brush.GradientStops.Add(new GradientStop(secondColor, 0.9));
             brush.GradientStops.Add(new GradientStop(firstColor, 1.0));
 
             // Apply new brush

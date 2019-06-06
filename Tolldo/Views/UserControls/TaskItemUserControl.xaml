@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prop="clr-namespace:Tolldo.Properties"
              xmlns:ext="clr-namespace:Tolldo.Extensions"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:uc="clr-namespace:Tolldo.Views.UserControls"
@@ -11,7 +12,7 @@
 
     <!-- Each ListBoxItem -->
     <Border Padding="5 10 10 10"
-            Background="{DynamicResource PrimaryGradientBrush}">
+            Background="{DynamicResource SecondaryBackgroundBrush}">
         
         <Grid Tag="{Binding RelativeSource={RelativeSource 
                         Mode=FindAncestor, 
@@ -98,8 +99,9 @@
                                 Grid.Column="0"
                                 Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
 
-                        <!-- Order number -->
+                        <!-- Order number. Visible if setting is enabled -->
                         <Grid VerticalAlignment="Top"
+                              Visibility="{Binding Source={x:Static prop:Settings.Default}, Path=NumberedTasks, Converter={StaticResource booleanToVisibilityConverter}}"
                               Width="20">
                             
                             <TextBlock Text="{Binding Order}"

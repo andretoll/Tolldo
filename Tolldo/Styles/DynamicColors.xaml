@@ -45,9 +45,7 @@
     <!-- Primary Gradient -->
     <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource Dark}" Offset="0" />
-        <GradientStop Color="{StaticResource DarkGray}" Offset="0.1" />
         <GradientStop Color="{StaticResource DarkGray}" Offset="0.5" />
-        <GradientStop Color="{StaticResource DarkGray}" Offset="0.9" />
         <GradientStop Color="{StaticResource Dark}" Offset="1" />
     </LinearGradientBrush>
     

@@ -249,6 +249,9 @@
     <Compile Include="Views\UserControls\MessageBoxUserControl.xaml.cs">
       <DependentUpon>MessageBoxUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\SettingsMenuUserControl.xaml.cs">
+      <DependentUpon>SettingsMenuUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\SideMenuUserControl.xaml.cs">
       <DependentUpon>SideMenuUserControl.xaml</DependentUpon>
     </Compile>
@@ -273,6 +276,10 @@
     <Compile Include="Extensions\FocusExtension.cs" />
     <Compile Include="Extensions\IconExtension.cs" />
     <Compile Include="Helpers\ThemeManager.cs" />
+    <Page Include="Styles\TabControls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\Scroll.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -334,6 +341,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\MessageBoxUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\SettingsMenuUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

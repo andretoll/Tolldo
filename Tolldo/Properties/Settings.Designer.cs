@@ -37,7 +37,7 @@ namespace Tolldo.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Orange")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Blue")]
         public string Accent {
             get {
                 return ((string)(this["Accent"]));
@@ -56,6 +56,18 @@ namespace Tolldo.Properties {
             }
             set {
                 this["LastTodo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool NumberedTasks {
+            get {
+                return ((bool)(this["NumberedTasks"]));
+            }
+            set {
+                this["NumberedTasks"] = value;
             }
         }
     }

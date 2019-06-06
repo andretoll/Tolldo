@@ -8,7 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Main content container -->
-    <Grid x:Name="FadingElement">
+    <Grid x:Name="FadingElement"
+          ClipToBounds="True">
 
         <!-- When grid is loaded -->
         <Grid.Triggers>
@@ -37,7 +38,8 @@
         <!-- Message box outer -->
         <Border Visibility="{Binding Message, FallbackValue=Collapsed, NotifyOnTargetUpdated=True, Converter={StaticResource emptyStringToVisibilityConverter}}"
                 Grid.Column="0"
-                Grid.ColumnSpan="3">
+                Grid.ColumnSpan="3"
+                Panel.ZIndex="1">
 
             <!-- Fade in/Fade out -->
             <Border.Style>
@@ -103,6 +105,7 @@
         <!-- 2. Side menu -->
         <Border Grid.Column="1"
                 BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                Background="{DynamicResource PrimaryBackgroundBrush}"
                 Visibility="{Binding IsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
             
             <uc:SideMenuUserControl />
@@ -112,19 +115,18 @@
         <!-- 3. To-do list -->
         <Border BorderThickness="1 0 0 0"
                 BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                Background="{DynamicResource PrimaryBackgroundBrush}"
                 Visibility="{Binding Path=., UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
                 Grid.Column="2">
             
-            <Grid Background="{DynamicResource PrimaryBackgroundBrush}">
+            <Grid>
 
                 <uc:TasksUserControl />
 
             </Grid>
             
         </Border>
-
         <!-- OR -->
-
         <!-- 3. Welcome screen -->
         <Grid Grid.Column="2"
               Visibility="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedNullToVisibilityConverter}}">
@@ -166,7 +168,6 @@
                             Command="{Binding AddRandomTodoCommand}"
                             HorizontalAlignment="Center"
                             Margin="0 20"
-                            FontSize="14"
                             Content="Create list"/>
 
                 </StackPanel>                
@@ -186,6 +187,57 @@
                        Stretch="Fill" />
 
         </Grid>
+        
+        <!-- Settings panel -->
+        <Border Grid.Column="1" 
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Right"
+                Background="{DynamicResource PrimaryBackgroundBrush}"
+                Panel.ZIndex="2">
+
+            <!-- Width and margin animation -->
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Width" Value="300" />
+                    <Setter Property="Margin" Value="0 0 -300 0" />
+                    <Style.Triggers>
+
+                        <!-- Trigger animation when opening -->
+                        <DataTrigger Binding="{Binding IsSettingsMenuOpen}" Value="True">
+
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                            Duration="0:0:0.5"
+                                                            To="0 0 0 0 " />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                            Duration="0:0:0.5"
+                                                            To="0 0 -300 0 " />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            
+            <uc:SettingsMenuUserControl />
+            
+        </Border>
+        <Rectangle Grid.Column="1"
+                   Grid.ColumnSpan="2"
+                   Visibility="{Binding IsSettingsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
+                   Fill="Black"
+                   Opacity=".9"/>
 
     </Grid>
 

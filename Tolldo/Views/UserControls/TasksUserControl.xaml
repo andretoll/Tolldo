@@ -143,8 +143,7 @@
         </Grid>
 
         <!-- Tasks -->
-        <DockPanel Grid.Row="2"
-                   Background="{DynamicResource PrimaryBackgroundBrush}">
+        <DockPanel Grid.Row="2">
 
             <!-- New task -->
             <Grid DockPanel.Dock="Bottom"
