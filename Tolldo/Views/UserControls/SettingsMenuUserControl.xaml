@@ -46,6 +46,7 @@
                         <!-- Completed tasks on top -->
                         <CheckBox Style="{StaticResource TaskSquareCheckBox}"
                                   IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=CompletedTasksOnTop}"
+                                  Foreground="{DynamicResource PrimaryForegroundBrush}"
                                   Margin="0 10"
                                   Content="Completed tasks on top"
                                   ToolTipService.InitialShowDelay="0"
@@ -56,6 +57,7 @@
                         <!-- Numbered tasks-->
                         <CheckBox Style="{StaticResource TaskSquareCheckBox}"
                                   IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=NumberedTasks}"
+                                  Foreground="{DynamicResource PrimaryForegroundBrush}"
                                   Content="Numbered tasks"
                                   ToolTipService.InitialShowDelay="0"
                                   ToolTip="Enables or disables numbered tasks. Default is enabled." />
@@ -64,6 +66,24 @@
 
                 </TabItem>
                 <TabItem Header="Appearance">
+
+                    <StackPanel>
+
+                        <!-- ProgressBar height -->
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource LargeTextBlock}" Text="Progress height"
+                                   Margin="0 0 0 10"/>
+                            <Slider Value="{Binding Source={x:Static prop:Settings.Default}, Path=ProgressBarHeight}"
+                                Minimum="1"
+                                Maximum="30"
+                                IsSnapToTickEnabled="True"
+                                TickPlacement="BottomRight"
+                                TickFrequency="1">
+                            </Slider>
+                        </StackPanel>
+
+                    </StackPanel>
+                    
                 </TabItem>
             </TabControl>
         </Grid>

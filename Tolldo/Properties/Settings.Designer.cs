@@ -82,5 +82,17 @@ namespace Tolldo.Properties {
                 this["CompletedTasksOnTop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public short ProgressBarHeight {
+            get {
+                return ((short)(this["ProgressBarHeight"]));
+            }
+            set {
+                this["ProgressBarHeight"] = value;
+            }
+        }
     }
 }
