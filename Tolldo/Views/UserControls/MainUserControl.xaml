@@ -237,7 +237,7 @@
                    Grid.ColumnSpan="2"
                    Visibility="{Binding IsSettingsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
                    Fill="Black"
-                   Opacity=".9"/>
+                   Opacity="0.8"/>
 
     </Grid>
 

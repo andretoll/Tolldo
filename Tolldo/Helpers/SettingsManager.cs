@@ -27,6 +27,22 @@ namespace Tolldo.Helpers
         #region Public Helpers
 
         /// <summary>
+        /// Saves all current settings.
+        /// </summary>
+        public static void SaveAllSettings()
+        {
+            Properties.Settings.Default.Save();
+        }
+
+        /// <summary>
+        /// Reloads all previous settings.
+        /// </summary>
+        public static void ReloadSettings()
+        {
+            Properties.Settings.Default.Reload();
+        }
+
+        /// <summary>
         /// Saves the specified <see cref="Setting"/> with the specified value.
         /// </summary>
         /// <param name="property">Name of the property.</param>
@@ -34,7 +50,7 @@ namespace Tolldo.Helpers
         public static void SaveSetting(string property, object value)
         {
             Properties.Settings.Default[property] = value;
-            Properties.Settings.Default.Save();
+            SaveAllSettings();
         }
 
         /// <summary>

@@ -13,31 +13,45 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
             
+            <!-- Save -->
             <Button Style="{StaticResource SuccessButton}"
+                    Command="{Binding SaveSettingsCommand}"
                     Margin="0 0 10 0"
-                    Content="Save"/>
+                    Content="Save"
+                    ToolTip="Save settings"/>
 
+            <!-- Cancel -->
             <Button Style="{StaticResource PrimaryButton}"
-                    Content="Close"
-                    Command="{Binding DataContext.ToggleSettingsMenuCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}"/>
+                    Command="{Binding ReloadSettingsCommand}"
+                    Content="Cancel"
+                    ToolTip="Cancel"/>            
 
         </StackPanel>
 
         <!-- Settings -->
         <TabControl Background="{DynamicResource PrimaryBackgroundBrush}">
             <TabItem Header="General">
-                <Grid>
-                    <TextBlock Text="Tab 1 content..." />
-                </Grid>
             </TabItem>
             <TabItem Header="Application">
-                <TextBlock Text="Tab 2 content..." />
+
+                <StackPanel>
+                    
+                    <!-- Numbered tasks-->
+                    <CheckBox Style="{StaticResource TaskSquareCheckBox}"
+                              IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=NumberedTasks}"
+                              Margin="0 0 0 10"
+                              Content="Numbered tasks enabled" />
+                    
+                    <!-- Completed tasks on top -->
+                    <CheckBox Style="{StaticResource TaskSquareCheckBox}"
+                              Content="Completed tasks on top" />
+
+                </StackPanel>
+                
             </TabItem>
             <TabItem Header="Appearance">
-                <TextBlock Text="Tab 3 content..." />
             </TabItem>
         </TabControl>
         
-        <!--<CheckBox IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=NumberedTasks}" />-->
     </DockPanel>
 </UserControl>

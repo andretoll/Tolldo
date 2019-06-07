@@ -38,6 +38,8 @@ namespace Tolldo.ViewModels
         private bool _isMenuOpen = true;
         // Indicates if settings menu is open or closed
         private bool _isSettingsMenuOpen = false;
+        // Indicates if settings have been touched and thus requires saving
+        private bool _settingsTouched = false;
         // Indicates if popup menu is open or closed
         private bool _isPopupMenuOpen = false;
         // Indicates if accents menu is open or closed
@@ -96,6 +98,20 @@ namespace Tolldo.ViewModels
             set
             {
                 _isSettingsMenuOpen = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        // Indicates if settings have been touched and thus requires saving
+        public bool SettingsTouched
+        {
+            get
+            {
+                return _settingsTouched;
+            }
+            set
+            {
+                _settingsTouched = value;
                 NotifyPropertyChanged();
             }
         }
@@ -398,6 +414,26 @@ namespace Tolldo.ViewModels
             }
         }
 
+        /// <summary>
+        /// Event that fires when a property's value changes in settings.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SettingsTouched = true;
+        }
+
+        /// <summary>
+        /// Event that fires before settings are saved.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Settings_Saving(object sender, CancelEventArgs e)
+        {
+            SettingsTouched = false;
+        }
+
         #endregion
 
         #region Commands
@@ -408,22 +444,21 @@ namespace Tolldo.ViewModels
         public ICommand ClearSearchStringCommand { get; set; }
         public ICommand ActivateDragCommand { get; set; }
         public ICommand AddNewTodoCommand { get; set; }
-        public ICommand AddRandomTodoCommand { get; set; }
-        
+        public ICommand AddRandomTodoCommand { get; set; }        
         public ICommand TogglePopupMenuCommand { get; set; }
         public ICommand ClosePopupMenuCommand { get; set; }
         public ICommand CloseMessageBoxCommand { get; set; }
-
         public ICommand ToggleSettingsMenuCommand { get; set; }
-
         public ICommand InvertThemeCommand { get; set; }
         public ICommand ToggleAccentsMenuCommand { get; set; }
         public ICommand SetAccentCommand { get; set; }
-
         public ICommand DeleteTodoCommand { get; set; }
         public ICommand UndeleteTodoCommand { get; set; }
+        public ICommand SaveSettingsCommand { get; set; }
+        public ICommand ReloadSettingsCommand { get; set; }
 
-        #endregion                
+
+        #endregion
 
         #region Constructor
 
@@ -437,7 +472,7 @@ namespace Tolldo.ViewModels
             _dialogService.MessageChanged += MessageChanged;
 
             // Initialize theme manager
-            _themeManager = new ThemeManager();
+            _themeManager = new ThemeManager();            
 
             // Initialize first data repository
             _repo = new TodoRepository(_dialogService);
@@ -449,6 +484,10 @@ namespace Tolldo.ViewModels
             // Check last opened list
             int lastOpened = (int)SettingsManager.LoadSetting(SettingsManager.Setting.LastTodo.ToString());
             SelectedTodo = Todos.Where(t => t.Id == lastOpened).FirstOrDefault();
+
+            // Subscribe to settings events
+            Properties.Settings.Default.PropertyChanged += Settings_PropertyChanged;
+            Properties.Settings.Default.SettingsSaving += Settings_Saving;
 
             // Initialize commands
             NavigateHomeCommand = new RelayCommand.RelayCommand(p => { SelectedTodo = null; });
@@ -463,15 +502,16 @@ namespace Tolldo.ViewModels
             ToggleAccentsMenuCommand = new RelayCommand.RelayCommand(p => { IsAccentsMenuOpen = !IsAccentsMenuOpen; });
             InvertThemeCommand = new RelayCommand.RelayCommand(p => { DarkThemeEnabled = !DarkThemeEnabled; SetMessage(DarkThemeEnabled ? "Dark theme enabled." : "Light theme enabled."); });
             SetAccentCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetAccent((string)p); SetMessage("Accent applied."); });
-
             AddNewTodoCommand = new RelayCommand.RelayCommand(async p => { await AddTodo(NewTodoName); SetMessage("List added."); }, p => !string.IsNullOrEmpty(NewTodoName));
-            AddRandomTodoCommand = new RelayCommand.RelayCommand(async p => { await AddRandomTodo(); SetMessage("List added."); });            
+            AddRandomTodoCommand = new RelayCommand.RelayCommand(async p => { await AddRandomTodo(); SetMessage("List added."); });
             DeleteTodoCommand = new RelayCommand.RelayCommand(async p => { await DeleteTodo(SelectedTodo); });
             UndeleteTodoCommand = new RelayCommand.RelayCommand(async p => { await UndeleteTodo(); });
+            SaveSettingsCommand = new RelayCommand.RelayCommand(p => { SaveSettings(); }, p => SettingsTouched);
+            ReloadSettingsCommand = new RelayCommand.RelayCommand(p => { ReloadSettings(); });
 
             // Set welcome message
-            SetMessage("Welcome back!");
-        }
+            SetMessage("Welcome back!");                        
+        }        
 
         #endregion
 
@@ -645,6 +685,27 @@ namespace Tolldo.ViewModels
         {
             // Set message
             _dialogService.SetMessage(msg);
+        }
+
+        /// <summary>
+        /// Saves the current settings and closes the menu.
+        /// </summary>
+        private void SaveSettings()
+        {
+            SettingsManager.SaveAllSettings();
+            IsSettingsMenuOpen = false;
+
+            SetMessage("Settings saved!");
+        }
+
+        /// <summary>
+        /// Reloads the previous settings without making any changes.
+        /// </summary>
+        private void ReloadSettings()
+        {
+            SettingsManager.ReloadSettings();
+            IsSettingsMenuOpen = false;
+            SettingsTouched = false;
         }
 
         #endregion
