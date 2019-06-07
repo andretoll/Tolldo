@@ -76,6 +76,8 @@
                             Background="{DynamicResource SecondaryBackgroundBrush}">
 
                         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToolTip}}, Path=PlacementTarget.ToolTip}"
+                                   MaxWidth="200"
+                                   TextWrapping="Wrap"
                                    FontSize="14"
                                    Foreground="{DynamicResource PrimaryForegroundBrush}"/>
 

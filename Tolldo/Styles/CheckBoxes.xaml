@@ -17,7 +17,8 @@
                     <Border>
 
                         <!-- Inner -->
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal"
+                                    Background="Transparent">
 
                             <!-- CheckBox Icon -->
                             <TextBlock Foreground="{DynamicResource ColorForegroundBrush}"

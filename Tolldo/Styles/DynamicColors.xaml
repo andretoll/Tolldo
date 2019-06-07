@@ -31,7 +31,10 @@
 
     <!-- Light Foreground (Static) -->
     <SolidColorBrush x:Key="LightForegroundBrush" Color="{StaticResource Light}" />
-    
+
+    <!-- Gray Foreground (Static) -->
+    <SolidColorBrush x:Key="GrayForegroundBrush" Color="{StaticResource MediumDarkGray}" />
+
     <!-- Dark Foreground (Static) -->
     <SolidColorBrush x:Key="DarkForegroundBrush" Color="{StaticResource Dark}" />   
 

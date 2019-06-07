@@ -70,5 +70,17 @@ namespace Tolldo.Properties {
                 this["NumberedTasks"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CompletedTasksOnTop {
+            get {
+                return ((bool)(this["CompletedTasksOnTop"]));
+            }
+            set {
+                this["CompletedTasksOnTop"] = value;
+            }
+        }
     }
 }

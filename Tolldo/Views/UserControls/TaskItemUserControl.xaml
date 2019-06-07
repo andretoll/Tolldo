@@ -112,12 +112,12 @@
                         </Grid>
 
                         <!-- CheckBox and name -->
-                        <CheckBox IsChecked="{Binding IsCompleted}"
+                        <CheckBox Style="{StaticResource TaskCheckBox}"
+                                  IsChecked="{Binding IsCompleted}"
                                   IsEnabled="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToBooleanConverter}}"
                                   Content="{Binding Name}"
                                   FontSize="26"
-                                  Margin="10 0 0 0"
-                                  Style="{StaticResource TaskCheckBox}" />
+                                  Margin="10 0 0 0" />
 
                         <!-- Description -->
                         <TextBlock Style="{StaticResource SmallTextBlock}"

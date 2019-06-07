@@ -385,6 +385,20 @@ namespace Tolldo.ViewModels
                 {
                     _dialogService.SetMessage("All tasks completed! Well done!");
                 }
+
+                // If setting is enabled, place completed task at the top of tasks
+                if ((bool)SettingsManager.LoadSetting(SettingsManager.Setting.CompletedTasksOnTop.ToString()) & (sender as TaskViewModel).IsCompleted)
+                {
+                    try
+                    {
+                        SelectedTodo.Tasks.Move(SelectedTodo.Tasks.IndexOf((sender as TaskViewModel)), 0);
+                        _ = SelectedTodo.UpdateTaskOrder();
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                }
             }
             // If a task was expanded, collapse others
             if (e.PropertyName == "ExpandedActive" && (sender as TaskViewModel).ExpandedActive)

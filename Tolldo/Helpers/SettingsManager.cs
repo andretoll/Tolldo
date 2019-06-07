@@ -105,7 +105,9 @@ namespace Tolldo.Helpers
         {
             DarkTheme,
             Accent,
-            LastTodo
+            LastTodo,
+            NumberedTasks,
+            CompletedTasksOnTop
         }
 
         #endregion

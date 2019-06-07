@@ -32,19 +32,12 @@
             <ContextMenu Style="{StaticResource ContextMenuBase}"
                          DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
 
-                <!-- Complete all tasks -->
+                <!-- Reset all tasks -->
                 <MenuItem Style="{StaticResource MenuItemBase}"
-                          Command="{Binding SelectedTodo.CompleteAllTasksCommand}"
-                          FontFamily="{StaticResource FontAwesomeRegular}"
-                          ext:IconExtension.Icon="&#xf058;"                          
-                          Header="Complete tasks"/>
-                
-                <!-- Uncomplete all tasks -->
-                <MenuItem Style="{StaticResource MenuItemBase}"
-                          Command="{Binding SelectedTodo.UncompleteAllTasksCommand}"
+                          Command="{Binding SelectedTodo.ResetTasksCommand}"
                           FontFamily="{StaticResource FontAwesomeRegular}"
                           ext:IconExtension.Icon="&#xf111;"
-                          Header="Uncomplete tasks"/>
+                          Header="Reset tasks"/>
 
                 <!-- Rename item -->
                 <MenuItem Style="{StaticResource MenuItemBase}" 

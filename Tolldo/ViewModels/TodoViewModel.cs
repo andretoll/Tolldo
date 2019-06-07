@@ -335,8 +335,7 @@ namespace Tolldo.ViewModels
 
         #region Commands
 
-        public ICommand CompleteAllTasksCommand { get; set; }
-        public ICommand UncompleteAllTasksCommand { get; set; }
+        public ICommand ResetTasksCommand { get; set; }
         public ICommand ToggleRenameCommand { get; set; }
         public ICommand ToggleNewTaskCommand { get; set; }
         public ICommand SaveNewTaskCommand { get; set; }
@@ -391,11 +390,11 @@ namespace Tolldo.ViewModels
             _dialogService = dialogService;
             _repo = new TodoRepository(_dialogService);
 
+            // Subscribe to Todo Property Changed
             this.PropertyChanged += TodoViewModel_PropertyChanged;
 
             // Initialize commands
-            CompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await CompleteAllTasks(); }, p => Tasks.Count > 0);
-            UncompleteAllTasksCommand = new RelayCommand.RelayCommand(async p => { await UncompleteAllTasks(); }, p => Tasks.Count > 0);
+            ResetTasksCommand = new RelayCommand.RelayCommand(async p => { await ResetTasks(); }, p => Tasks.Count > 0);
             ToggleRenameCommand = new RelayCommand.RelayCommand(p => { RenameActive = !RenameActive; });
             ToggleNewTaskCommand = new RelayCommand.RelayCommand(p => { NewTaskActive = bool.Parse((string)p); });
             SaveNewTaskCommand = new RelayCommand.RelayCommand(async p => { await AddTask(); SetMessage("Task added."); }, p => (NewTaskActive && !string.IsNullOrEmpty(NewTask.Name)));
@@ -441,30 +440,10 @@ namespace Tolldo.ViewModels
         #region Private Helpers
 
         /// <summary>
-        /// Completes all current tasks.
-        /// </summary>
-        private async Task CompleteAllTasks()
-        {
-            await Task.Run(() =>
-            {
-                int temp = Progress;
-                foreach (var task in this.Tasks)
-                {
-                    if (!task.IsCompleted)
-                    {
-                        task.IsCompleted = true;
-                    }
-                }
-            });
-
-            SetMessage("All tasks completed!");
-        }
-
-        /// <summary>
         /// Resets all current tasks' complete status.
         /// </summary>
         /// <returns></returns>
-        private async Task UncompleteAllTasks()
+        private async Task ResetTasks()
         {
             await Task.Run(() =>
             {
@@ -615,7 +594,7 @@ namespace Tolldo.ViewModels
         /// Updates the current task order.
         /// </summary>
         /// <returns></returns>
-        private async Task UpdateTaskOrder()
+        public async Task UpdateTaskOrder()
         {
             // Update UI
             int order = 1;

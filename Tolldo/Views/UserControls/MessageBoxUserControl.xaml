@@ -9,7 +9,7 @@
     <!-- Message box -->
     <Border VerticalAlignment="Top"
             HorizontalAlignment="Right"
-            Background="{DynamicResource PrimaryBackgroundBrush}"
+            Background="{DynamicResource ColorGradientBrush}"
             Visibility="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource emptyStringToVisibilityConverter}}"
             Padding="10"
             Margin="20"
@@ -33,18 +33,21 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Close button -->
-                <Button Style="{StaticResource FlatSmallIconButton}"
+                <Button Style="{StaticResource FlatWhiteSmallIconButton}"
                         Grid.Column="1"
                         Command="{Binding CloseMessageBoxCommand}"
                         ToolTip="Close"
                         HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
                         FontSize="16"
                         Content="&#xf057;"
                         Margin="0 0 0 10"/>
 
                 <!-- Message-->
-                <TextBlock Style="{StaticResource MediumTextBlock}"
-                           Width="150"
+                <TextBlock Width="175"
+                           Foreground="{StaticResource LightForegroundBrush}"
+                           FontFamily="{StaticResource LatoRegular}"
+                           FontSize="18"
                            TextWrapping="Wrap"
                            Grid.Column="0"
                            HorizontalAlignment="Left"

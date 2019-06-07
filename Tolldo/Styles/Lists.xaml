@@ -80,8 +80,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border Background="{TemplateBinding Background}"
-                            Margin="0"
+                    <Border Margin="0"
                             Padding="0"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{TemplateBinding BorderBrush}">
@@ -94,24 +93,17 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            
             <!-- When loaded -->
             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                 <BeginStoryboard>
                     <Storyboard>
                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                         Duration="00:00:01"
-                                         From="0"
+                                         Duration="00:00:00.5"
+                                         From="0.0"
                                          To="1" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
-            
-            <!-- When expanded in ViewModel-->
-            <DataTrigger Binding="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
-            </DataTrigger>
-
         </Style.Triggers>
     </Style>
 

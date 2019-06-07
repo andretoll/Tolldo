@@ -101,7 +101,6 @@ namespace Tolldo.ViewModels
             set
             {               
                 _completed = value;
-
                 NotifyPropertyChanged();
             }
         }

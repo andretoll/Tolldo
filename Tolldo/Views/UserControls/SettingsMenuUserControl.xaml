@@ -6,52 +6,67 @@
              xmlns:prop="clr-namespace:Tolldo.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
-    <DockPanel Margin="10 20">
+    
+    <DockPanel>
         
         <!-- Buttons -->
-        <StackPanel DockPanel.Dock="Bottom"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
+        <Border DockPanel.Dock="Bottom"
+                Padding="20"
+                Background="{DynamicResource SecondaryBackgroundBrush}">
             
-            <!-- Save -->
-            <Button Style="{StaticResource SuccessButton}"
-                    Command="{Binding SaveSettingsCommand}"
-                    Margin="0 0 10 0"
-                    Content="Save"
-                    ToolTip="Save settings"/>
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal">
 
-            <!-- Cancel -->
-            <Button Style="{StaticResource PrimaryButton}"
-                    Command="{Binding ReloadSettingsCommand}"
-                    Content="Cancel"
-                    ToolTip="Cancel"/>            
+                <!-- Save -->
+                <Button Style="{StaticResource SuccessButton}"
+                        Command="{Binding SaveSettingsCommand}"
+                        Margin="0 0 10 0"
+                        Content="Save"
+                        ToolTip="Save settings"/>
 
-        </StackPanel>
+                <!-- Cancel -->
+                <Button Style="{StaticResource PrimaryButton}"
+                        Command="{Binding ReloadSettingsCommand}"
+                        Content="Cancel"
+                        ToolTip="Cancel"/>
+
+            </StackPanel>
+        </Border>
 
         <!-- Settings -->
-        <TabControl Background="{DynamicResource PrimaryBackgroundBrush}">
-            <TabItem Header="General">
-            </TabItem>
-            <TabItem Header="Application">
+        <Grid Margin="10 20">
+            <TabControl Background="{DynamicResource PrimaryBackgroundBrush}"
+                        HorizontalAlignment="Center">
+                <TabItem Header="General">
+                </TabItem>
+                <TabItem Header="Tasks">
 
-                <StackPanel>
-                    
-                    <!-- Numbered tasks-->
-                    <CheckBox Style="{StaticResource TaskSquareCheckBox}"
-                              IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=NumberedTasks}"
-                              Margin="0 0 0 10"
-                              Content="Numbered tasks enabled" />
-                    
-                    <!-- Completed tasks on top -->
-                    <CheckBox Style="{StaticResource TaskSquareCheckBox}"
-                              Content="Completed tasks on top" />
+                    <StackPanel>
 
-                </StackPanel>
-                
-            </TabItem>
-            <TabItem Header="Appearance">
-            </TabItem>
-        </TabControl>
-        
+                        <!-- Completed tasks on top -->
+                        <CheckBox Style="{StaticResource TaskSquareCheckBox}"
+                                  IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=CompletedTasksOnTop}"
+                                  Margin="0 10"
+                                  Content="Completed tasks on top"
+                                  ToolTipService.InitialShowDelay="0"
+                                  ToolTip="If enabled, completed tasks will show in the top of the list. Default is disabled."/>
+
+                        <!-- Hide Completed tasks -->
+                        
+                        <!-- Numbered tasks-->
+                        <CheckBox Style="{StaticResource TaskSquareCheckBox}"
+                                  IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=NumberedTasks}"
+                                  Content="Numbered tasks"
+                                  ToolTipService.InitialShowDelay="0"
+                                  ToolTip="Enables or disables numbered tasks. Default is enabled." />
+
+                    </StackPanel>
+
+                </TabItem>
+                <TabItem Header="Appearance">
+                </TabItem>
+            </TabControl>
+        </Grid>
+
     </DockPanel>
 </UserControl>

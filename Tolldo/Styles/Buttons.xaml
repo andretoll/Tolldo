@@ -167,6 +167,29 @@
         </Style.Triggers>
     </Style>
     
+    <!-- Flat white small button with icon -->
+    <Style TargetType="{x:Type Button}" x:Key="FlatWhiteSmallIconButton" BasedOn="{StaticResource FlatSmallIconButton}">
+        <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
+        <Style.Triggers>
+
+            <!-- When hovering -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource DarkForegroundBrush}" />
+            </Trigger>
+
+            <!-- When disabled -->
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource GrayBackgroundBrush}" />
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Opacity="0" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+    
     <!-- List button with text and icon -->
     <Style TargetType="{x:Type Button}" x:Key="ListButton">
         <Setter Property="Background" Value="Transparent" />
@@ -271,8 +294,9 @@
                 <Setter Property="Background" Value="{DynamicResource DarkColorForegroundBrush}" />
             </Trigger>
 
+            <!-- When disabled -->
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="{DynamicResource GrayBackgroundBrush}" />
+                <Setter Property="Background" Value="{StaticResource GrayForegroundBrush}" />
             </Trigger>
 
         </Style.Triggers>
@@ -312,12 +336,12 @@
 
                         <TextBlock.Style>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
                                 <Style.Triggers>
                                     
                                     <!-- When hovering -->
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
+                                        <Setter Property="Foreground" Value="{StaticResource DarkForegroundBrush}" />
                                         <Setter Property="TextBlock.TextDecorations" Value="Underline" />
                                     </Trigger>
                                     
@@ -330,7 +354,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
     
     <!-- Base RadioButton -->
