@@ -23,7 +23,7 @@
         <Setter Property="BorderThickness" Value="5 0 0 0" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Padding" Value="5" />
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackgroundBrush}" />        
+        <Setter Property="BorderBrush" Value="Transparent" />        
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -52,8 +52,8 @@
                     <Condition Property="IsMouseOver" Value="True" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource SecondaryBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource DarkColorForegroundBrush}" />
                 </MultiTrigger.Setters>
             </MultiTrigger>
 
@@ -74,16 +74,12 @@
     
     <!-- ListBoxItemCheckbox-->
     <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemCheckbox">
-        <Setter Property="BorderThickness" Value="0 0 0 2" />
-        <Setter Property="BorderBrush" Value="{DynamicResource GrayBackgroundBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border Margin="0"
-                            Padding="0"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            BorderBrush="{TemplateBinding BorderBrush}">
+                            Padding="0">
 
                         <!-- Content -->
                         <ContentPresenter />

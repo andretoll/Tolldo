@@ -129,7 +129,7 @@
                             <!-- Text -->
                             <TextBlock Style="{StaticResource MediumTextBlock}"
                                        VerticalAlignment="Center"
-                                       Foreground="{TemplateBinding Foreground}"
+                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
                                        Text="{TemplateBinding Content}" />
 
                         </StackPanel>

@@ -94,5 +94,17 @@ namespace Tolldo.Properties {
                 this["ProgressBarHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HideCompletedTasks {
+            get {
+                return ((bool)(this["HideCompletedTasks"]));
+            }
+            set {
+                this["HideCompletedTasks"] = value;
+            }
+        }
     }
 }

@@ -157,12 +157,11 @@
             </Button>
 
             <!-- Settings button -->
-            <Button Style="{StaticResource FlatSmallIconButton}"
-                    Command="{Binding ToggleSettingsMenuCommand}"
-                    Margin="0 25 0 0"
-                    ToolTip="Settings"
-                    FontSize="22"
-                    Content="&#xf085;"/>
+            <ToggleButton IsChecked="{Binding IsSettingsMenuOpen}"
+                          Margin="0 25 0 0"
+                          ToolTip="Settings"
+                          FontSize="22"
+                          Content="&#xf085;"/>
 
         </StackPanel>
 

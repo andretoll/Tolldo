@@ -20,5 +20,8 @@
     <Setting Name="ProgressBarHeight" Type="System.Int16" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="HideCompletedTasks" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

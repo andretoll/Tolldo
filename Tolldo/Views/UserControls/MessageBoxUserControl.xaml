@@ -47,7 +47,7 @@
                 <TextBlock Width="175"
                            Foreground="{StaticResource LightForegroundBrush}"
                            FontFamily="{StaticResource LatoRegular}"
-                           FontSize="18"
+                           FontSize="16"
                            TextWrapping="Wrap"
                            Grid.Column="0"
                            HorizontalAlignment="Left"

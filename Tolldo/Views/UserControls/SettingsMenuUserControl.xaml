@@ -37,30 +37,49 @@
         <Grid Margin="10 20">
             <TabControl Background="{DynamicResource PrimaryBackgroundBrush}"
                         HorizontalAlignment="Center">
+                
                 <TabItem Header="General">
+
+                    <StackPanel>
+
+                        <TextBlock Style="{StaticResource LargeTextBlock}" 
+                                   Text="General Settings"
+                                   Margin="0 0 0 10"/>
+
+                    </StackPanel>
+                    
                 </TabItem>
                 <TabItem Header="Tasks">
 
                     <StackPanel>
 
+                        <TextBlock Style="{StaticResource LargeTextBlock}" 
+                                   Text="Task Settings"
+                                   Margin="0 0 0 10"/>
+                        
                         <!-- Completed tasks on top -->
                         <CheckBox Style="{StaticResource TaskSquareCheckBox}"
                                   IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=CompletedTasksOnTop}"
-                                  Foreground="{DynamicResource PrimaryForegroundBrush}"
                                   Margin="0 10"
                                   Content="Completed tasks on top"
                                   ToolTipService.InitialShowDelay="0"
-                                  ToolTip="If enabled, completed tasks will show in the top of the list. Default is disabled."/>
-
-                        <!-- Hide Completed tasks -->
+                                  ToolTip="If enabled, completed tasks will appear in the top of the list. Default is disabled."/>
                         
+                        <!-- Hide completed tasks -->
+                        <CheckBox Style="{StaticResource TaskSquareCheckBox}"
+                                  IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=HideCompletedTasks}"
+                                  Margin="0 10"
+                                  Content="Hide completed tasks"
+                                  ToolTipService.InitialShowDelay="0"
+                                  ToolTip="If enabled, completed tasks will be hidden. Default is disabled."/>
+
                         <!-- Numbered tasks-->
                         <CheckBox Style="{StaticResource TaskSquareCheckBox}"
                                   IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=NumberedTasks}"
-                                  Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                  Margin="0 10"
                                   Content="Numbered tasks"
                                   ToolTipService.InitialShowDelay="0"
-                                  ToolTip="Enables or disables numbered tasks. Default is enabled." />
+                                  ToolTip="If enabled, tasks will be numbered. Default is enabled." />
 
                     </StackPanel>
 
@@ -71,22 +90,22 @@
 
                         <!-- ProgressBar height -->
                         <StackPanel>
-                            <TextBlock Style="{StaticResource LargeTextBlock}" Text="Progress height"
-                                   Margin="0 0 0 10"/>
+                            <TextBlock Style="{StaticResource LargeTextBlock}" 
+                                       Text="Progress height"
+                                       Margin="0 0 0 10"/>
                             <Slider Value="{Binding Source={x:Static prop:Settings.Default}, Path=ProgressBarHeight}"
-                                Minimum="1"
-                                Maximum="30"
-                                IsSnapToTickEnabled="True"
-                                TickPlacement="BottomRight"
-                                TickFrequency="1">
+                                    Minimum="1"
+                                    Maximum="30">
                             </Slider>
                         </StackPanel>
 
                     </StackPanel>
                     
                 </TabItem>
+                
             </TabControl>
         </Grid>
 
     </DockPanel>
+    
 </UserControl>

@@ -462,7 +462,6 @@ namespace Tolldo.ViewModels
         public ICommand TogglePopupMenuCommand { get; set; }
         public ICommand ClosePopupMenuCommand { get; set; }
         public ICommand CloseMessageBoxCommand { get; set; }
-        public ICommand ToggleSettingsMenuCommand { get; set; }
         public ICommand InvertThemeCommand { get; set; }
         public ICommand ToggleAccentsMenuCommand { get; set; }
         public ICommand SetAccentCommand { get; set; }
@@ -506,7 +505,6 @@ namespace Tolldo.ViewModels
             // Initialize commands
             NavigateHomeCommand = new RelayCommand.RelayCommand(p => { SelectedTodo = null; });
             CollapseMenuCommand = new RelayCommand.RelayCommand(p => { IsMenuOpen = !IsMenuOpen; });
-            ToggleSettingsMenuCommand = new RelayCommand.RelayCommand(p => { IsSettingsMenuOpen = !IsSettingsMenuOpen; });
             ToggleSearchModeCommand = new RelayCommand.RelayCommand(p => { SearchMode = !SearchMode; });
             ClearSearchStringCommand = new RelayCommand.RelayCommand(p => { SearchString = ""; SearchMode = !SearchMode; SearchMode = !SearchMode; });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });

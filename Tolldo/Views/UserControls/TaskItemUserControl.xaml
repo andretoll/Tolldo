@@ -12,7 +12,24 @@
 
     <!-- Each ListBoxItem -->
     <Border Padding="5 10 10 10"
+            BorderThickness="0 0 0 1"
+            BorderBrush="{DynamicResource GrayBackgroundBrush}"
             Background="{DynamicResource SecondaryBackgroundBrush}">
+        
+        <!-- Hide completed tasks if setting is active -->
+        <Border.Style>
+            <Style TargetType="{x:Type Border}">
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Source={x:Static prop:Settings.Default}, Path=HideCompletedTasks}" Value="True" />
+                            <Condition Binding="{Binding IsCompleted}" Value="True" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
         
         <Grid Tag="{Binding RelativeSource={RelativeSource 
                         Mode=FindAncestor, 
@@ -402,23 +419,23 @@
 
                                 <!-- Save button -->
                                 <Button Style="{StaticResource FlatSmallIconButton}"
-                                    IsDefault="True"
-                                    Focusable="False"
-                                    ToolTip="Save"
-                                    Grid.Column="0"
-                                    Command="{Binding AddSubtaskCommand}"
-                                    VerticalAlignment="Center"
-                                    FontSize="22"
-                                    FontFamily="{StaticResource FontAwesome}"                                            
-                                    Margin="0 0 10 0"
-                                    Content="&#xf0fe;" />
+                                        IsDefault="True"
+                                        Focusable="False"
+                                        ToolTip="Save"
+                                        Grid.Column="0"
+                                        Command="{Binding AddSubtaskCommand}"
+                                        VerticalAlignment="Center"
+                                        FontSize="22"
+                                        FontFamily="{StaticResource FontAwesome}"                                            
+                                        Margin="0 0 10 0"
+                                        Content="&#xf0fe;" />
 
                                 <!-- New subtask input -->
                                 <TextBox Style="{StaticResource LongTextBox}"
-                                     Text="{Binding NewSubtaskName, UpdateSourceTrigger=PropertyChanged}"
-                                     Grid.Column="1"
-                                     ext:FocusExtension.IsFocused="{Binding NewSubtaskAdded}"
-                                     Padding="0 5" />
+                                         Text="{Binding NewSubtaskName, UpdateSourceTrigger=PropertyChanged}"
+                                         Grid.Column="1"
+                                         ext:FocusExtension.IsFocused="{Binding NewSubtaskAdded}"
+                                         Padding="0 5" />
 
                             </Grid>
                         </Border>
@@ -432,16 +449,16 @@
                         <StackPanel Orientation="Horizontal">
 
                             <TextBlock Style="{StaticResource LargeTextBlock}"
-                                    Foreground="{DynamicResource PrimaryForegroundBrush}"
-                                    Text="Description" />
+                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                       Text="Description" />
 
                         </StackPanel>
 
                         <!-- Input -->
                         <TextBox Style="{StaticResource LongTextBox}"
-                                Text="{Binding Description}"
-                                Padding="5"
-                                Margin="15 15 10 15"/>
+                                 Text="{Binding Description}"
+                                 Margin="6 10"
+                                 Padding="5"/>
 
                     </StackPanel>
 

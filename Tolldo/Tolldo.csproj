@@ -276,6 +276,10 @@
     <Compile Include="Extensions\FocusExtension.cs" />
     <Compile Include="Extensions\IconExtension.cs" />
     <Compile Include="Helpers\ThemeManager.cs" />
+    <Page Include="Styles\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\TabControls.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

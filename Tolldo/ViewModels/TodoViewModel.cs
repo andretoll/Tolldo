@@ -342,7 +342,6 @@ namespace Tolldo.ViewModels
         public ICommand DeleteTaskCommand { get; set; }
         public ICommand CopyTaskCommand { get; set; }
         public ICommand ActivateDragCommand { get; set; }
-        public ICommand ToggleImageMenuCommand { get; set; }
         public ICommand CloseImageMenuCommand { get; set; }
         public ICommand ChangeBannerImageCommand { get; set; }
 
@@ -401,7 +400,6 @@ namespace Tolldo.ViewModels
             DeleteTaskCommand = new RelayCommand.RelayCommand(async p => { await DeleteTask(SelectedTask); });
             CopyTaskCommand = new RelayCommand.RelayCommand(async p => { await CopyTask(SelectedTask); });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
-            ToggleImageMenuCommand = new RelayCommand.RelayCommand(p => { IsImageMenuOpen = !IsImageMenuOpen; });
             CloseImageMenuCommand = new RelayCommand.RelayCommand(p => { IsImageMenuOpen = false; });
             ChangeBannerImageCommand = new RelayCommand.RelayCommand(async p => { await ChangeBannerImage((string)p); });
         }

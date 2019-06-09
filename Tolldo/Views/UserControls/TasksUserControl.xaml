@@ -72,29 +72,182 @@
                 <Rectangle Fill="{StaticResource DarkForegroundBrush}"
                            Opacity="0.3" />
 
-                <!-- Change image -->
-                <Button Grid.ColumnSpan="2"
-                        Command="{Binding ToggleImageMenuCommand}"
-                        Style="{StaticResource FlatSmallIconButton}"
-                        VerticalAlignment="Top"
-                        Margin="0 10"
-                        FontFamily="{StaticResource FontAwesome}"
-                        FontSize="32"
-                        ToolTip="Change banner image"
-                        Content="&#xf302;">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    
+                    <!-- Change image -->
+                    <ToggleButton IsChecked="{Binding IsImageMenuOpen}" 
+                                  VerticalAlignment="Top"
+                                  Margin="10"
+                                  FontFamily="{StaticResource FontAwesome}"
+                                  FontSize="20"
+                                  ToolTipService.InitialShowDelay="0"
+                                  ToolTip="Change banner image"
+                                  Content="&#xf302;">
 
-                    <!-- When losing focus, close menu -->
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="LostFocus">
-                            <i:InvokeCommandAction Command="{Binding CloseImageMenuCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                        <!-- When losing focus, close menu -->
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="LostFocus">
+                                <i:InvokeCommandAction Command="{Binding CloseImageMenuCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
 
-                </Button>
-                
+                    </ToggleButton>
+
+                    <!-- Hide completed tasks -->
+                    <ToggleButton IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=HideCompletedTasks}"
+                                  Margin="10"
+                                  FontSize="20"
+                                  ToolTipService.InitialShowDelay="0"
+                                  ToolTip="Hide completed tasks"
+                                  FontFamily="{StaticResource FontAwesome}"
+                                  Content="&#xf070;" />
+                    
+                </StackPanel>
+
             </Grid>
 
         </Grid>
+
+        <!-- Banner image menu -->
+        <Border Grid.Row="0"
+                Grid.RowSpan="1"
+                VerticalAlignment="Bottom"
+                Background="{StaticResource DarkForegroundBrush}"
+                BorderThickness="0 2 0 2"
+                BorderBrush="{DynamicResource GrayBackgroundBrush}"
+                Visibility="{Binding IsImageMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
+
+            <ScrollViewer CanContentScroll="False"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Disabled">
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <!-- None -->
+                        <ColumnDefinition Width="auto" />
+                        <!-- List of images -->
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- None -->
+                    <Button Command="{Binding ChangeBannerImageCommand}"
+                            Width="150"
+                            ToolTip="None"
+                            Grid.Column="0"
+                            Focusable="False"
+                            CommandParameter="None">
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Opacity" Value="0.7" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Grid Background="{TemplateBinding Background}" Width="100">
+
+                                                <TextBlock Style="{StaticResource MediumTextBlock}"
+                                                           Foreground="{StaticResource LightForegroundBrush}"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           FontSize="32"
+                                                           FontFamily="{StaticResource FontAwesome}"
+                                                           Text="&#xf05e;" />
+
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                    </Button>
+
+                    <!-- Image list -->
+                    <ListBox ItemsSource="{Binding BannerImageCollection}"
+                             Grid.Column="1"
+                             x:Name="BannerImageItemsControl">
+
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="ItemsControl">
+                                <Border>
+                                    <ScrollViewer CanContentScroll="True">
+                                        <ItemsPresenter />
+                                    </ScrollViewer>
+                                </Border>
+                            </ControlTemplate>
+                        </ListBox.Template>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Height="100"
+                                        BorderBrush="{DynamicResource GrayBackgroundBrush}">
+
+                                    <Grid>
+
+                                        <Button Command="{Binding DataContext.ChangeBannerImageCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                Focusable="False"
+                                                CommandParameter="{Binding}">
+
+                                            <Button.Style>
+                                                <Style TargetType="{x:Type Button}">
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                    <Setter Property="Opacity" Value="0.5" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                                <Border Background="{TemplateBinding Background}">
+
+                                                                    <Image Stretch="Fill"
+                                                                           Width="150">
+
+                                                                        <Image.Source>
+                                                                            <BitmapImage UriSource="{Binding}" DecodePixelWidth="200" />
+                                                                        </Image.Source>
+                                                                    </Image>
+
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Opacity" Value="1" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+
+                                        </Button>
+
+                                    </Grid>
+
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                    </ListBox>
+
+                </Grid>
+
+            </ScrollViewer>
+
+        </Border>
 
         <!-- Progress -->
         <Grid Grid.Row="1" 
@@ -150,7 +303,7 @@
             <Grid DockPanel.Dock="Bottom"
                   Panel.ZIndex="1000"                  
                   Visibility="{Binding ElementName=TasksScrollViewer, Path=ComputedVerticalScrollBarVisibility, UpdateSourceTrigger=PropertyChanged}"
-                  Background="{DynamicResource DarkerColorForegroundBrush}"
+                  Background="{DynamicResource PrimaryBackgroundBrush}"
                   VerticalAlignment="Top">
 
                 <Grid.Effect>
@@ -172,7 +325,7 @@
                     </Style>
                 </Grid.Style>
 
-                <Border Padding="10"
+                <Border Padding="35 10"
                         Height="50">
                     
                     <Border.Style>
@@ -200,7 +353,6 @@
                         <Button Style="{StaticResource FlatSmallIconButton}"
                                 IsDefault="True"
                                 Focusable="False"
-                                Foreground="{StaticResource LightForegroundBrush}"
                                 ToolTip="Save"
                                 Grid.Column="0"
                                 Command="{Binding SaveNewTaskCommand}"
@@ -213,7 +365,7 @@
                         <!-- Name for task -->
                         <TextBox Style="{StaticResource LongTextBox}"
                                  Grid.Column="1"
-                                 Foreground="{StaticResource LightForegroundBrush}"
+                                 Foreground="{DynamicResource PrimaryForegroundBrush}"
                                  CaretBrush="{StaticResource LightForegroundBrush}"
                                  Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
 
@@ -302,7 +454,7 @@
                             </Style>
                         </Grid.Style>
 
-                        <Border Padding="12 10"
+                        <Border Padding="37 10"
                                 Focusable="False"
                                 Height="50">
                             <Border.Style>
@@ -369,147 +521,7 @@
 
             </ScrollViewer>
             
-        </DockPanel>
-
-        <!-- Banner image menu -->
-        <Border Grid.Row="0"
-                Grid.RowSpan="2"
-                VerticalAlignment="Bottom"
-                Background="{StaticResource DarkForegroundBrush}"
-                BorderThickness="0 2 0 2"
-                BorderBrush="{DynamicResource GrayBackgroundBrush}"
-                Visibility="{Binding IsImageMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
-
-            <ScrollViewer CanContentScroll="False"
-                          HorizontalScrollBarVisibility="Auto"
-                          VerticalScrollBarVisibility="Disabled">
-                
-                <Grid>
-
-                    <Grid.ColumnDefinitions>
-                        <!-- None -->
-                        <ColumnDefinition Width="auto" />
-                        <!-- List of images -->
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <!-- None -->
-                    <Button Command="{Binding ChangeBannerImageCommand}"
-                            Width="150"
-                            ToolTip="None"
-                            Grid.Column="0"
-                            Focusable="False"
-                            CommandParameter="None">
-
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Opacity" Value="0.7" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Grid Background="{TemplateBinding Background}" Width="100">
-
-                                                <TextBlock Style="{StaticResource MediumTextBlock}"
-                                                           Foreground="{StaticResource LightForegroundBrush}"
-                                                           VerticalAlignment="Center"
-                                                           HorizontalAlignment="Center"
-                                                           FontSize="32"
-                                                           FontFamily="{StaticResource FontAwesome}"
-                                                           Text="&#xf05e;" />
-
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Opacity" Value="1" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-
-                    </Button>
-
-                    <!-- Image list -->
-                    <ListBox ItemsSource="{Binding BannerImageCollection}"
-                             Grid.Column="1"
-                             x:Name="BannerImageItemsControl">
-
-                        <ListBox.Template>
-                            <ControlTemplate TargetType="ItemsControl">
-                                <Border>
-                                    <ScrollViewer CanContentScroll="True">
-                                        <ItemsPresenter />
-                                    </ScrollViewer>
-                                </Border>
-                            </ControlTemplate>
-                        </ListBox.Template>
-
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Height="100"
-                                        BorderBrush="{DynamicResource GrayBackgroundBrush}">
-                                    
-                                    <Grid>
-
-                                        <Button Command="{Binding DataContext.ChangeBannerImageCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                                                Focusable="False"
-                                                CommandParameter="{Binding}">
-
-                                            <Button.Style>
-                                                <Style TargetType="{x:Type Button}">
-                                                    <Setter Property="Background" Value="Transparent" />
-                                                    <Setter Property="Opacity" Value="0.5" />
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                                <Border Background="{TemplateBinding Background}">
-
-                                                                    <Image Stretch="Fill"
-                                                                           Width="150">
-
-                                                                        <Image.Source>
-                                                                            <BitmapImage UriSource="{Binding}" DecodePixelWidth="200" />
-                                                                        </Image.Source>
-                                                                    </Image>
-
-                                                                </Border>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Opacity" Value="1" />
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-
-                                        </Button>
-
-                                    </Grid>
-                                    
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-
-                    </ListBox>
-
-                </Grid>
-                
-            </ScrollViewer>
-
-        </Border>
+        </DockPanel>       
 
     </Grid>
 

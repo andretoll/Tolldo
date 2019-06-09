@@ -151,7 +151,7 @@
 
             <!-- When disabled -->
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource GrayBackgroundBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
                 <Setter Property="Effect">
                     <Setter.Value>
                         <DropShadowEffect Opacity="0" />
@@ -416,6 +416,119 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    
+    <!-- Base ToggleButton -->
+    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+
+                    <Grid Width="50"
+                          Height="50"
+                          Background="Transparent">
+                        
+                        <Border CornerRadius="50"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}">
+
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       FontFamily="{StaticResource FontAwesome}"
+                                       FontSize="{TemplateBinding FontSize}" 
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center">
+
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+                                        <Style.Triggers>
+
+                                            <!-- When hovering -->
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
+                                            </Trigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+
+                            </TextBlock>
+
+                        </Border>
+                        
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+
+            <!-- When hovering -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+            </Trigger>           
+
+            <!-- When disabled -->
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Opacity="0" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <!-- When pressed -->
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource DarkColorForegroundBrush}" />
+            </Trigger>
+
+            <!-- When checked -->
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ColorForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
+
+                <!-- Animate a circle -->
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ThicknessAnimation Storyboard.TargetProperty="Padding"
+                                                Duration="0:0:0.15"
+                                                To="10" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ThicknessAnimation Storyboard.TargetProperty="Padding"
+                                                Duration="0:0:0.25"
+                                                To="0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+
+            </Trigger>
+
+            <!-- When hovering and ischecked -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsChecked" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="{DynamicResource DarkerColorForegroundBrush}" />
+            </MultiTrigger>
+
+        </Style.Triggers>
+
     </Style>
 
 </ResourceDictionary>

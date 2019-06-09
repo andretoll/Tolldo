@@ -9,7 +9,8 @@
 
     <!-- Main content container -->
     <Grid x:Name="FadingElement"
-          ClipToBounds="True">
+          Background="{DynamicResource PrimaryGradientBrush}"
+          ClipToBounds="True">        
 
         <!-- When grid is loaded -->
         <Grid.Triggers>
@@ -34,7 +35,29 @@
             <!-- Todo list -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
+        <!-- Grid background image -->
+        <Grid Grid.ColumnSpan="3"
+              Grid.Column="0">
+
+            <Image Stretch="UniformToFill"
+                   StretchDirection="UpOnly"
+                   SnapsToDevicePixels="True"
+                   Source="/Images/welcome_winter.jpg">
+
+                <Image.Effect>
+                    <BlurEffect />
+                </Image.Effect>
+
+            </Image>
+
+            <Rectangle Grid.ColumnSpan="3" 
+                       Grid.Column="0" 
+                       Fill="{DynamicResource SecondaryBackgroundBrush}"
+                       Opacity="0.9" />
+            
+        </Grid>
+
         <!-- Message box outer -->
         <Border Visibility="{Binding Message, FallbackValue=Collapsed, NotifyOnTargetUpdated=True, Converter={StaticResource emptyStringToVisibilityConverter}}"
                 Grid.Column="0"
@@ -104,8 +127,8 @@
 
         <!-- 2. Side menu -->
         <Border Grid.Column="1"
+                BorderThickness="0 0 1 0"
                 BorderBrush="{DynamicResource GrayBackgroundBrush}"
-                Background="{DynamicResource PrimaryBackgroundBrush}"
                 Visibility="{Binding IsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
             
             <uc:SideMenuUserControl />
@@ -113,11 +136,10 @@
         </Border>        
 
         <!-- 3. To-do list -->
-        <Border BorderThickness="1 0 0 0"
+        <Border Grid.Column="2"
+                BorderThickness="1 0 0 0"
                 BorderBrush="{DynamicResource GrayBackgroundBrush}"
-                Background="{DynamicResource PrimaryBackgroundBrush}"
-                Visibility="{Binding Path=., UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
-                Grid.Column="2">
+                Visibility="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}">
             
             <Grid>
 
@@ -126,7 +148,9 @@
             </Grid>
             
         </Border>
+        
         <!-- OR -->
+        
         <!-- 3. Welcome screen -->
         <Grid Grid.Column="2"
               Visibility="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedNullToVisibilityConverter}}">
@@ -137,54 +161,51 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
 
-                    <TextBlock Style="{StaticResource HeaderTextBlock}"
-                               FontSize="42"
-                               HorizontalAlignment="Center"
-                               Foreground="{StaticResource LightForegroundBrush}"
-                               Margin="0 20"
-                               Text="Welcome!" />
+                <TextBlock Style="{StaticResource HeaderTextBlock}"
+                           TextWrapping="Wrap"
+                           FontSize="42"
+                           HorizontalAlignment="Center"
+                           Foreground="{DynamicResource ColorForegroundBrush}"
+                           Margin="0 20"
+                           Text="WELCOME!" />
 
-                    <TextBlock Style="{StaticResource HeaderTextBlock}"
-                               TextWrapping="Wrap"
-                               HorizontalAlignment="Center"
-                               Foreground="{StaticResource LightForegroundBrush}"                               
-                               Text="Choose a To-Do list on the left to get started." />
+                <TextBlock Style="{StaticResource HeaderTextBlock}"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           Foreground="{DynamicResource PrimaryForegroundBrush}"                               
+                           Text="Choose a To-Do list on the left to get started."/>
 
-                    <TextBlock Style="{StaticResource HeaderTextBlock}"
-                               TextWrapping="Wrap"
-                               HorizontalAlignment="Center"
-                               Foreground="{StaticResource ColorForegroundBrush}"                               
-                               Margin="0 20"
-                               Text="OR" />
+                <TextBlock Style="{StaticResource HeaderTextBlock}"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           Foreground="{DynamicResource ColorForegroundBrush}"                               
+                           Margin="0 20"
+                           Text="OR" />
 
-                    <TextBlock Style="{StaticResource HeaderTextBlock}"
-                               TextWrapping="Wrap"
-                               HorizontalAlignment="Center"
-                               Foreground="{StaticResource LightForegroundBrush}"                               
-                               Text="Click below to create one." />
+                <TextBlock Style="{StaticResource HeaderTextBlock}"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           Foreground="{DynamicResource PrimaryForegroundBrush}"                              
+                           Text="Click below to create one." />
 
-                    <!-- Create new todo -->
-                    <Button Style="{StaticResource PrimaryButton}"
-                            Command="{Binding AddRandomTodoCommand}"
-                            HorizontalAlignment="Center"
-                            Margin="0 20"
-                            Content="Create list"/>
+                <!-- Create new todo -->
+                <Button Style="{StaticResource PrimaryButton}"
+                        Command="{Binding AddRandomTodoCommand}"
+                        HorizontalAlignment="Center"
+                        Margin="0 20"
+                        Content="Create list"/>
 
-                </StackPanel>                
+            </StackPanel>                
 
             <!-- Background image -->
-            <Image Stretch="UniformToFill"    
+            <!--<Image Stretch="UniformToFill"    
                    ClipToBounds="True"
-                   Source="/Images/welcome_winter.jpg">
-                <Image.Effect>
-                    <BlurEffect Radius="15" />
-                </Image.Effect>
-            </Image>
+                   Source="/Images/Banners/banner_travel.jpg" />-->
 
             <!-- Background image effect -->
-            <Rectangle Fill="Black"
+            <!--<Rectangle Fill="Black"
                        Opacity="0.7"
-                       Stretch="Fill" />
+                       Stretch="Fill" />-->
 
         </Grid>
         

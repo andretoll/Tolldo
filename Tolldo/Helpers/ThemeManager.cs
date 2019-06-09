@@ -59,10 +59,10 @@ namespace Tolldo.Helpers
             if (dark)
             {
                 // Set primary background                
-                SetBrush("Dark", "PrimaryBackgroundBrush");
+                SetBrush("DarkGray", "PrimaryBackgroundBrush");
 
                 // Set secondary background
-                SetBrush("DarkGray", "SecondaryBackgroundBrush");
+                SetBrush("Dark", "SecondaryBackgroundBrush");
 
                 // Set gray background
                 SetBrush("MediumDarkGray", "GrayBackgroundBrush");
