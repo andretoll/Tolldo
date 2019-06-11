@@ -572,7 +572,7 @@ namespace Tolldo.ViewModels
             // Close menu after update
             this.IsImageMenuOpen = false;
 
-            if (string.IsNullOrEmpty(url) | url == this.ImageUrl)
+            if (url == this.ImageUrl)
             {
                 this.ImageUrl = null;
                 return;

@@ -497,6 +497,10 @@ namespace Tolldo.ViewModels
 
             // Get data and create filtered view
             Todos = new ObservableCollection<TodoViewModel>(_repo.GetTodos());
+            foreach (var todo in Todos)
+            {
+                todo.UpdateProgress();
+            }
             _filteredTodos = new ListCollectionView(Todos);
 
             // Check last opened list

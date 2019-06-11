@@ -21,7 +21,7 @@
 
         <!-- Banner -->
         <Grid Grid.Row="0"
-              Background="Transparent"
+              Background="{DynamicResource PrimaryBackgroundBrush}"
               Height="200">
 
             <Grid.ColumnDefinitions>
@@ -42,7 +42,7 @@
 
             <!-- Banner overlay -->
             <Rectangle Fill="Black"
-                       Visibility="{Binding ImageUrl, Converter={StaticResource nullToVisibilityConverter}}"
+                       Visibility="{Binding ImageUrl, Converter={StaticResource emptyStringToVisibilityConverter}}"
                        Opacity="0.5"
                        Grid.ColumnSpan="3" />
 
