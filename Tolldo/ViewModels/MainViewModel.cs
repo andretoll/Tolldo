@@ -1,5 +1,6 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -145,6 +146,8 @@ namespace Tolldo.ViewModels
             set
             {
                 _themeManager.SetTheme(!_themeManager.DarkThemeEnabled);
+                SettingsManager.WriteToSetting(SettingsManager.Setting.DarkTheme.ToString(), value);
+                SettingsManager.SaveAllSettings();
                 NotifyPropertyChanged();
             }
         }
@@ -286,7 +289,8 @@ namespace Tolldo.ViewModels
                 }
 
                 // Save last selected todo
-                SettingsManager.SaveSetting(SettingsManager.Setting.LastTodo.ToString(), _selectedTodo.Id);
+                SettingsManager.WriteToSetting(SettingsManager.Setting.LastTodo.ToString(), _selectedTodo.Id);
+                SettingsManager.SaveAllSettings();
 
                 // Subscribe to PropertyChanged for each task
                 foreach (var task in _selectedTodo.Tasks)
@@ -469,6 +473,7 @@ namespace Tolldo.ViewModels
         public ICommand UndeleteTodoCommand { get; set; }
         public ICommand SaveSettingsCommand { get; set; }
         public ICommand ReloadSettingsCommand { get; set; }
+        public ICommand ChangeAppImageCommand { get; set; }
 
 
         #endregion
@@ -506,23 +511,43 @@ namespace Tolldo.ViewModels
             NavigateHomeCommand = new RelayCommand.RelayCommand(p => { SelectedTodo = null; });
             CollapseMenuCommand = new RelayCommand.RelayCommand(p => { IsMenuOpen = !IsMenuOpen; });
             ToggleSearchModeCommand = new RelayCommand.RelayCommand(p => { SearchMode = !SearchMode; });
-            ClearSearchStringCommand = new RelayCommand.RelayCommand(p => { SearchString = ""; SearchMode = !SearchMode; SearchMode = !SearchMode; });
+            ClearSearchStringCommand = new RelayCommand.RelayCommand(p => 
+            {
+                SearchString = ""; SearchMode = !SearchMode;
+                SearchMode = !SearchMode;
+            });
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
             TogglePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = !IsPopupMenuOpen; });
             ClosePopupMenuCommand = new RelayCommand.RelayCommand(p => { IsPopupMenuOpen = false; });
             CloseMessageBoxCommand = new RelayCommand.RelayCommand(p => { SetMessage(); });
             ToggleAccentsMenuCommand = new RelayCommand.RelayCommand(p => { IsAccentsMenuOpen = !IsAccentsMenuOpen; });
-            InvertThemeCommand = new RelayCommand.RelayCommand(p => { DarkThemeEnabled = !DarkThemeEnabled; SetMessage(DarkThemeEnabled ? "Dark theme enabled." : "Light theme enabled."); });
-            SetAccentCommand = new RelayCommand.RelayCommand(p => { _themeManager.SetAccent((string)p); SetMessage("Accent applied."); });
-            AddNewTodoCommand = new RelayCommand.RelayCommand(async p => { await AddTodo(NewTodoName); SetMessage("List added."); }, p => !string.IsNullOrEmpty(NewTodoName));
+            InvertThemeCommand = new RelayCommand.RelayCommand(p => 
+            {
+                DarkThemeEnabled = !DarkThemeEnabled;
+                SetMessage(DarkThemeEnabled ? "Dark theme enabled." : "Light theme enabled.");
+            });
+            SetAccentCommand = new RelayCommand.RelayCommand(p => {
+                _themeManager.SetAccent((string)p);
+                SettingsManager.WriteToSetting(SettingsManager.Setting.Accent.ToString(), p);
+                SettingsManager.SaveAllSettings(); SetMessage("Accent applied.");
+            });
+            AddNewTodoCommand = new RelayCommand.RelayCommand(async p => 
+            {
+                await AddTodo(NewTodoName);
+                SetMessage("List added.");
+            }, p => !string.IsNullOrEmpty(NewTodoName));
             AddRandomTodoCommand = new RelayCommand.RelayCommand(async p => { await AddRandomTodo(); SetMessage("List added."); });
             DeleteTodoCommand = new RelayCommand.RelayCommand(async p => { await DeleteTodo(SelectedTodo); });
             UndeleteTodoCommand = new RelayCommand.RelayCommand(async p => { await UndeleteTodo(); });
             SaveSettingsCommand = new RelayCommand.RelayCommand(p => { SaveSettings(); }, p => SettingsTouched);
             ReloadSettingsCommand = new RelayCommand.RelayCommand(p => { ReloadSettings(); });
+            ChangeAppImageCommand = new RelayCommand.RelayCommand(p => 
+            {
+                SettingsManager.WriteToSetting(SettingsManager.Setting.AppImage.ToString(), (string)p);
+            });
 
             // Set welcome message
-            SetMessage("Welcome back!");                        
+            SetMessage(SettingsManager.LoadSetting(SettingsManager.Setting.WelcomeMessage.ToString()).ToString());                        
         }        
 
         #endregion
@@ -563,7 +588,6 @@ namespace Tolldo.ViewModels
             TodoViewModel todo = new TodoViewModel(_dialogService)
             {
                 Name = name,
-                ImageUrl = SettingsManager.GetDefaultBannerImage(),
                 Order = Todos.Count + 1,
                 Tasks = new ObservableCollection<TaskViewModel>()
             };

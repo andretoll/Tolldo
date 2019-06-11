@@ -106,5 +106,29 @@ namespace Tolldo.Properties {
                 this["HideCompletedTasks"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Welcome back!")]
+        public string WelcomeMessage {
+            get {
+                return ((string)(this["WelcomeMessage"]));
+            }
+            set {
+                this["WelcomeMessage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("/Images/Covers/winter.jpg")]
+        public string AppImage {
+            get {
+                return ((string)(this["AppImage"]));
+            }
+            set {
+                this["AppImage"] = value;
+            }
+        }
     }
 }

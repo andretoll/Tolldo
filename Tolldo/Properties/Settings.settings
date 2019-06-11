@@ -23,5 +23,11 @@
     <Setting Name="HideCompletedTasks" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="WelcomeMessage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Welcome back!</Value>
+    </Setting>
+    <Setting Name="AppImage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">/Images/Covers/winter.jpg</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

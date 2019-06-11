@@ -96,9 +96,6 @@ namespace Tolldo.Helpers
                 // Set primary gradient
                 SetLinearBrush("Light", "LightGray", "PrimaryGradientBrush");
             }
-
-            // Save settings
-            SettingsManager.SaveSetting(SettingsManager.Setting.DarkTheme.ToString(), DarkThemeEnabled);
         }
 
         /// <summary>
@@ -142,9 +139,6 @@ namespace Tolldo.Helpers
                     SetLinearBrush("DarkerBlue", "Blue", "ColorGradientBrush");
                     break;
             }
-
-            // Save settings
-            SettingsManager.SaveSetting(SettingsManager.Setting.Accent.ToString(), accent);
         }
 
         #endregion

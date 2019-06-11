@@ -17,11 +17,6 @@ namespace Tolldo.Helpers
         /// </summary>
         public static string BannerImageDirectory { get; set; } = "/Images/Banners/";
 
-        /// <summary>
-        /// The default banner image name.
-        /// </summary>
-        public static string DefaultBannerImage { get; } = "banner_winter.jpg";
-
         #endregion
 
         #region Public Helpers
@@ -43,14 +38,13 @@ namespace Tolldo.Helpers
         }
 
         /// <summary>
-        /// Saves the specified <see cref="Setting"/> with the specified value.
+        /// Writes to the specified <see cref="Setting"/> with the specified value.
         /// </summary>
         /// <param name="property">Name of the property.</param>
         /// <param name="value">Value to assign to the property.</param>
-        public static void SaveSetting(string property, object value)
+        public static void WriteToSetting(string property, object value)
         {
             Properties.Settings.Default[property] = value;
-            SaveAllSettings();
         }
 
         /// <summary>
@@ -61,15 +55,6 @@ namespace Tolldo.Helpers
         public static object LoadSetting(string property)
         {
             return Properties.Settings.Default[property];
-        }
-
-        /// <summary>
-        /// Gets the default banner image url.
-        /// </summary>
-        /// <returns></returns>
-        public static string GetDefaultBannerImage()
-        {
-            return Path.Combine(BannerImageDirectory, DefaultBannerImage);
         }
 
         /// <summary>
@@ -107,7 +92,11 @@ namespace Tolldo.Helpers
             Accent,
             LastTodo,
             NumberedTasks,
-            CompletedTasksOnTop
+            CompletedTasksOnTop,
+            ProgressBarHeight,
+            HideCompletedTasks,
+            WelcomeMessage,
+            AppImage
         }
 
         #endregion

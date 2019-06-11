@@ -499,14 +499,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="14006272">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="15164928">
       <assemblyIdentity name="Tolldo" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>GkCLzsztkrKA2BPSjJIu7CdUaoXO2v6Feu2bE9izbY8=</dsig:DigestValue>
+        <dsig:DigestValue>0jwSICVDluD23TxpvLnXSnzUtSVauKrE9hUdtfITbCk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -522,22 +522,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Images\Banners\banner_blueprint.jpg" size="1223625">
+  <file name="Images\Banners\banner_christmas.png" size="742631">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>yuOHurn4TmJqDpv3UVuRtrgtZGJxzmt53j178DZsldk=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="Images\Banners\banner_christmas.jpg" size="438046">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>RY32tJCl16m1zDvXCnWtVOelpgNQSiKyTnE551qPpsQ=</dsig:DigestValue>
+      <dsig:DigestValue>F0ivCXtDpDP3G8MJ8+UMIxPzDm5Cwz6HO8cUP/NEShA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Images\Banners\banner_food.jpg" size="1252727">
@@ -558,22 +549,22 @@
       <dsig:DigestValue>L7Hs9riVcfBVYgbQjRinM/Q1E9bDlTUX/WGvV1Kvpd4=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Images\Banners\banner_travel.jpg" size="1155424">
+  <file name="Images\Banners\banner_idea.jpg" size="449122">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>yC2wh/IJQrNTM/d2i2WY/Nkw3PtYO8Ajj66cG+0+SMo=</dsig:DigestValue>
+      <dsig:DigestValue>NS7P2Ffdx859r7h1anLarap/j8sBTAjdBlWrii20BIE=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Images\Banners\banner_winter.jpg" size="554373">
+  <file name="Images\Banners\banner_manhattan.jpg" size="521255">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>EH70nAhwMX1igUpmDbLiiH8LZFdVG9Kp7RhSot8ngoY=</dsig:DigestValue>
+      <dsig:DigestValue>FkvOSk0pPvjtj4TmP9ptJLO0Y7VcAOq6Q2m2hPwoRNw=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Images\Logo\favicon.ico" size="15086">
@@ -585,13 +576,13 @@
       <dsig:DigestValue>q8mKmiDnYnaPui8QzqLwSuqiMuEVwWYuB6tr/vtlGnk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Tolldo.exe.config" size="3772">
+  <file name="Tolldo.exe.config" size="4050">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>qQIRuZgkPrkx9Fe9merMM1POTVuOaO7QH45HH1Egbak=</dsig:DigestValue>
+      <dsig:DigestValue>pFvICSf7YasQhSt/TsQtHSP4iLZKxFL1wQZ9fTalrpI=</dsig:DigestValue>
     </hash>
   </file>
   <file name="x64\e_sqlite3.dll" size="1307648">

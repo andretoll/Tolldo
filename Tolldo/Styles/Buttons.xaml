@@ -358,12 +358,14 @@
     
     <!-- Base RadioButton -->
     <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     
                     <BulletDecorator Background="Transparent"
                                      Margin="0 5">
+                        
                         <BulletDecorator.Bullet>
                             <Grid Height="20" Width="20">
                                 
@@ -380,6 +382,7 @@
                                         Name="RadioMark" 
                                         Background="{DynamicResource ColorForegroundBrush}" 
                                         Visibility="Hidden" />
+                                
                             </Grid>
                         </BulletDecorator.Bullet>
                         

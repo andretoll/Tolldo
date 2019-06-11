@@ -21,8 +21,8 @@
 
         <!-- Banner -->
         <Grid Grid.Row="0"
-              Background="{StaticResource DarkForegroundBrush}"
-              Height="175">
+              Background="Transparent"
+              Height="200">
 
             <Grid.ColumnDefinitions>
                 <!-- Left -->
@@ -42,6 +42,7 @@
 
             <!-- Banner overlay -->
             <Rectangle Fill="Black"
+                       Visibility="{Binding ImageUrl, Converter={StaticResource nullToVisibilityConverter}}"
                        Opacity="0.5"
                        Grid.ColumnSpan="3" />
 
@@ -78,7 +79,6 @@
                     <!-- Change image -->
                     <ToggleButton IsChecked="{Binding IsImageMenuOpen}" 
                                   VerticalAlignment="Top"
-                                  Margin="10"
                                   FontFamily="{StaticResource FontAwesome}"
                                   FontSize="20"
                                   ToolTipService.InitialShowDelay="0"
@@ -96,7 +96,6 @@
 
                     <!-- Hide completed tasks -->
                     <ToggleButton IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=HideCompletedTasks}"
-                                  Margin="10"
                                   FontSize="20"
                                   ToolTipService.InitialShowDelay="0"
                                   ToolTip="Hide completed tasks"
@@ -119,6 +118,7 @@
                 Visibility="{Binding IsImageMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
 
             <ScrollViewer CanContentScroll="False"
+                          Padding="0 0 0 15"
                           HorizontalScrollBarVisibility="Auto"
                           VerticalScrollBarVisibility="Disabled">
 
@@ -133,11 +133,12 @@
 
                     <!-- None -->
                     <Button Command="{Binding ChangeBannerImageCommand}"
+                            Background="Transparent"
                             Width="150"
                             ToolTip="None"
                             Grid.Column="0"
                             Focusable="False"
-                            CommandParameter="None">
+                            CommandParameter="">
 
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
@@ -146,7 +147,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type Button}">
-                                            <Grid Background="{TemplateBinding Background}" Width="100">
+                                            <Grid Background="{TemplateBinding Background}">
 
                                                 <TextBlock Style="{StaticResource MediumTextBlock}"
                                                            Foreground="{StaticResource LightForegroundBrush}"
@@ -166,6 +167,7 @@
                                         <Setter Property="Opacity" Value="1" />
                                     </Trigger>
                                 </Style.Triggers>
+                                
                             </Style>
                         </Button.Style>
 
@@ -173,6 +175,7 @@
 
                     <!-- Image list -->
                     <ListBox ItemsSource="{Binding BannerImageCollection}"
+                             SelectedItem="{Binding ImageUrl}"
                              Grid.Column="1"
                              x:Name="BannerImageItemsControl">
 

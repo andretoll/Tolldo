@@ -573,7 +573,10 @@ namespace Tolldo.ViewModels
             this.IsImageMenuOpen = false;
 
             if (string.IsNullOrEmpty(url) | url == this.ImageUrl)
+            {
+                this.ImageUrl = null;
                 return;
+            }
 
             this.ImageUrl = url;
 

@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:uc="clr-namespace:Tolldo.Views.UserControls"
+             xmlns:prop="clr-namespace:Tolldo.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Main content container -->
     <Grid x:Name="FadingElement"
-          Background="{DynamicResource PrimaryGradientBrush}"
+          Background="{DynamicResource SecondaryBackgroundBrush}"
           ClipToBounds="True">        
 
         <!-- When grid is loaded -->
@@ -43,18 +44,12 @@
             <Image Stretch="UniformToFill"
                    StretchDirection="UpOnly"
                    SnapsToDevicePixels="True"
-                   Source="/Images/welcome_winter.jpg">
-
-                <Image.Effect>
-                    <BlurEffect />
-                </Image.Effect>
-
-            </Image>
+                   Source="{Binding Source={x:Static prop:Settings.Default}, Path=AppImage}" />
 
             <Rectangle Grid.ColumnSpan="3" 
                        Grid.Column="0" 
                        Fill="{DynamicResource SecondaryBackgroundBrush}"
-                       Opacity="0.9" />
+                       Opacity="0.85" />
             
         </Grid>
 
