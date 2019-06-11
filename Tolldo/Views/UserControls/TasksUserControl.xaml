@@ -370,6 +370,7 @@
                                  Grid.Column="1"
                                  Foreground="{DynamicResource PrimaryForegroundBrush}"
                                  CaretBrush="{StaticResource LightForegroundBrush}"
+                                 FontSize="16"
                                  Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
 
                             <i:Interaction.Triggers>
@@ -497,6 +498,7 @@
                                          Grid.Column="1"
                                          Foreground="{DynamicResource PrimaryForegroundBrush}"
                                          CaretBrush="{DynamicResource PrimaryForegroundBrush}"
+                                         FontSize="16"
                                          Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
 
                                     <i:Interaction.Triggers>

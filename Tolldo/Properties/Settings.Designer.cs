@@ -130,5 +130,17 @@ namespace Tolldo.Properties {
                 this["AppImage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TodoProgressShowPercent {
+            get {
+                return ((bool)(this["TodoProgressShowPercent"]));
+            }
+            set {
+                this["TodoProgressShowPercent"] = value;
+            }
+        }
     }
 }

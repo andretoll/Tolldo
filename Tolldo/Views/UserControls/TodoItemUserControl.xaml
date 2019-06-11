@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:ext="clr-namespace:Tolldo.Extensions"
+             xmlns:prop="clr-namespace:Tolldo.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -113,7 +114,7 @@
             
         </Grid>
 
-        <!-- Progress -->
+        <!-- Progress and icons -->
         <StackPanel Orientation="Horizontal"
                     Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
                     Grid.Column="1">
@@ -140,10 +141,19 @@
 
             <!-- Progress -->
             <TextBlock Style="{StaticResource SmallTextBlock}"
+                       Visibility="{Binding Source={x:Static prop:Settings.Default}, Path=TodoProgressShowPercent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
                        Opacity="0.75"
                        FontFamily="{StaticResource LatoRegular}"
                        VerticalAlignment="Center"
                        Text="{Binding ProgressString}" />
+            
+            <!-- Progress percentage -->
+            <TextBlock Style="{StaticResource SmallTextBlock}"
+                       Visibility="{Binding Source={x:Static prop:Settings.Default}, Path=TodoProgressShowPercent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}"
+                       Opacity="0.75"
+                       FontFamily="{StaticResource LatoRegular}"
+                       VerticalAlignment="Center"
+                       Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat={}{0:0} %}" />
 
         </StackPanel>      
 

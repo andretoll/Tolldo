@@ -19,6 +19,7 @@
             <Button Style="{StaticResource FlatSmallIconButton}"
                     Margin="0 0 0 25"
                     ToolTip="Show/Collapse"
+                    ToolTipService.InitialShowDelay="0"
                     Command="{Binding CollapseMenuCommand}"
                     FontSize="22"
                     Content="&#xf0c9;" />
@@ -27,9 +28,18 @@
             <Button Style="{StaticResource FlatSmallIconButton}"
                     Margin="0 0 0 25"
                     ToolTip="Home"
+                    ToolTipService.InitialShowDelay="0"
                     Command="{Binding NavigateHomeCommand}"
                     FontSize="22"
                     Content="&#xf015;" />
+            
+            <!-- Import button -->
+            <Button Style="{StaticResource FlatSmallIconButton}"
+                    Margin="0 0 0 25"
+                    ToolTip="Import file"
+                    ToolTipService.InitialShowDelay="0"
+                    FontSize="22"
+                    Content="&#xf56f;" />
 
         </StackPanel>
 
@@ -126,10 +136,11 @@
 
                         <!-- Accents menu button -->
                         <Button Style="{StaticResource FlatSmallIconButton}"
-                            Command="{Binding ToggleAccentsMenuCommand}"
-                            ToolTip="Accent"
-                            FontSize="22"
-                            Content="&#xf1fc;" />
+                                Command="{Binding ToggleAccentsMenuCommand}"
+                                ToolTip="Accent"
+                                ToolTipService.InitialShowDelay="0"
+                                FontSize="22"
+                                Content="&#xf1fc;" />
 
                     </StackPanel>
 
@@ -137,8 +148,9 @@
 
                 <!-- Theme button -->
                 <Button Margin="0 25 0 0"
-                    Command="{Binding InvertThemeCommand}"
-                    FontSize="22" >
+                        Command="{Binding InvertThemeCommand}"
+                        ToolTipService.InitialShowDelay="0"
+                        FontSize="22" >
 
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource FlatSmallIconButton}">
@@ -158,12 +170,14 @@
                     </Button.Style>
 
                 </Button>
+                
             </StackPanel>
 
             <!-- Settings button -->
             <ToggleButton IsChecked="{Binding IsSettingsMenuOpen}"
                           Margin="0 25 0 0"
                           ToolTip="Settings"
+                          ToolTipService.InitialShowDelay="0"
                           FontSize="22"
                           Content="&#xf085;"/>
 

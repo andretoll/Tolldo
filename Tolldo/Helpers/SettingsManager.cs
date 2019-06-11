@@ -96,7 +96,8 @@ namespace Tolldo.Helpers
             ProgressBarHeight,
             HideCompletedTasks,
             WelcomeMessage,
-            AppImage
+            AppImage,
+            TodoProgressShowPercent
         }
 
         #endregion

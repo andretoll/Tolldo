@@ -58,6 +58,7 @@
                             <!-- Icon -->
                             <TextBlock Text="{TemplateBinding ext:IconExtension.Icon}"
                                        Grid.Column="0"
+                                       HorizontalAlignment="Center"
                                        FontFamily="{TemplateBinding FontFamily}"
                                        FontSize="14"
                                        Margin="0 0 15 0">

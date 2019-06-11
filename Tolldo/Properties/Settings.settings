@@ -29,5 +29,8 @@
     <Setting Name="AppImage" Type="System.String" Scope="User">
       <Value Profile="(Default)">/Images/Covers/winter.jpg</Value>
     </Setting>
+    <Setting Name="TodoProgressShowPercent" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

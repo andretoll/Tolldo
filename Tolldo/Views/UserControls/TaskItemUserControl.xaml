@@ -31,6 +31,7 @@
             </Style>
         </Border.Style>
         
+        <!-- Main -->
         <Grid Tag="{Binding RelativeSource={RelativeSource 
                         Mode=FindAncestor, 
                         AncestorType={x:Type ListBox}}, 
@@ -64,6 +65,24 @@
                               ext:IconExtension.Icon="&#xf111;"
                               Header="Uncheck task"/>
                     
+                    <!-- Mark as important -->
+                    <MenuItem Style="{StaticResource MenuItemBase}"
+                              Visibility="{Binding SelectedTask.Important, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+                              Command="{Binding SelectedTask.MarkAsImportantCommand}"
+                              CommandParameter="true"
+                              FontFamily="{StaticResource FontAwesome}"
+                              ext:IconExtension.Icon="&#xf02e;"
+                              Header="Mark as important"/>
+
+                    <!-- Unmark as important -->
+                    <MenuItem Style="{StaticResource MenuItemBase}"
+                              Visibility="{Binding SelectedTask.Important, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}"
+                              Command="{Binding SelectedTask.MarkAsImportantCommand}"
+                              CommandParameter="false"
+                              FontFamily="{StaticResource FontAwesomeRegular}"
+                              ext:IconExtension.Icon="&#xf02e;"
+                              Header="Unmark as important"/>
+
                     <!-- Copy -->
                     <MenuItem Style="{StaticResource MenuItemBase}"
                               Command="{Binding CopyTaskCommand}"
@@ -109,11 +128,11 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>                    
 
                     <!-- Info -->
-                    <StackPanel Orientation="Horizontal"
-                                Grid.Column="0"
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal"                                
                                 Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
 
                         <!-- Order number. Visible if setting is enabled -->
@@ -135,7 +154,7 @@
                                   Content="{Binding Name}"
                                   FontSize="26"
                                   Margin="10 0 0 0" />
-
+                        
                         <!-- Description -->
                         <TextBlock Style="{StaticResource SmallTextBlock}"
                                    Visibility="{Binding Description, Converter={StaticResource emptyStringToVisibilityConverter}}"
@@ -150,9 +169,9 @@
                     </StackPanel>
                     <!-- OR -->
                     <!-- Task rename -->
-                    <Grid Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}"
-                      Grid.Column="0"
-                      VerticalAlignment="Center">
+                    <Grid Grid.Column="0"
+                          Visibility="{Binding RenameActive, Converter={StaticResource booleanToVisibilityConverter}}"
+                          VerticalAlignment="Center">
 
                         <Grid.ColumnDefinitions>
                             <!-- Icon -->
@@ -192,23 +211,26 @@
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal">
 
-                        <StackPanel.Style>
-                            <Style TargetType="{x:Type StackPanel}">
-                                <Setter Property="Visibility" Value="Hidden" />
-
-                                <Style.Triggers>
-                                    <!-- Show panel when hover -->
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                    <!-- Show panel when expanded -->
-                                    <DataTrigger Binding="{Binding ExpandedActive}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-
-                            </Style>
-                        </StackPanel.Style>
+                        <!-- Important task -->
+                        <Grid Grid.Column="1" 
+                              Visibility="{Binding Important, Converter={StaticResource booleanToVisibilityConverter}}"
+                              Margin="10 0"
+                              ToolTip="Important"
+                              ToolTipService.InitialShowDelay="0">
+                            
+                            <TextBlock HorizontalAlignment="Center"
+                                       FontSize="24"
+                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                       Text="&#xf02e;"
+                                       FontFamily="{StaticResource FontAwesome}" />
+                            
+                            <TextBlock HorizontalAlignment="Center"
+                                       Margin="0 3 0 0"
+                                       FontSize="16"
+                                       Foreground="{DynamicResource PrimaryBackgroundBrush}"
+                                       Text="&#xf02e;"
+                                       FontFamily="{StaticResource FontAwesome}" />
+                        </Grid>
 
                         <!-- Expand button -->
                         <Button Command="{Binding ToggleExpandedCommand}"
@@ -216,6 +238,7 @@
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 ToolTip="Expand"
+                                ToolTipService.InitialShowDelay="0"
                                 Margin="10 0"
                                 FontSize="22"
                                 FontFamily="{StaticResource FontAwesome}">
@@ -230,6 +253,8 @@
                                         </Setter.Value>
                                     </Setter>
                                     <Style.Triggers>
+
+                                        <!-- Icon animation -->
                                         <DataTrigger Binding="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
                                             <DataTrigger.EnterActions>
                                                 <BeginStoryboard>
@@ -250,11 +275,12 @@
                                                 </BeginStoryboard>
                                             </DataTrigger.ExitActions>
                                         </DataTrigger>
+
                                     </Style.Triggers>
                                 </Style>
                             </Button.Style>
 
-                        </Button>
+                        </Button>                                               
 
                     </StackPanel>
 
@@ -263,7 +289,7 @@
                             Style="{StaticResource FlatSmallIconButton}"
                             HorizontalAlignment="Right"                            
                             ToolTip="Reorder"
-                            Foreground="{DynamicResource DarkerColorForegroundBrush}"
+                            ToolTipService.InitialShowDelay="0"
                             Cursor="SizeAll"
                             FontSize="20"
                             Margin="10 0"
@@ -352,10 +378,10 @@
 
                         <!-- Edit subtasks -->
                         <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
-                                Visibility="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
-                                Style="{StaticResource ListBoxBase}"
-                                Margin="0 10 0 0"
-                                ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}">
+                                 Visibility="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"
+                                 Style="{StaticResource ListBoxBase}"
+                                 Margin="0 10 0 0"
+                                 ItemContainerStyle="{StaticResource ListBoxItemBorderlessCheckbox}">
 
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -439,33 +465,39 @@
                                          Padding="0 5" />
 
                             </Grid>
+                            
                         </Border>
 
                     </StackPanel>
 
                     <!-- Description -->
-                    <StackPanel>
+                    <Grid>
 
-                        <!-- Label -->
-                        <StackPanel Orientation="Horizontal">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Description -->
+                        <StackPanel Grid.Column="0">
 
+                            <!-- Label -->
                             <TextBlock Style="{StaticResource LargeTextBlock}"
                                        Foreground="{DynamicResource PrimaryForegroundBrush}"
                                        Text="Description" />
 
+                            <!-- Input -->
+                            <TextBox Style="{StaticResource LongTextBox}"
+                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="6 10"
+                                     Padding="5"/>
+
                         </StackPanel>
 
-                        <!-- Input -->
-                        <TextBox Style="{StaticResource LongTextBox}"
-                                 Text="{Binding Description}"
-                                 Margin="6 10"
-                                 Padding="5"/>
-
-                    </StackPanel>
+                    </Grid>
 
                     <!-- Buttons -->
                     <StackPanel Orientation="Horizontal"
-                                Margin="0 20"
+                                Margin="0 20 0 10"
                                 HorizontalAlignment="Center">
 
                         <!-- Done button -->

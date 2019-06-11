@@ -31,6 +31,8 @@ namespace Tolldo.ViewModels
 
         private bool _completed;
 
+        private bool _important;
+
         private int _order;
 
         private ObservableCollection<SubtaskViewModel> _subtasks;
@@ -45,7 +47,6 @@ namespace Tolldo.ViewModels
 
         // Indicates if expanded mode is active
         private bool _expandedActive;
-        private string _descriptionValue;
 
         // New subtask name
         private string _newSubtaskName;
@@ -124,6 +125,19 @@ namespace Tolldo.ViewModels
                 NotifyPropertyChanged();
             }
         }
+               
+        public bool Important
+        {
+            get
+            {
+                return _important;
+            }
+            set
+            {
+                _important = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public int Order
         {
@@ -187,11 +201,11 @@ namespace Tolldo.ViewModels
                 _expandedActive = value;
                 NotifyPropertyChanged();
 
-                // If true, save description
-                if (value)
-                    _descriptionValue = this.Description;
-                else
-                    _descriptionValue = null;
+                // If false, save expanded properties
+                if (!value)
+                {
+                    _repo.UpdateTask(this);
+                }
             }
         }
 
@@ -252,6 +266,7 @@ namespace Tolldo.ViewModels
         public ICommand UncheckTaskCommand { get; set; }
         public ICommand AddSubtaskCommand { get; set; }
         public ICommand DeleteSubtaskCommand { get; set; }
+        public ICommand MarkAsImportantCommand { get; set; }
 
         #endregion
 
@@ -320,16 +335,6 @@ namespace Tolldo.ViewModels
                     }
                     break;
 
-                // Description
-                case nameof(ExpandedActive):
-
-                    // If description has been changed, update item
-                    if (!ExpandedActive & _descriptionValue != null & this.Description != _descriptionValue)
-                    {
-                        await UpdateTask(true);
-                    }
-                    break;
-
                 // Completed
                 case nameof(IsCompleted):
 
@@ -364,6 +369,7 @@ namespace Tolldo.ViewModels
             UncheckTaskCommand = new RelayCommand.RelayCommand(p => { this.IsCompleted = false; });
             AddSubtaskCommand = new RelayCommand.RelayCommand(async p => { await AddSubtask(); SetMessage("Subtask added."); }, p => NewSubtaskName.Length > 0);
             DeleteSubtaskCommand = new RelayCommand.RelayCommand(async p => { await DeleteSubtask(p as SubtaskViewModel); });
+            MarkAsImportantCommand = new RelayCommand.RelayCommand(p => { Important = !Important; });
         }
 
         #endregion
@@ -478,8 +484,6 @@ namespace Tolldo.ViewModels
         {
             if (subtask == null)
                 return;
-
-            await Task.Delay(2000);
 
             IsBusy = true;
 
