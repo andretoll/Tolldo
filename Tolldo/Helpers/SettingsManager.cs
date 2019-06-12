@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace Tolldo.Helpers
 {
@@ -10,15 +11,6 @@ namespace Tolldo.Helpers
     /// </summary>
     public static class SettingsManager
     {
-        #region Public Properties
-
-        /// <summary>
-        /// The relative path to the banner images.
-        /// </summary>
-        public static string BannerImageDirectory { get; set; } = "/Images/Banners/";
-
-        #endregion
-
         #region Public Helpers
 
         /// <summary>
@@ -79,6 +71,11 @@ namespace Tolldo.Helpers
             return new List<string>(files);
         }
 
+        public static string GetApplicationDirectory()
+        {
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        }
+
         #endregion
 
         #region Enums
@@ -97,7 +94,9 @@ namespace Tolldo.Helpers
             HideCompletedTasks,
             WelcomeMessage,
             AppImage,
-            TodoProgressShowPercent
+            TodoProgressShowPercent,
+            MinimizeToTray,
+            MinimizeToTrayMessage
         }
 
         #endregion

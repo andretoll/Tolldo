@@ -69,7 +69,7 @@
                   VerticalAlignment="Top">
 
                 <Rectangle Fill="{StaticResource DarkForegroundBrush}"
-                           Opacity="0.3" />
+                           Opacity="0.5" />
 
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">

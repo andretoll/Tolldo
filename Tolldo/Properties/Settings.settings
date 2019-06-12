@@ -27,10 +27,16 @@
       <Value Profile="(Default)">Welcome back!</Value>
     </Setting>
     <Setting Name="AppImage" Type="System.String" Scope="User">
-      <Value Profile="(Default)">/Images/Covers/winter.jpg</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TodoProgressShowPercent" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MinimizeToTray" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MinimizeToTrayMessage" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

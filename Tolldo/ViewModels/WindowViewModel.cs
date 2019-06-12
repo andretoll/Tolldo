@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
+using Tolldo.Helpers;
 
 namespace Tolldo.ViewModels
 {
@@ -12,6 +15,11 @@ namespace Tolldo.ViewModels
 
         // Referenced window
         private Window _window;
+
+        // NotifyIcon (Task tray)
+        private NotifyIcon _notifyIcon;
+        private bool _minimizeToTray;
+        private bool _minimizeToTrayMessage;
 
         // Minimum window width and height
         private const int _windowMinimumWidth = 410;
@@ -67,12 +75,52 @@ namespace Tolldo.ViewModels
             // Initialize window
             _window = window;
 
+            // Get window settings
+            _minimizeToTray = bool.Parse(SettingsManager.LoadSetting(SettingsManager.Setting.MinimizeToTray.ToString()).ToString());
+            _minimizeToTrayMessage = bool.Parse(SettingsManager.LoadSetting(SettingsManager.Setting.MinimizeToTrayMessage.ToString()).ToString());
+
+            // Initialize notify icon
+            _notifyIcon = new NotifyIcon();            
+            _notifyIcon.Icon = new System.Drawing.Icon(Path.Combine(SettingsManager.GetApplicationDirectory(), @"Images\Logo\favicon.ico"));
+            _notifyIcon.Text = "Tolldo";
+            _notifyIcon.ContextMenu = CreateContextMenu();
+            _notifyIcon.Click += (sender, e) =>
+            {
+                // Open context menu on left click
+                System.Reflection.MethodInfo mi = typeof(NotifyIcon).GetMethod("ShowContextMenu", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                mi.Invoke(_notifyIcon, null);
+            };
+            _notifyIcon.DoubleClick += (sender, e) =>
+            {
+                RestoreWindow();
+            };            
+
             // Listen for window resizing
             _window.StateChanged += (sender, e) =>
             {
                 NotifyPropertyChanged(nameof(ResizeBorderThickness));
                 NotifyPropertyChanged(nameof(OuterMarginSize));
                 NotifyPropertyChanged(nameof(OuterMarginSizeThickness));
+
+                // Minimize to tray if setting is active
+                if (_minimizeToTray)
+                {
+                    if (_window.WindowState == WindowState.Minimized)
+                    {
+                        _window.Hide();
+                        _notifyIcon.Visible = true;
+
+                        // Show message if setting is active
+                        if (_minimizeToTrayMessage)
+                        {
+                            _notifyIcon.ShowBalloonTip(2000, "Window minimized", "You can change these settings under General Settings.", ToolTipIcon.None);
+                            _minimizeToTrayMessage = false;
+                        }
+                    }
+                    // Restore window
+                    if (_window.WindowState == WindowState.Normal)
+                        _notifyIcon.Visible = false; 
+                }
             };
             
             // Initialize commands
@@ -90,7 +138,7 @@ namespace Tolldo.ViewModels
         #region Private Helpers
 
         /// <summary>
-        /// Return the current mouse position.
+        /// Returns the current mouse position.
         /// </summary>
         /// <returns></returns>
         private Point GetMousePosition()
@@ -101,6 +149,39 @@ namespace Tolldo.ViewModels
                 return new Point(position.X, position.Y);
             else
                 return new Point(position.X + _window.Left, position.Y + _window.Top);
+        }
+
+        /// <summary>
+        /// Creates the taskbar context menu.
+        /// </summary>
+        /// <returns></returns>
+        private ContextMenu CreateContextMenu()
+        {
+            ContextMenu contextMenu = new ContextMenu();
+
+            // Open window
+            contextMenu.MenuItems.Add("Open", (sender, e) =>
+            {
+                RestoreWindow();
+            });
+
+            // Exit
+            contextMenu.MenuItems.Add("Exit", (sender, e) =>
+            {
+                _notifyIcon.Visible = false;
+                System.Windows.Application.Current.Shutdown();
+            });
+
+            return contextMenu;
+        }
+
+        /// <summary>
+        /// Restores the window to its normal <see cref="WindowState"/>.
+        /// </summary>
+        private void RestoreWindow()
+        {
+            _window.Show();
+            _window.WindowState = WindowState.Normal;
         }
 
         #endregion

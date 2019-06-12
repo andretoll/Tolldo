@@ -12,7 +12,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen">
-
+    
     <Window.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type local:MainWindow}" BasedOn="{StaticResource ChromeWindow}"/>

@@ -121,7 +121,7 @@ namespace Tolldo.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("/Images/Covers/winter.jpg")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string AppImage {
             get {
                 return ((string)(this["AppImage"]));
@@ -140,6 +140,30 @@ namespace Tolldo.Properties {
             }
             set {
                 this["TodoProgressShowPercent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MinimizeToTray {
+            get {
+                return ((bool)(this["MinimizeToTray"]));
+            }
+            set {
+                this["MinimizeToTray"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MinimizeToTrayMessage {
+            get {
+                return ((bool)(this["MinimizeToTrayMessage"]));
+            }
+            set {
+                this["MinimizeToTrayMessage"] = value;
             }
         }
     }
