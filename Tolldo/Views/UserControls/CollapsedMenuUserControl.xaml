@@ -4,16 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="100">
 
     <!-- Collapsed menu -->
-    <DockPanel Margin="20"
-               Width="50">
+    <DockPanel>
 
         <!-- Upper -->
         <StackPanel DockPanel.Dock="Top"
-                    Visibility="{Binding IsSettingsMenuOpen, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
-                    Orientation="Vertical">
+                    Margin="20 20 20 0"
+                    Visibility="{Binding IsSettingsMenuOpen, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
 
             <!-- Collapse button -->
             <Button Style="{StaticResource FlatSmallIconButton}"
@@ -41,27 +40,32 @@
                     FontSize="22"
                     Content="&#xf56f;" />
 
-        </StackPanel>
+        </StackPanel>        
 
         <!-- Lower -->
         <StackPanel DockPanel.Dock="Bottom"
+                    Margin="20 0 20 20"
                     VerticalAlignment="Bottom">
 
             <!-- Accent and Theme -->
             <StackPanel Visibility="{Binding IsSettingsMenuOpen, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
+                
                 <!-- Accents container -->
                 <Border CornerRadius="20"
                     Padding="5 10"
                     BorderThickness="1">
 
+                    <!-- Accents background -->
                     <Border.Style>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="Background" Value="Transparent" />
                             <Style.Triggers>
+                                
                                 <!-- When menu opens -->
                                 <DataTrigger Binding="{Binding IsAccentsMenuOpen}" Value="True">
                                     <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundBrush}" />
                                 </DataTrigger>
+                                
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
@@ -74,9 +78,11 @@
 
                             <StackPanel Visibility="{Binding IsAccentsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
 
+                                <!-- Accents open animation -->
                                 <StackPanel.Style>
                                     <Style TargetType="{x:Type StackPanel}">
                                         <Style.Triggers>
+                                            
                                             <!-- When menu opens -->
                                             <DataTrigger Binding="{Binding IsAccentsMenuOpen, UpdateSourceTrigger=PropertyChanged}" Value="True">
                                                 <DataTrigger.EnterActions>
@@ -90,6 +96,7 @@
                                                     </BeginStoryboard>
                                                 </DataTrigger.EnterActions>
                                             </DataTrigger>
+                                            
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Style>
@@ -182,6 +189,126 @@
                           Content="&#xf085;"/>
 
         </StackPanel>
+
+        <!-- Center -->
+        <Grid Visibility="{Binding IsSettingsMenuOpen, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+              VerticalAlignment="Center">
+
+            <!-- List of favorites -->
+            <ScrollViewer CanContentScroll="False"
+                          Visibility="{Binding IsMenuOpen, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+
+                <Grid>
+                    
+                    <ListView ItemsSource="{Binding Todos, Mode=OneWay}"
+                              SelectedItem="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              Style="{StaticResource ListViewBase}"
+                              SelectionMode="Single">
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="Margin" Value="4" />
+                                <Setter Property="Opacity" Value="0.7" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <Grid>
+                                                <!-- Icon -->
+                                                <TextBlock Visibility="{Binding Favorite, Converter={StaticResource booleanToVisibilityConverter}}" Text="&#xf521;"
+                                                           Foreground="Goldenrod"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Top"
+                                                           Margin="2 -3 0 5"
+                                                           FontSize="14"
+                                                           RenderTransformOrigin="0.5, 0.5"
+                                                           FontFamily="{StaticResource FontAwesome}">
+
+                                                    <TextBlock.RenderTransform>
+                                                        <RotateTransform CenterX="0" CenterY="0" Angle="-53" />
+                                                    </TextBlock.RenderTransform>
+
+                                                </TextBlock>
+                                                <Border BorderBrush="{DynamicResource PrimaryForegroundBrush}"
+                                                        BorderThickness="2"
+                                                        Background="Transparent"
+                                                        Width="50"
+                                                        Height="50"
+                                                        Visibility="{Binding Favorite, Converter={StaticResource booleanToVisibilityConverter}}"
+                                                        CornerRadius="50"
+                                                        Opacity="{TemplateBinding Opacity}"
+                                                        Padding="5">
+
+                                                    <ContentPresenter />
+
+                                                </Border>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+
+                                    <!-- When selected -->
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Opacity" Value="9" />
+                                    </Trigger>
+
+                                    <!-- When hovering and not selected -->
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="False" />
+                                            <Condition Property="IsMouseOver" Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.Setters>
+                                            <Setter Property="Opacity" Value="8" />
+                                        </MultiTrigger.Setters>
+                                    </MultiTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+
+                                <Grid ToolTip="{Binding Name}"
+                                      ToolTipService.InitialShowDelay="0"
+                                      Width="35"
+                                      Height="35">
+
+                                    <TextBlock Text="{Binding Name, Converter={StaticResource acronymConverter}}"
+                                               Style="{StaticResource LargeTextBlock}"
+                                               Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                        <ListView.Template>
+                            <ControlTemplate TargetType="ItemsControl">
+                                <Border>
+                                    <ItemsPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </ListView.Template>
+
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                    </ListView>
+                    
+                </Grid>
+
+            </ScrollViewer>
+
+        </Grid>
 
     </DockPanel>
     

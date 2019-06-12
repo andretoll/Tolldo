@@ -12,5 +12,6 @@
     <valueconverters:VerticalScrollToVisibilityConverter x:Key="verticalScrollToVisibilityConverter" />
     <valueconverters:ReversedVerticalScrollToVisibilityConverter x:Key="reversedVerticalScrollToVisibilityConverter" />
     <valueconverters:BooleanToBooleanConverter x:Key="booleanToBooleanConverter" />
+    <valueconverters:AcronymConverter x:Key="acronymConverter" />
 
 </ResourceDictionary>

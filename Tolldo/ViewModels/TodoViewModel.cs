@@ -35,6 +35,8 @@ namespace Tolldo.ViewModels
 
         private int _order;
 
+        private bool _favorite;
+
         private ObservableCollection<TaskViewModel> _tasks;
 
         private int _progress;
@@ -113,6 +115,19 @@ namespace Tolldo.ViewModels
             set
             {
                 _order = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool Favorite
+        {
+            get
+            {
+                return _favorite;
+            }
+            set
+            {
+                _favorite = value;
                 NotifyPropertyChanged();
             }
         }
@@ -344,6 +359,7 @@ namespace Tolldo.ViewModels
         public ICommand ActivateDragCommand { get; set; }
         public ICommand CloseImageMenuCommand { get; set; }
         public ICommand ChangeBannerImageCommand { get; set; }
+        public ICommand MakeFavoriteCommand { get; set; }
 
         #endregion
 
@@ -359,7 +375,7 @@ namespace Tolldo.ViewModels
             // Evaluate calling property
             switch (e.PropertyName)
             {
-                // Update name
+                // Update name if value changed
                 case nameof(RenameActive):
 
                     if (!RenameActive & _renameValue != null & this.Name != _renameValue)
@@ -402,6 +418,7 @@ namespace Tolldo.ViewModels
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
             CloseImageMenuCommand = new RelayCommand.RelayCommand(p => { IsImageMenuOpen = false; });
             ChangeBannerImageCommand = new RelayCommand.RelayCommand(async p => { await ChangeBannerImage((string)p); });
+            MakeFavoriteCommand = new RelayCommand.RelayCommand(p => { Favorite = !Favorite; });
         }
 
         #endregion

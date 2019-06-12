@@ -139,6 +139,19 @@ namespace Tolldo.ViewModels
             }
         }
 
+        public bool IsImportant
+        {
+            get
+            {
+                return _important;
+            }
+            set
+            {
+                _important = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public int Order
         {
             get
@@ -281,7 +294,7 @@ namespace Tolldo.ViewModels
         {
             // Determine task completion if the completed property of any subtask changed
             if (e.PropertyName == "Completed")
-            {             
+            {
                 // Indicates if all subtasks are completed
                 bool subtasksComplete = true;
 
@@ -304,7 +317,7 @@ namespace Tolldo.ViewModels
                 }
 
                 // Update subtask in database
-                await UpdateSubtask(sender as SubtaskViewModel);            
+                await UpdateSubtask(sender as SubtaskViewModel);
             }
             else if (e.PropertyName == "Name")
             {
@@ -331,12 +344,22 @@ namespace Tolldo.ViewModels
                     // If rename has been made and value has changed, update item
                     if (!RenameActive & _renameValue != null & this.Name != _renameValue)
                     {
-                        await UpdateTask(true);
+                        var success = await _repo.UpdateTask(this);
+                        if (success)
+                            SetMessage("Task updated.");
+                        else SetMessage("Something went wrong. Try again.");
                     }
                     break;
 
                 // Completed
                 case nameof(IsCompleted):
+
+                    // Update item in database
+                    await UpdateTask(false);
+                    break;
+
+                // Important
+                case nameof(IsImportant):
 
                     // Update item in database
                     await UpdateTask(false);
@@ -369,7 +392,7 @@ namespace Tolldo.ViewModels
             UncheckTaskCommand = new RelayCommand.RelayCommand(p => { this.IsCompleted = false; });
             AddSubtaskCommand = new RelayCommand.RelayCommand(async p => { await AddSubtask(); SetMessage("Subtask added."); }, p => NewSubtaskName.Length > 0);
             DeleteSubtaskCommand = new RelayCommand.RelayCommand(async p => { await DeleteSubtask(p as SubtaskViewModel); });
-            MarkAsImportantCommand = new RelayCommand.RelayCommand(p => { Important = !Important; });
+            MarkAsImportantCommand = new RelayCommand.RelayCommand(p => { this.IsImportant = !this.IsImportant; });
         }
 
         #endregion

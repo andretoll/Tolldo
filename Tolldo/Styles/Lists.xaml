@@ -23,7 +23,7 @@
         <Setter Property="BorderThickness" Value="5 0 0 0" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Padding" Value="5" />
-        <Setter Property="BorderBrush" Value="Transparent" />        
+        <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -38,13 +38,13 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            
+
             <!-- When selected -->
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource ColorForegroundBrush}" />
             </Trigger>
-            
+
             <!-- When hovering and not selected -->
             <MultiTrigger>
                 <MultiTrigger.Conditions>
@@ -71,7 +71,7 @@
 
         </Style.Triggers>
     </Style>
-    
+
     <!-- ListBoxItemCheckbox-->
     <Style TargetType="{x:Type ListBoxItem}" x:Key="ListBoxItemCheckbox">
         <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
