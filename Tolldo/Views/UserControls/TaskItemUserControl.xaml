@@ -213,23 +213,24 @@
 
                         <!-- Important task -->
                         <Grid Grid.Column="1" 
-                              Visibility="{Binding Important, Converter={StaticResource booleanToVisibilityConverter}}"
+                              Visibility="{Binding IsImportant, Converter={StaticResource booleanToVisibilityConverter}}"
                               Margin="10 0"
                               ToolTip="Important"
                               ToolTipService.InitialShowDelay="0">
-                            
+
                             <TextBlock HorizontalAlignment="Center"
                                        FontSize="24"
-                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                       Foreground="{DynamicResource TitleGradientBrush}"
                                        Text="&#xf02e;"
-                                       FontFamily="{StaticResource FontAwesome}" />
+                                       FontFamily="{StaticResource FontAwesome}">
+
+                                <TextBlock.Effect>
+                                    <DropShadowEffect Opacity="0.5"
+                                                      BlurRadius="4"/>
+                                </TextBlock.Effect>
+                                
+                            </TextBlock>
                             
-                            <TextBlock HorizontalAlignment="Center"
-                                       Margin="0 3 0 0"
-                                       FontSize="16"
-                                       Foreground="{DynamicResource PrimaryBackgroundBrush}"
-                                       Text="&#xf02e;"
-                                       FontFamily="{StaticResource FontAwesome}" />
                         </Grid>
 
                         <!-- Expand button -->

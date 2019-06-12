@@ -540,7 +540,7 @@ namespace Tolldo.ViewModels
                 await AddTodo(NewTodoName);
                 SetMessage("List added.");
             }, p => !string.IsNullOrEmpty(NewTodoName));
-            AddRandomTodoCommand = new RelayCommand.RelayCommand(async p => { await AddRandomTodo(); SetMessage("List added."); });
+            AddRandomTodoCommand = new RelayCommand.RelayCommand(async p => { await AddRandomTodo(); SetMessage("To-do added."); });
             DeleteTodoCommand = new RelayCommand.RelayCommand(async p => { await DeleteTodo(SelectedTodo); });
             UndeleteTodoCommand = new RelayCommand.RelayCommand(async p => { await UndeleteTodo(); });
             SaveSettingsCommand = new RelayCommand.RelayCommand(p => { SaveSettings(); }, p => SettingsTouched);

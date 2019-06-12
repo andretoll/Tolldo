@@ -586,14 +586,14 @@ namespace Tolldo.ViewModels
         /// <returns></returns>
         private async Task ChangeBannerImage(string url)
         {
-            // Close menu after update
-            this.IsImageMenuOpen = false;
-
             if (url == this.ImageUrl)
             {
                 this.ImageUrl = null;
                 return;
             }
+
+            // Close menu after update
+            this.IsImageMenuOpen = false;
 
             this.ImageUrl = url;
 
@@ -606,6 +606,9 @@ namespace Tolldo.ViewModels
             }
 
             SetMessage("Image updated.");
+
+            if (string.IsNullOrEmpty(this.ImageUrl))
+                this.ImageUrl = null;
         }
 
         /// <summary>

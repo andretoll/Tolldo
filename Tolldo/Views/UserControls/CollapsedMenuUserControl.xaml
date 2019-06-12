@@ -216,6 +216,7 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListViewItem}">
                                             <Grid>
+                                                
                                                 <!-- Icon -->
                                                 <TextBlock Visibility="{Binding Favorite, Converter={StaticResource booleanToVisibilityConverter}}" Text="&#xf521;"
                                                            Foreground="Goldenrod"
@@ -244,6 +245,7 @@
                                                     <ContentPresenter />
 
                                                 </Border>
+                                                
                                             </Grid>
                                         </ControlTemplate>
                                     </Setter.Value>

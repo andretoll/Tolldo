@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Tolldo.exe.manifest" size="34445">
+    <dependentAssembly dependencyType="install" codebase="Tolldo.exe.manifest" size="34859">
       <assemblyIdentity name="Tolldo.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>dBjicAtU8A19W/Vye5nZp1o8xDSLCMhd07/p34Lu1zU=</dsig:DigestValue>
+        <dsig:DigestValue>lBO5sjYwEES1CYm0ytIoIDOq4xyfCyNpkWJ9+64GooY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

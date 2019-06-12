@@ -40,9 +40,9 @@
 
     <!-- Title Gradient-->
     <LinearGradientBrush x:Key="TitleGradientBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource Blue}" Offset="0" />
-        <GradientStop Color="{StaticResource Red}" Offset="0.5" />
-        <GradientStop Color="{StaticResource Orange}" Offset="1" />
+        <GradientStop Color="DarkGoldenrod" Offset="0" />
+        <GradientStop Color="PaleGoldenrod" Offset="0.5" />
+        <GradientStop Color="DarkGoldenrod" Offset="1" />
     </LinearGradientBrush>
     
     <!-- Primary Gradient -->
