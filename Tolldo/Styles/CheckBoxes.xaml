@@ -76,6 +76,7 @@
     <!-- Task square checkbox -->
     <Style TargetType="{x:Type CheckBox}" x:Key="TaskSquareCheckBox">
         <Setter Property="FontSize" Value="24" />
+        <Setter Property="Opacity" Value="1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -139,6 +140,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.3" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

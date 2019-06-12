@@ -95,7 +95,7 @@ namespace Tolldo.ViewModels
                 RestoreWindow();
             };            
 
-            // Listen for window resizing
+            // Listen for window state changed
             _window.StateChanged += (sender, e) =>
             {
                 NotifyPropertyChanged(nameof(ResizeBorderThickness));

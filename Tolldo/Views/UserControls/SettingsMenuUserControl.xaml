@@ -79,6 +79,7 @@
                             <!-- Minimize to tray message -->
                             <CheckBox Style="{StaticResource TaskSquareCheckBox}"
                                       IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=MinimizeToTrayMessage}"
+                                      IsEnabled="{Binding Source={x:Static prop:Settings.Default}, Path=MinimizeToTray}"
                                       Margin="0 10"
                                       Content="Minimize to tray message"
                                       ToolTipService.InitialShowDelay="0"
