@@ -86,9 +86,7 @@ namespace Tolldo.ViewModels
             _notifyIcon.ContextMenu = CreateContextMenu();
             _notifyIcon.Click += (sender, e) =>
             {
-                // Open context menu on left click
-                System.Reflection.MethodInfo mi = typeof(NotifyIcon).GetMethod("ShowContextMenu", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-                mi.Invoke(_notifyIcon, null);
+                RestoreWindow();
             };
             _notifyIcon.DoubleClick += (sender, e) =>
             {

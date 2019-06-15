@@ -425,7 +425,8 @@
                              ItemContainerStyle="{StaticResource ListBoxItemCheckbox}"
                              dd:DragDrop.IsDropTarget="True"
                              dd:DragDrop.IsDragSource="True"
-                             dd:DragDrop.DropHandler="{Binding}">
+                             dd:DragDrop.DropHandler="{Binding}"
+                             dd:DragDrop.DropTargetScrollViewer="{Binding ElementName=TasksScrollViewer}">
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>

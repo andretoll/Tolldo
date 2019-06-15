@@ -10,7 +10,7 @@
 
     <!-- Main content container -->
     <Grid x:Name="FadingElement"
-          Background="{DynamicResource SecondaryBackgroundBrush}"
+          Background="{DynamicResource PrimaryBackgroundBrush}"
           ClipToBounds="True">        
 
         <!-- When grid is loaded -->
@@ -48,6 +48,7 @@
 
             <Rectangle Grid.ColumnSpan="3" 
                        Grid.Column="0" 
+                       Visibility="{Binding Source={x:Static prop:Settings.Default}, Path=AppImage, Converter={StaticResource emptyStringToVisibilityConverter}}"
                        Fill="{DynamicResource SecondaryBackgroundBrush}"
                        Opacity="0.85" />
             
