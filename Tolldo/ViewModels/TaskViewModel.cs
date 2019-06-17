@@ -122,7 +122,7 @@ namespace Tolldo.ViewModels
                     await CompleteSubtasks();
                 });
 
-                NotifyPropertyChanged();
+                NotifyPropertyChanged();                
             }
         }
                

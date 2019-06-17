@@ -178,5 +178,17 @@ namespace Tolldo.Properties {
                 this["PinnedLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckSound {
+            get {
+                return ((bool)(this["CheckSound"]));
+            }
+            set {
+                this["CheckSound"] = value;
+            }
+        }
     }
 }

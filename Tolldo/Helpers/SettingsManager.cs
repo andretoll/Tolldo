@@ -50,7 +50,7 @@ namespace Tolldo.Helpers
         }
 
         /// <summary>
-        /// Gets the list of banner images of the application. 
+        /// Returns the list of banner images of the application. 
         /// </summary>
         /// <returns></returns>
         public static List<string> GetBannerImageList()
@@ -71,6 +71,29 @@ namespace Tolldo.Helpers
             return new List<string>(files);
         }
 
+        /// <summary>
+        /// Returns the check sound from directory.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetCheckSound()
+        {
+            string file;
+
+            try
+            {
+                file = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\Sounds\pen.mp3";
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return file;
+        }
+
+        /// <summary>
+        /// Returns the application directory.
+        /// </summary>
+        /// <returns></returns>
         public static string GetApplicationDirectory()
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -97,7 +120,8 @@ namespace Tolldo.Helpers
             TodoProgressShowPercent,
             MinimizeToTray,
             MinimizeToTrayMessage,
-            PinnedLocation
+            PinnedLocation,
+            CheckSound
         }
 
         #endregion

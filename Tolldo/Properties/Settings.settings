@@ -41,5 +41,8 @@
     <Setting Name="PinnedLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)">TopRight</Value>
     </Setting>
+    <Setting Name="CheckSound" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

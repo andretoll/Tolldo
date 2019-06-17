@@ -1,6 +1,5 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Tolldo.Data;
 using Tolldo.Helpers;
 using Tolldo.Services;
@@ -29,7 +29,9 @@ namespace Tolldo.ViewModels
         // Dialog service
         private readonly IDialogService _dialogService;
         // Data repository
-        private ITodoRepository _repo; 
+        private ITodoRepository _repo;
+        // Media player
+        private MediaPlayer _mediaPlayer;
 
         #endregion
 
@@ -383,6 +385,20 @@ namespace Tolldo.ViewModels
             // Update progress if the completed property changed
             if (e.PropertyName == "IsCompleted")
             {
+                if ((sender as TaskViewModel).IsCompleted && Properties.Settings.Default.CheckSound)
+                {
+                    Uri sound = new Uri(SettingsManager.GetCheckSound());
+
+                    try
+                    {
+                        _mediaPlayer.Open(sound);
+                        _mediaPlayer.Play();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
                 SelectedTodo.UpdateProgress();
 
                 if (SelectedTodo.Progress == 100)
@@ -494,6 +510,11 @@ namespace Tolldo.ViewModels
 
             // Initialize first data repository
             _repo = new TodoRepository(_dialogService);
+
+            // Initialize media player
+            _mediaPlayer = new MediaPlayer();
+            _mediaPlayer.Volume = 0.5;
+            _mediaPlayer.IsMuted = false;
 
             // Get data and create filtered view
             Todos = new ObservableCollection<TodoViewModel>(_repo.GetTodos());

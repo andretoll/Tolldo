@@ -499,14 +499,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="15162368">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="15163392">
       <assemblyIdentity name="Tolldo" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>QLpoB52tIqFo/Ew+8kdFTr19LIvGdu1ScWqx6pLSELk=</dsig:DigestValue>
+        <dsig:DigestValue>1D6qinKB57/iyj7vKwrAgGFkK9RrxLE0RvJpUPSDp5I=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -585,13 +585,40 @@
       <dsig:DigestValue>q8mKmiDnYnaPui8QzqLwSuqiMuEVwWYuB6tr/vtlGnk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Tolldo.exe.config" size="4548">
+  <file name="Sounds\button.mp3" size="11949">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>jWL7048/YP9TUmNiMjoEFHlj9ojrRyIRi9LBQqsLxGU=</dsig:DigestValue>
+      <dsig:DigestValue>K4x0XoiE3Nlpy1LQ6K7dG6cfquoz6P3MC7Yun6kNngg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Sounds\check.mp3" size="1992">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>q9ZUqBZtK2+UP8ZEBO6l61jM7/6Lze1zVgskPChTLxY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Sounds\pen.mp3" size="13417">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>LqJ3b9SU+2Dz6WQUxXRHieGcU147SSo45rGuhJ2dJiQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Tolldo.exe.config" size="4671">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>exuQxgPbkHk9evajyuEMQ7qfNMF+jDjK4z8wqM0UlVI=</dsig:DigestValue>
     </hash>
   </file>
   <file name="x64\e_sqlite3.dll" size="1307648">
