@@ -6,7 +6,7 @@ namespace Tolldo.ViewModels
     /// <summary>
     /// A base ViewModel that implements the <see cref="NotifyPropertyChanged(string)"/> interface.
     /// </summary>
-    public class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         #region Events
 
@@ -19,11 +19,16 @@ namespace Tolldo.ViewModels
         /// Call this to fire a <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName"></param>
-        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        } 
+        }
 
         #endregion
+
+        protected virtual void RaiseNotifyPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(sender, e);
+        }
     }
 }

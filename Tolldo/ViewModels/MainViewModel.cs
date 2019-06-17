@@ -385,6 +385,7 @@ namespace Tolldo.ViewModels
             // Update progress if the completed property changed
             if (e.PropertyName == "IsCompleted")
             {
+                // Play sound if setting is enabled
                 if ((sender as TaskViewModel).IsCompleted && Properties.Settings.Default.CheckSound)
                 {
                     Uri sound = new Uri(SettingsManager.GetCheckSound());
@@ -401,6 +402,7 @@ namespace Tolldo.ViewModels
 
                 SelectedTodo.UpdateProgress();
 
+                // Show message if all tasks are completed
                 if (SelectedTodo.Progress == 100)
                 {
                     _dialogService.SetMessage("All tasks completed! Well done!");

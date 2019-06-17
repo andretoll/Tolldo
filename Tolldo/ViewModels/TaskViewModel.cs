@@ -117,7 +117,7 @@ namespace Tolldo.ViewModels
                 _completed = value;
 
                 // Evaluate the completion status of subtasks
-                Task.Run(async () =>
+                _ = Task.Run(async () =>
                 {
                     await CompleteSubtasks();
                 });
@@ -293,27 +293,30 @@ namespace Tolldo.ViewModels
         public async void Subtask_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Determine task completion if the completed property of any subtask changed
-            if (e.PropertyName == "Completed")
+            if (e.PropertyName == "IsCompleted")
             {
-                // Indicates if all subtasks are completed
-                bool subtasksComplete = true;
-
-                foreach (var subtask in Subtasks)
+                if (!(sender as SubtaskViewModel).NoAction)
                 {
-                    // If subtask is uncomplted
-                    if (!subtask.Completed)
+                    // Indicates if all subtasks are completed
+                    bool subtasksComplete = true;
+
+                    foreach (var subtask in Subtasks)
                     {
-                        // If any subtask is incompleted, set false
-                        subtasksComplete = false;
-                        break;
+                        // If subtask is uncomplted
+                        if (!subtask.Completed)
+                        {
+                            // If any subtask is incompleted, set false
+                            subtasksComplete = false;
+                            break;
+                        }
                     }
-                }
 
-                // If global completion has changed, set completed status indirectly to avoid infinite loop
-                if (_completed != subtasksComplete)
-                {
-                    _completed = subtasksComplete;
-                    NotifyPropertyChanged(nameof(IsCompleted));
+                    // If global completion has changed, set completed status indirectly to avoid infinite loop
+                    if (_completed != subtasksComplete)
+                    {
+                        _completed = subtasksComplete;
+                        NotifyPropertyChanged(nameof(IsCompleted));
+                    } 
                 }
 
                 // Update subtask in database
@@ -423,7 +426,7 @@ namespace Tolldo.ViewModels
             // Add item to view
             Subtasks.Add(subtask);
 
-            subtask.Completed = false;
+            subtask.IsCompleted = false;
 
             // Reset new subtask
             NewSubtaskName = null;
@@ -432,7 +435,7 @@ namespace Tolldo.ViewModels
         }
 
         /// <summary>
-        /// Completes or incompleted all subtasks based on its parent task.
+        /// Completes or incompletes all subtasks based on its parent task.
         /// </summary>
         /// <returns></returns>
         private async Task CompleteSubtasks()

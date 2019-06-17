@@ -44,10 +44,46 @@
             {
                 _completed = value;
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(IsCompleted));
+            }
+        }
+
+        public bool IsCompleted
+        {
+            get
+            {
+                return _completed;
+            }
+            set
+            {
+                _completed = value;
+                base.NotifyPropertyChanged();
             }
         }
 
         public int TodoTaskId { get; set; }
+
+        #endregion
+
+        #region Helper Properties
+
+        public bool NoAction { get; set; }
+
+        #endregion
+
+        #region Base Class Override
+
+        /// <summary>
+        /// Invoke PropertyChanged with no actions.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="noAction"></param>
+        override protected void NotifyPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
+        {
+            (this as SubtaskViewModel).NoAction = true;
+            base.RaiseNotifyPropertyChangedEvent(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            (this as SubtaskViewModel).NoAction = false;
+        } 
 
         #endregion
     }
