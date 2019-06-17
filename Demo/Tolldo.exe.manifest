@@ -506,7 +506,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>1D6qinKB57/iyj7vKwrAgGFkK9RrxLE0RvJpUPSDp5I=</dsig:DigestValue>
+        <dsig:DigestValue>mCbBcuUfaVMCFSfGZDsYM9aQAd/jXAdRw2B/LWihfbc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

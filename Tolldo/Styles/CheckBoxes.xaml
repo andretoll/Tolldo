@@ -9,6 +9,7 @@
     
     <!-- Task checkbox -->
     <Style TargetType="{x:Type CheckBox}" x:Key="TaskCheckBox">
+        <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
@@ -21,7 +22,7 @@
                                     Background="Transparent">
 
                             <!-- CheckBox Icon -->
-                            <TextBlock Foreground="{DynamicResource ColorForegroundBrush}"
+                            <TextBlock Foreground="{TemplateBinding Foreground}"
                                        Margin="0 0 10 0">
 
                                 <TextBlock.Style>

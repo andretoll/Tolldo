@@ -81,7 +81,7 @@
                                            Margin="0 0 0 10" />
 
                                 <ComboBox SelectedValue="{Binding Source={x:Static prop:Settings.Default}, Path=PinnedLocation, UpdateSourceTrigger=PropertyChanged}"
-                                          FontSize="16"
+                                          FontSize="14"
                                           SelectedValuePath="Tag">
                                     <ComboBoxItem Content="Top right" Tag="TopRight" />
                                     <ComboBoxItem Content="Top left" Tag="TopLeft" />

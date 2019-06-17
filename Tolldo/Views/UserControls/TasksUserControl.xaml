@@ -110,7 +110,7 @@
         <!-- Pinned Banner -->
         <Grid Grid.Row="0"
               Visibility="{Binding DataContext.Pinned, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource booleanToVisibilityConverter}}"
-              Margin="0 20">
+              Margin="0 10">
 
             <StackPanel>
                 
@@ -118,6 +118,7 @@
                 <TextBlock Style="{StaticResource HeaderTextBlock}"
                            Foreground="{StaticResource LightForegroundBrush}"
                            FontSize="28"
+                           Margin="0 10"
                            Grid.Column="1"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
@@ -131,7 +132,6 @@
                            Grid.Column="1"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
-                           Margin="0 0 0 5"
                            Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat={}{0:0}%}" />
                 
             </StackPanel>

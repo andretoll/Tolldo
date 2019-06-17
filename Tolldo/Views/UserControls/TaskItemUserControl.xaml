@@ -149,11 +149,12 @@
 
                         <!-- CheckBox and name -->
                         <CheckBox Style="{StaticResource TaskCheckBox}"
+                                  ToolTip="{Binding Name}"
                                   IsChecked="{Binding IsCompleted}"
                                   IsEnabled="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToBooleanConverter}}"
                                   Content="{Binding Name}"
                                   Margin="10 0 0 0" />
-                        
+
                         <!-- Description -->
                         <TextBlock Style="{StaticResource SmallTextBlock}"
                                    Visibility="{Binding Description, Converter={StaticResource emptyStringToVisibilityConverter}}"
@@ -213,7 +214,7 @@
                         <!-- Important task -->
                         <Grid Grid.Column="1" 
                               Visibility="{Binding IsImportant, Converter={StaticResource booleanToVisibilityConverter}}"
-                              Margin="10 0"
+                              Margin="5 0"
                               ToolTip="Important"
                               ToolTipService.InitialShowDelay="0">
 
@@ -239,7 +240,7 @@
                                 VerticalAlignment="Center"
                                 ToolTip="Expand"
                                 ToolTipService.InitialShowDelay="0"
-                                Margin="10 0"
+                                Margin="5 0"
                                 FontSize="22"
                                 FontFamily="{StaticResource FontAwesome}">
 
@@ -292,7 +293,7 @@
                             ToolTipService.InitialShowDelay="0"
                             Cursor="SizeAll"
                             FontSize="20"
-                            Margin="10 0"
+                            Margin="5 0"
                             Padding="10"
                             Content="&#xf0c9;">
 
