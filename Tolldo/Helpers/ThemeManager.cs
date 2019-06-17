@@ -72,9 +72,6 @@ namespace Tolldo.Helpers
 
                 // Set inverted
                 SetBrush("Light", "InvertedBackgroundBrush");
-
-                // Set primary gradient
-                SetLinearBrush("Dark", "DarkGray", "PrimaryGradientBrush");
             }
             else
             {
@@ -92,9 +89,6 @@ namespace Tolldo.Helpers
 
                 // Set inverted
                 SetBrush("Dark", "InvertedBackgroundBrush");
-
-                // Set primary gradient
-                SetLinearBrush("Light", "LightGray", "PrimaryGradientBrush");
             }
         }
 

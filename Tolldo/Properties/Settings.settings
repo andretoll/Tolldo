@@ -38,5 +38,8 @@
     <Setting Name="MinimizeToTrayMessage" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="PinnedLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TopRight</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

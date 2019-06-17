@@ -425,49 +425,55 @@
     <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Width" Value="50" />
+        <Setter Property="Height" Value="50" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
+                
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
 
-                    <Grid Width="50"
-                          Height="50"
+                    <Grid Width="{TemplateBinding Width}"
+                          Height="{TemplateBinding Height}"
+                          ClipToBounds="True"
                           Background="Transparent">
                         
                         <Border CornerRadius="50"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Padding="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}">
-
-                            <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       FontFamily="{StaticResource FontAwesome}"
-                                       FontSize="{TemplateBinding FontSize}" 
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center">
-
-                                <TextBlock.Style>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
-                                        <Style.Triggers>
-
-                                            <!-- When hovering -->
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
-                                            </Trigger>
-
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-
-                            </TextBlock>
+                                Background="{TemplateBinding Background}">                            
 
                         </Border>
-                        
+
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontFamily="{StaticResource FontAwesome}"
+                                   FontSize="{TemplateBinding FontSize}" 
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center">
+
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Foreground" Value="{DynamicResource ColorForegroundBrush}" />
+                                    <Style.Triggers>
+
+                                        <!-- When hovering -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="{DynamicResource DarkerColorForegroundBrush}" />
+                                        </Trigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+
+                        </TextBlock>
+
                     </Grid>
 
                 </ControlTemplate>
+                
             </Setter.Value>
         </Setter>
 
@@ -503,8 +509,8 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <ThicknessAnimation Storyboard.TargetProperty="Padding"
-                                                Duration="0:0:0.15"
-                                                To="10" />
+                                                Duration="0:0:0.20"
+                                                To="20" />
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
@@ -513,7 +519,7 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <ThicknessAnimation Storyboard.TargetProperty="Padding"
-                                                Duration="0:0:0.25"
+                                                Duration="0:0:0.20"
                                                 To="0" />
                         </Storyboard>
                     </BeginStoryboard>
@@ -529,6 +535,43 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="Background" Value="{DynamicResource DarkerColorForegroundBrush}" />
             </MultiTrigger>
+
+        </Style.Triggers>
+
+    </Style>
+
+    <!-- Small ToggleButton-->
+    <Style TargetType="{x:Type ToggleButton}" x:Key="SmallToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+
+        <Style.Triggers>
+
+            <!-- When checked -->
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ColorForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource LightForegroundBrush}" />
+
+                <!-- Animate a circle -->
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ThicknessAnimation Storyboard.TargetProperty="Padding"
+                                                Duration="0:0:0.25"
+                                                To="15" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ThicknessAnimation Storyboard.TargetProperty="Padding"
+                                                Duration="0:0:0.25"
+                                                To="0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+
+            </Trigger>
 
         </Style.Triggers>
 

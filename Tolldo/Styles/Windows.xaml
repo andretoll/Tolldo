@@ -9,11 +9,11 @@
 
     <!-- Title bar textblock -->
     <Style TargetType="{x:Type TextBlock}" x:Key="WindowHeaderTextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
-        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
+        <Setter Property="FontFamily" Value="Ink Free" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0 6" />
+        <Setter Property="FontSize" Value="24" />
     </Style>
 
     <!-- Hoverless button -->
@@ -107,14 +107,19 @@
                     
                     <!-- Outer border -->
                     <Border Padding="{Binding OuterMarginSizeThickness}">
+                        
+                        <Border>
 
-                        <!-- Main window outline -->
-                        <Grid>
+                            <!-- Window shadow -->
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="1"
+                                                  BlurRadius="15"
+                                                  Opacity="0.75"
+                                                  Direction="-75"
+                                                  Color="{Binding DataContext, ElementName=ColorDummy, Converter={StaticResource colorToShadowColorConverter}}">
+                                </DropShadowEffect>
+                            </Border.Effect>
                             
-                            <!-- Title bar background -->
-                            <Border x:Name="Container"
-                                    Background="{TemplateBinding Background}" />
-
                             <!-- Main window content -->
                             <Grid>
 
@@ -141,27 +146,55 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- Icon -->
-                                    <Button Command="{Binding MenuCommand}"
-                                            HorizontalAlignment="Left"
-                                            Style="{StaticResource SystemIconButton}">
+                                    <!-- Color refererence dummy element -->
+                                    <FrameworkElement Visibility="Collapsed"
+                                                      x:Name="ColorDummy"
+                                                      DataContext="{DynamicResource ColorForegroundBrush}" />
+
+                                    <!-- Pin button -->
+                                    <StackPanel Orientation="Horizontal">
+                                        
+                                        <ToggleButton ToolTip="Pin"
+                                                      Style="{StaticResource SmallToggleButton}"
+                                                      Margin="20 0 0 0"
+                                                      WindowChrome.IsHitTestVisibleInChrome="True"
+                                                      ToolTipService.InitialShowDelay="0"
+                                                      VerticalAlignment="Center"
+                                                      IsChecked="{Binding Pinned}"
+                                                      RenderTransformOrigin="0.5, 0.5"
+                                                      FontSize="16"
+                                                      Width="45"
+                                                      Height="45"
+                                                      Content="&#xF08D;">
+
+                                            <ToggleButton.RenderTransform>
+                                                <RotateTransform CenterX="0" CenterY="0" Angle="45" />
+                                            </ToggleButton.RenderTransform>
+
+                                        </ToggleButton>
+                                        
+                                    </StackPanel>
+
+                                    <!-- Title -->
+                                    <StackPanel Grid.Column="1"
+                                                HorizontalAlignment="Center"
+                                                Orientation="Horizontal">
 
                                         <!-- Icon -->
                                         <TextBlock Text="&#xf058;"
-                                                   Foreground="{DynamicResource ColorForegroundBrush}"
+                                                   Margin="0 0 10 0"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource TitleGradientBrush}"
                                                    FontFamily="{StaticResource FontAwesome}"
                                                    FontSize="24"/>
-                                    </Button>
 
-                                    <!-- Title -->
-                                    <Viewbox Grid.Column="1"
-                                             Margin="0">
-
+                                        <!-- Title -->
                                         <TextBlock Style="{StaticResource WindowHeaderTextBlock}" 
+                                                   VerticalAlignment="Center"
                                                    Foreground="{StaticResource TitleGradientBrush}"
                                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}" />
 
-                                    </Viewbox>
+                                    </StackPanel>
 
                                     <!-- Window button -->
                                     <StackPanel Grid.Column="2" 
@@ -184,16 +217,16 @@
 
                                 <!-- Content border -->
                                 <Border Grid.Row="1">
-                                    
+
                                     <!-- Content -->
                                     <ContentPresenter Content="{TemplateBinding Content}" />
-                                    
+
                                 </Border>
 
                             </Grid>
                             
-                        </Grid>
-                        
+                        </Border>
+
                     </Border>     
                     
                 </ControlTemplate>

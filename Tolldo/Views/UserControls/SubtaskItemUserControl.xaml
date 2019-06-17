@@ -37,7 +37,7 @@
                     <CheckBox IsChecked="{Binding Completed}"
                               Content="{Binding Name}"
                               FontSize="22"
-                              Style="{StaticResource TaskSquareCheckBox}"/>
+                              Style="{StaticResource TaskSquareCheckBoxStrikethrough}"/>
 
                 </StackPanel>
 

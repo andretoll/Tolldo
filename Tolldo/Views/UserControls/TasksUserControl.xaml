@@ -21,6 +21,7 @@
 
         <!-- Banner -->
         <Grid Grid.Row="0"
+              Visibility="{Binding DataContext.Pinned, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
               Background="{DynamicResource PrimaryBackgroundBrush}"
               Height="200">
 
@@ -41,13 +42,14 @@
                    Source="{Binding ImageUrl}" />
 
             <!-- Banner overlay -->
-            <Rectangle Fill="{DynamicResource PrimaryBackgroundBrush}"
+            <Rectangle Fill="{StaticResource DarkForegroundBrush}"
                        Visibility="{Binding ImageUrl, Converter={StaticResource emptyStringToVisibilityConverter}}"
                        Opacity="0.5"
                        Grid.ColumnSpan="3" />
 
             <!-- To-do list name -->
             <TextBlock Style="{StaticResource HeaderTextBlock}"
+                       Foreground="{StaticResource LightForegroundBrush}"
                        FontSize="28"
                        Grid.Column="1"
                        HorizontalAlignment="Center"
@@ -56,6 +58,7 @@
 
             <!-- Progress percentage -->
             <TextBlock Style="{StaticResource MediumTextBlock}"
+                       Foreground="{StaticResource LightForegroundBrush}"
                        FontSize="42"
                        FontFamily="{StaticResource LatoThin}"
                        Grid.Column="1"
@@ -78,7 +81,6 @@
                     <ToggleButton IsChecked="{Binding IsImageMenuOpen}" 
                                   VerticalAlignment="Top"
                                   FontFamily="{StaticResource FontAwesome}"
-                                  FontSize="20"
                                   ToolTipService.InitialShowDelay="0"
                                   ToolTip="Change banner image"
                                   Content="&#xf302;">
@@ -94,7 +96,6 @@
 
                     <!-- Hide completed tasks -->
                     <ToggleButton IsChecked="{Binding Source={x:Static prop:Settings.Default}, Path=HideCompletedTasks}"
-                                  FontSize="20"
                                   ToolTipService.InitialShowDelay="0"
                                   ToolTip="Hide completed tasks"
                                   FontFamily="{StaticResource FontAwesome}"
@@ -103,6 +104,37 @@
                 </StackPanel>
 
             </Grid>
+
+        </Grid>
+        
+        <!-- Pinned Banner -->
+        <Grid Grid.Row="0"
+              Visibility="{Binding DataContext.Pinned, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource booleanToVisibilityConverter}}"
+              Margin="0 20">
+
+            <StackPanel>
+                
+                <!-- To-do list name -->
+                <TextBlock Style="{StaticResource HeaderTextBlock}"
+                           Foreground="{StaticResource LightForegroundBrush}"
+                           FontSize="28"
+                           Grid.Column="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Text="{Binding Name}" />
+
+                <!-- Progress percentage -->
+                <TextBlock Style="{StaticResource MediumTextBlock}"
+                           Foreground="{StaticResource LightForegroundBrush}"
+                           FontSize="42"
+                           FontFamily="{StaticResource LatoThin}"
+                           Grid.Column="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Margin="0 0 0 5"
+                           Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat={}{0:0}%}" />
+                
+            </StackPanel>
 
         </Grid>
 

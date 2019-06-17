@@ -114,7 +114,6 @@
 
         <!-- 1. Collapsed menu -->
         <Border Grid.Column="0"
-                BorderBrush="{DynamicResource GrayBackgroundBrush}"
                 Background="{DynamicResource SecondaryBackgroundBrush}">
 
             <uc:CollapsedMenuUserControl />
@@ -157,11 +156,11 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
 
-                <TextBlock Style="{StaticResource HeaderTextBlock}"
+                <TextBlock Style="{StaticResource WindowHeaderTextBlock}"
+                           Foreground="{StaticResource TitleGradientBrush}"
                            TextWrapping="Wrap"
                            FontSize="42"
                            HorizontalAlignment="Center"
-                           Foreground="{DynamicResource ColorForegroundBrush}"
                            Margin="0 20"
                            Text="WELCOME!" />
 

@@ -36,7 +36,7 @@
     </Style> 
 
     <!-- Standard text box -->
-    <Style TargetType="{x:Type TextBox}" x:Key="StandardTextBox">
+    <Style TargetType="{x:Type TextBox}" x:Key="StandardTextBox" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="TextWrapping" Value="NoWrap" />
         <Setter Property="MaxLines" Value="1" />
@@ -57,7 +57,7 @@
 
     </Style>
 
-    <!-- Longer TextBox -->
+    <!-- Longer text box -->
     <Style TargetType="{x:Type TextBox}" x:Key="LongTextBox" BasedOn="{StaticResource StandardTextBox}">
         <Setter Property="MaxLength" Value="80" />
         <Setter Property="BorderBrush" Value="{DynamicResource DarkColorForegroundBrush}" />

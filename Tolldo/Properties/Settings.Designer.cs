@@ -166,5 +166,17 @@ namespace Tolldo.Properties {
                 this["MinimizeToTrayMessage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TopRight")]
+        public string PinnedLocation {
+            get {
+                return ((string)(this["PinnedLocation"]));
+            }
+            set {
+                this["PinnedLocation"] = value;
+            }
+        }
     }
 }

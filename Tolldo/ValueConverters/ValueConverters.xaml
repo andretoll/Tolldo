@@ -13,5 +13,6 @@
     <valueconverters:ReversedVerticalScrollToVisibilityConverter x:Key="reversedVerticalScrollToVisibilityConverter" />
     <valueconverters:BooleanToBooleanConverter x:Key="booleanToBooleanConverter" />
     <valueconverters:AcronymConverter x:Key="acronymConverter" />
+    <valueconverters:ColorToShadowColorConverter x:Key="colorToShadowColorConverter" />
 
 </ResourceDictionary>

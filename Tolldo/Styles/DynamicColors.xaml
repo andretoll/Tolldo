@@ -44,14 +44,7 @@
         <GradientStop Color="Gold" Offset="0.5" />
         <GradientStop Color="DarkGoldenrod" Offset="1" />
     </LinearGradientBrush>
-    
-    <!-- Primary Gradient -->
-    <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="{StaticResource Dark}" Offset="0" />
-        <GradientStop Color="{StaticResource DarkGray}" Offset="0.5" />
-        <GradientStop Color="{StaticResource Dark}" Offset="1" />
-    </LinearGradientBrush>
-    
+
     <!-- Color Gradient -->
     <LinearGradientBrush x:Key="ColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
         <GradientStop Color="{StaticResource DarkerBlue}" Offset="0" />
@@ -93,5 +86,5 @@
         <GradientStop Color="{StaticResource Pink}" Offset="0.5" />
         <GradientStop Color="{StaticResource DarkerPink}" Offset="1" />
     </LinearGradientBrush>
-
+    
 </ResourceDictionary>

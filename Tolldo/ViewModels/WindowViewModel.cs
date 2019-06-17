@@ -23,7 +23,7 @@ namespace Tolldo.ViewModels
 
         // Minimum window width and height
         private const int _windowMinimumWidth = 410;
-        private const int _windowMinimumHeight = 400;
+        private const int _windowMinimumHeight = 410;
 
         // Thickness for resize border cursor
         private const int _resizeBorder = 6;
@@ -33,6 +33,12 @@ namespace Tolldo.ViewModels
 
         // Height of the title bar
         private const int _titleHeight = 36;
+
+        // Indicates if window is pinned
+        private bool _pinned;
+        private double _previousWidth;
+        private double _previousHeight;
+        private Point _previousPoint;
 
         #endregion
 
@@ -52,6 +58,22 @@ namespace Tolldo.ViewModels
         // Height of the title bar
         public int TitleHeight { get { return _titleHeight; } }
         public GridLength TitleHeightGridLength { get { return new GridLength(TitleHeight + _resizeBorder); } }
+
+        // Indicates if window is pinned
+        public bool Pinned
+        {
+            get
+            {
+                return _pinned;
+            }
+            set
+            {
+                PinWindow(value);
+
+                _pinned = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -74,6 +96,17 @@ namespace Tolldo.ViewModels
         {
             // Initialize window
             _window = window;
+
+            // Listen for location changed
+            _window.LocationChanged += (sender, e) =>
+            {
+                if (Pinned)
+                {
+                    _window.Topmost = false;
+                    _pinned = false;
+                    NotifyPropertyChanged(nameof(Pinned));
+                }
+            };
 
             // Get window settings
             _minimizeToTray = bool.Parse(SettingsManager.LoadSetting(SettingsManager.Setting.MinimizeToTray.ToString()).ToString());
@@ -180,6 +213,76 @@ namespace Tolldo.ViewModels
         {
             _window.Show();
             _window.WindowState = WindowState.Normal;
+        }
+
+        /// <summary>
+        /// Pins the window topmost in a specific place, with a specific size.
+        /// </summary>
+        /// <param name="b"></param>
+        private void PinWindow(bool b)
+        {
+            if (_window.WindowState == WindowState.Maximized | _window.WindowState == WindowState.Minimized)
+                return;
+
+            if (b)
+            {
+                // Save current dimensions and position
+                _previousWidth = _window.Width;
+                _previousHeight = _window.Height;
+                _previousPoint = new Point(_window.Left, _window.Top);
+
+                // Set width and height
+                _window.Width = _windowMinimumWidth;
+                _window.Height = _windowMinimumHeight;
+
+                // Set to be always on top
+                _window.Topmost = true;
+
+                // Set position
+                string pos = SettingsManager.LoadSetting(SettingsManager.Setting.PinnedLocation.ToString()).ToString();
+                var desktopWorkingArea = SystemParameters.WorkArea;
+
+                switch(pos)
+                {
+                    // Top right
+                    case "TopRight":
+                        _window.Left = desktopWorkingArea.Right - _window.Width + this.OuterMarginSize;
+                        _window.Top = 0;
+                        break;
+                    // Top left
+                    case "TopLeft":
+                        _window.Left = 0 - this.OuterMarginSize;
+                        _window.Top = 0;
+                        break;
+                    // Middle right
+                    case "MiddleRight":
+                        _window.Left = desktopWorkingArea.Right - _window.Width + this.OuterMarginSize;
+                        _window.Top = desktopWorkingArea.Bottom / 2 - (_window.Height / 2);
+                        break;
+                    // Middle left
+                    case "MiddleLeft":
+                        _window.Left = 0 - this.OuterMarginSize;
+                        _window.Top = desktopWorkingArea.Bottom / 2 - (_window.Height / 2);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                // Revert to previous width and height
+                _window.Width = _previousWidth;
+                _window.Height = _previousHeight;
+
+                // Set to not be on top
+                _window.Topmost = false;
+
+                // Revert to previous position
+                _window.Left = _previousPoint.X;
+                _window.Top = _previousPoint.Y;
+
+                _pinned = false;
+            }
         }
 
         #endregion

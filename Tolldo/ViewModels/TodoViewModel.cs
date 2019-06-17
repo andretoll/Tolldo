@@ -132,6 +132,19 @@ namespace Tolldo.ViewModels
             }
         }
 
+        public bool IsFavorite
+        {
+            get
+            {
+                return _favorite;
+            }
+            set
+            {
+                _favorite = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public ObservableCollection<TaskViewModel> Tasks
         {
             get
@@ -377,7 +390,7 @@ namespace Tolldo.ViewModels
             {
                 // Update name if value changed
                 case nameof(RenameActive):
-
+                {
                     if (!RenameActive & _renameValue != null & this.Name != _renameValue)
                     {
                         var success = await _repo.UpdateTodo(this);
@@ -386,6 +399,14 @@ namespace Tolldo.ViewModels
                         else SetMessage("Something went wrong. Try again.");
                     }
                     break;
+                }                    
+
+                case nameof(IsFavorite):
+                {
+                    // Update item in database
+                    _ = await _repo.UpdateTodo(this);
+                    break;
+                }                    
 
                 default:
                     break;
@@ -418,7 +439,7 @@ namespace Tolldo.ViewModels
             ActivateDragCommand = new RelayCommand.RelayCommand(p => { DragHandleActive = true; });
             CloseImageMenuCommand = new RelayCommand.RelayCommand(p => { IsImageMenuOpen = false; });
             ChangeBannerImageCommand = new RelayCommand.RelayCommand(async p => { await ChangeBannerImage((string)p); });
-            MakeFavoriteCommand = new RelayCommand.RelayCommand(p => { Favorite = !Favorite; });
+            MakeFavoriteCommand = new RelayCommand.RelayCommand(p => { IsFavorite = !IsFavorite; });
         }
 
         #endregion

@@ -79,7 +79,7 @@
         <Grid Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
 
             <!-- Icon -->
-            <TextBlock Visibility="{Binding Favorite, Converter={StaticResource booleanToVisibilityConverter}}" Text="&#xf521;"
+            <TextBlock Visibility="{Binding IsFavorite, Converter={StaticResource booleanToVisibilityConverter}}" Text="&#xf521;"
                        Foreground="Goldenrod"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
@@ -154,7 +154,7 @@
                     Grid.Column="1">
 
             <!-- Completed icon -->
-            <TextBlock Text="&#xf00c;"
+            <TextBlock Text="&#xf560;"
                        ToolTip="Completed"
                        FontFamily="{StaticResource FontAwesome}"
                        Visibility="{Binding Completed, Converter={StaticResource booleanToVisibilityConverter}}"

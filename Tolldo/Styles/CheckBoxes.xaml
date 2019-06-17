@@ -22,11 +22,11 @@
 
                             <!-- CheckBox Icon -->
                             <TextBlock Foreground="{DynamicResource ColorForegroundBrush}"
-                                       Margin="0 0 10 0"
-                                       FontSize="{TemplateBinding FontSize}">
+                                       Margin="0 0 10 0">
 
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="FontSize" Value="24" />
                                         <Style.Triggers>
 
                                             <!-- When checked -->
@@ -34,6 +34,36 @@
                                                 <Setter Property="Text" Value="&#xf058;" />
                                                 <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
                                                 <Setter Property="ToolTip" Value="Uncheck" />
+                                                <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+                                                <Setter Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <ScaleTransform ScaleX="1.0" ScaleY="1.0" />
+                                                    </Setter.Value>
+                                                </Setter>
+
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            
+                                                            <!-- X -->
+                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" 
+                                                                                           Duration="0:0:0.15">                                                                
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.0" Value="1.2" />
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1.0" />
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                            
+                                                            <!-- Y -->
+                                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)" 
+                                                                                           Duration="0:0:0.5">
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.0" Value="1.2" />
+                                                                <DiscreteDoubleKeyFrame KeyTime="0:0:0.15" Value="1.0" />
+                                                                
+                                                            </DoubleAnimationUsingKeyFrames>
+                                                            
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                
                                             </DataTrigger>
 
                                             <!-- When unchecked -->
@@ -60,9 +90,23 @@
                             </TextBlock>
                             
                             <!-- Text -->
-                            <TextBlock Style="{StaticResource MediumTextBlock}"
-                                       VerticalAlignment="Center"
-                                       Text="{TemplateBinding Content}" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Text="{TemplateBinding Content}">
+                                
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MediumTextBlock}">
+                                        <Setter Property="TextDecorations" Value="None" />
+                                        <Setter Property="Opacity" Value="1" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}}" Value="True">
+                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                <Setter Property="Opacity" Value="0.5" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                                
+                            </TextBlock>
 
                         </StackPanel>                      
                         
@@ -128,10 +172,96 @@
                             </TextBlock>
 
                             <!-- Text -->
-                            <TextBlock Style="{StaticResource MediumTextBlock}"
+                            <TextBlock Style="{StaticResource MediumTextBlock}" 
                                        VerticalAlignment="Center"
-                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
                                        Text="{TemplateBinding Content}" />
+
+                        </StackPanel>
+
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.3" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Task square checkbox strikthrough -->
+    <Style TargetType="{x:Type CheckBox}" x:Key="TaskSquareCheckBoxStrikethrough">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+
+                    <!-- Outer -->
+                    <Border>
+
+                        <!-- Inner -->
+                        <StackPanel Orientation="Horizontal"
+                                    Background="Transparent">
+
+                            <!-- CheckBox Icon -->
+                            <TextBlock Foreground="{DynamicResource ColorForegroundBrush}"
+                                       Margin="0 0 10 0"
+                                       FontSize="{TemplateBinding FontSize}">
+
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+
+                                            <!-- When checked -->
+                                            <DataTrigger Binding="{Binding Path=IsChecked, RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}}" Value="True">
+                                                <Setter Property="Text" Value="&#xf14a;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
+                                                <Setter Property="ToolTip" Value="Uncheck" />
+                                            </DataTrigger>
+
+                                            <!-- When unchecked -->
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}}" Value="False">
+                                                <Setter Property="Text" Value="&#xf0c8;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesomeRegular}" />
+                                                <Setter Property="ToolTip" Value="Check" />
+                                            </DataTrigger>
+
+                                            <!-- When unchecked and hovering -->
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}, Path=IsMouseOver}" Value="True"/>
+                                                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}, Path=IsChecked}" Value="False" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Text" Value="&#xf14a;" />
+                                                <Setter Property="FontFamily" Value="{StaticResource FontAwesomeRegular}" />
+                                            </MultiDataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+
+                            </TextBlock>
+
+                            <!-- Text -->
+                            <TextBlock VerticalAlignment="Center"
+                                       Text="{TemplateBinding Content}">
+
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MediumTextBlock}">
+                                        <Setter Property="TextDecorations" Value="None" />
+                                        <Setter Property="Opacity" Value="1" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType={x:Type CheckBox}}}" Value="True">
+                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                <Setter Property="Opacity" Value="0.5" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+
+                            </TextBlock>
 
                         </StackPanel>
 

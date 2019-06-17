@@ -83,12 +83,12 @@
                               ext:IconExtension.Icon="&#xf02e;"
                               Header="Unmark as important"/>
 
-                    <!-- Copy -->
+                    <!-- Duplicate -->
                     <MenuItem Style="{StaticResource MenuItemBase}"
                               Command="{Binding CopyTaskCommand}"
                               FontFamily="{StaticResource FontAwesomeRegular}"
                               ext:IconExtension.Icon="&#xf0c5;"
-                              Header="Copy task"/>
+                              Header="Duplicate task"/>
 
                     <!-- Rename item -->
                     <MenuItem Style="{StaticResource MenuItemBase}" 
@@ -152,7 +152,6 @@
                                   IsChecked="{Binding IsCompleted}"
                                   IsEnabled="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToBooleanConverter}}"
                                   Content="{Binding Name}"
-                                  FontSize="26"
                                   Margin="10 0 0 0" />
                         
                         <!-- Description -->
@@ -309,13 +308,23 @@
                 </Grid>
 
                 <!-- Subtasks -->
-                <Grid Grid.Row="1"
-                      Margin="30 0 0 0">
+                <Grid Grid.Row="1">
+
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Setter Property="Margin" Value="30 0 0 0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Source={x:Static prop:Settings.Default}, Path=NumberedTasks}" Value="False">
+                                    <Setter Property="Margin" Value="10 0 0 0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
 
                     <Border BorderThickness="1 0 0 0"
-                        Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
-                        Margin="12 0 0 0"
-                        BorderBrush="{DynamicResource ColorForegroundBrush}">
+                            Visibility="{Binding ExpandedActive, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
+                            Margin="12 0 0 0"
+                            BorderBrush="{DynamicResource ColorForegroundBrush}">
                         <!-- Subtasks -->
                         <ListBox ItemsSource="{Binding Subtasks, UpdateSourceTrigger=PropertyChanged}"
                              HorizontalAlignment="Left"                             
@@ -372,8 +381,8 @@
                         <StackPanel Orientation="Horizontal">
 
                             <TextBlock Style="{StaticResource LargeTextBlock}"
-                                   Foreground="{DynamicResource PrimaryForegroundBrush}"
-                                   Text="Subtasks" />
+                                       Foreground="{StaticResource TitleGradientBrush}"
+                                       Text="Subtasks" />
 
                         </StackPanel>
 
@@ -483,7 +492,7 @@
 
                             <!-- Label -->
                             <TextBlock Style="{StaticResource LargeTextBlock}"
-                                       Foreground="{DynamicResource PrimaryForegroundBrush}"
+                                       Foreground="{StaticResource TitleGradientBrush}"
                                        Text="Description" />
 
                             <!-- Input -->

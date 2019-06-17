@@ -96,7 +96,8 @@ namespace Tolldo.Helpers
             AppImage,
             TodoProgressShowPercent,
             MinimizeToTray,
-            MinimizeToTrayMessage
+            MinimizeToTrayMessage,
+            PinnedLocation
         }
 
         #endregion
