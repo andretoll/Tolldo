@@ -38,12 +38,8 @@
     <!-- Dark Foreground (Static) -->
     <SolidColorBrush x:Key="DarkForegroundBrush" Color="{StaticResource Dark}" />   
 
-    <!-- Title Gradient-->
-    <LinearGradientBrush x:Key="TitleGradientBrush" StartPoint="0,0" EndPoint="1,1">
-        <GradientStop Color="DarkGoldenrod" Offset="0" />
-        <GradientStop Color="Gold" Offset="0.5" />
-        <GradientStop Color="DarkGoldenrod" Offset="1" />
-    </LinearGradientBrush>
+    <!-- Title Foreground-->
+    <SolidColorBrush x:Key="TitleForegroundBrush" Color="Goldenrod" />
 
     <!-- Color Gradient -->
     <LinearGradientBrush x:Key="ColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
@@ -86,5 +82,12 @@
         <GradientStop Color="{StaticResource Pink}" Offset="0.5" />
         <GradientStop Color="{StaticResource DarkerPink}" Offset="1" />
     </LinearGradientBrush>
-    
+
+    <!-- Purple Color Gradient -->
+    <LinearGradientBrush x:Key="PurpleColorGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource DarkerPurple}" Offset="0" />
+        <GradientStop Color="{StaticResource Purple}" Offset="0.5" />
+        <GradientStop Color="{StaticResource DarkerPurple}" Offset="1" />
+    </LinearGradientBrush>
+
 </ResourceDictionary>

@@ -12,6 +12,7 @@
     
     <!-- Side menu -->
     <DockPanel LastChildFill="True"
+               Width="300"
                Visibility="{Binding DataContext.Pinned, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Converter={StaticResource reversedBooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
 
         <!-- Create new list container -->
@@ -149,6 +150,7 @@
                       IsSynchronizedWithCurrentItem="False"
                       Grid.Row="3"
                       ScrollViewer.CanContentScroll="False"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       SelectedItem="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                       Style="{StaticResource ListViewBase}"
                       ItemContainerStyle="{StaticResource ListViewItem}"

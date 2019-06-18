@@ -244,6 +244,16 @@ namespace Tolldo.ViewModels
             }
         }
 
+
+        private bool _isBusy;
+
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { _isBusy = value; NotifyPropertyChanged(); }
+        }
+
+
         #endregion
 
         #region Objects
@@ -638,6 +648,8 @@ namespace Tolldo.ViewModels
         /// <returns></returns>
         public async Task UpdateTaskOrder()
         {
+            IsBusy = true;
+
             // Update UI
             int order = 1;
             foreach (var task in this.Tasks)
@@ -653,6 +665,9 @@ namespace Tolldo.ViewModels
                 {
                     await _repo.UpdateTask(task);
                 }
+            }).ContinueWith(p =>
+            {
+                IsBusy = false;
             });
         }
 
@@ -677,9 +692,7 @@ namespace Tolldo.ViewModels
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
             if (!DragHandleActive)
-            {
                 return;
-            }
 
             // Get source and target
             TaskViewModel sourceItem = dropInfo.Data as TaskViewModel;
@@ -700,6 +713,9 @@ namespace Tolldo.ViewModels
         /// <param name="dropInfo"></param>
         async void IDropTarget.Drop(IDropInfo dropInfo)
         {
+            if (IsBusy)
+                return;
+
             // Get source and target
             TaskViewModel sourceItem = dropInfo.Data as TaskViewModel;
             TaskViewModel targetItem = dropInfo.TargetItem as TaskViewModel;

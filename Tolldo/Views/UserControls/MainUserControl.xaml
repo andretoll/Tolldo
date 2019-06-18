@@ -157,7 +157,7 @@
                         VerticalAlignment="Center">
 
                 <TextBlock Style="{StaticResource WindowHeaderTextBlock}"
-                           Foreground="{StaticResource TitleGradientBrush}"
+                           Foreground="{StaticResource TitleForegroundBrush}"
                            TextWrapping="Wrap"
                            FontSize="42"
                            HorizontalAlignment="Center"

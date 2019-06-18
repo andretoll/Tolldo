@@ -31,14 +31,6 @@
                     Command="{Binding NavigateHomeCommand}"
                     FontSize="22"
                     Content="&#xf015;" />
-            
-            <!-- Import button -->
-            <Button Style="{StaticResource FlatSmallIconButton}"
-                    Margin="0 0 0 25"
-                    ToolTip="Import file"
-                    ToolTipService.InitialShowDelay="0"
-                    FontSize="22"
-                    Content="&#xf56f;" />
 
         </StackPanel>        
 
@@ -88,10 +80,10 @@
                                                 <DataTrigger.EnterActions>
                                                     <BeginStoryboard>
                                                         <Storyboard>
-                                                            <ThicknessAnimation Storyboard.TargetProperty="Margin"
-                                                                            From="0 -150 0 0"
-                                                                            To="0"
-                                                                            Duration="0:0:0.4" />
+                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                             From="0"
+                                                                             To="1"
+                                                                             Duration="0:0:1" />
                                                         </Storyboard>
                                                     </BeginStoryboard>
                                                 </DataTrigger.EnterActions>
@@ -103,39 +95,43 @@
 
                                 <!-- Color 1-->
                                 <Button Style="{StaticResource ColorBackgroundButton}"
-                                    Command="{Binding SetAccentCommand}"
-                                    CommandParameter="Blue"
-                                    Margin="0 5"
-                                    Background="{StaticResource BlueColorGradientBrush}"
-                                    ToolTip="Blue"
-                                    FontSize="14" />
+                                        Command="{Binding SetAccentCommand}"
+                                        CommandParameter="Blue"
+                                        Margin="0 5"
+                                        Background="{StaticResource BlueColorGradientBrush}"
+                                        ToolTip="Blue" />
 
                                 <!-- Color 2 -->
                                 <Button Style="{StaticResource ColorBackgroundButton}"
-                                    Command="{Binding SetAccentCommand}"
-                                    CommandParameter="Red"
-                                    Margin="0 0 0 5"
-                                    Background="{StaticResource RedColorGradientBrush}"
-                                    ToolTip="Red"
-                                    FontSize="16" />
+                                        Command="{Binding SetAccentCommand}"
+                                        CommandParameter="Red"
+                                        Margin="0 0 0 5"
+                                        Background="{StaticResource RedColorGradientBrush}"
+                                        ToolTip="Red" />
 
                                 <!-- Color 3 -->
                                 <Button Style="{StaticResource ColorBackgroundButton}"
-                                    Command="{Binding SetAccentCommand}"
-                                    CommandParameter="Orange"
-                                    Margin="0 0 0 5"
-                                    Background="{StaticResource OrangeColorGradientBrush}"
-                                    ToolTip="Orange"
-                                    FontSize="16" />
+                                        Command="{Binding SetAccentCommand}"
+                                        CommandParameter="Orange"
+                                        Margin="0 0 0 5"
+                                        Background="{StaticResource OrangeColorGradientBrush}"
+                                        ToolTip="Orange" />
 
                                 <!-- Color 4 -->
                                 <Button Style="{StaticResource ColorBackgroundButton}"
-                                    Command="{Binding SetAccentCommand}"
-                                    CommandParameter="Pink"
-                                    Margin="0 0 0 5"
-                                    Background="{StaticResource PinkColorGradientBrush}"
-                                    ToolTip="Pink"
-                                    FontSize="16" />
+                                        Command="{Binding SetAccentCommand}"
+                                        CommandParameter="Pink"
+                                        Margin="0 0 0 5"
+                                        Background="{StaticResource PinkColorGradientBrush}"
+                                        ToolTip="Pink" />
+
+                                <!-- Color 5 -->
+                                <Button Style="{StaticResource ColorBackgroundButton}"
+                                        Command="{Binding SetAccentCommand}"
+                                        CommandParameter="Purple"
+                                        Margin="0 0 0 5"
+                                        Background="{StaticResource PurpleColorGradientBrush}"
+                                        ToolTip="Purple" />
 
                             </StackPanel>
 
@@ -144,6 +140,7 @@
                         <!-- Accents menu button -->
                         <Button Style="{StaticResource FlatSmallIconButton}"
                                 Command="{Binding ToggleAccentsMenuCommand}"
+                                Margin="0 10 0 0"
                                 ToolTip="Accent"
                                 ToolTipService.InitialShowDelay="0"
                                 FontSize="22"
@@ -218,7 +215,7 @@
                                                 
                                                 <!-- Icon -->
                                                 <TextBlock Text="&#xf521;"
-                                                           Foreground="Goldenrod"
+                                                           Foreground="{StaticResource TitleForegroundBrush}"
                                                            HorizontalAlignment="Left"
                                                            VerticalAlignment="Top"
                                                            Margin="2 -3 0 5"

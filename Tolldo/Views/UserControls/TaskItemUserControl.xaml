@@ -121,7 +121,8 @@
                 </Grid.RowDefinitions>
 
                 <!-- CheckBox, description and actions -->
-                <Grid Grid.Row="0" 
+                <Grid Grid.Row="0"
+                      Margin="0 0 10 0"
                       Background="Transparent" >
 
                     <Grid.ColumnDefinitions>
@@ -220,7 +221,7 @@
 
                             <TextBlock HorizontalAlignment="Center"
                                        FontSize="24"
-                                       Foreground="{DynamicResource TitleGradientBrush}"
+                                       Foreground="{StaticResource TitleForegroundBrush}"
                                        Text="&#xf02e;"
                                        FontFamily="{StaticResource FontAwesome}">
 
@@ -288,6 +289,7 @@
                     <!-- Drag handle -->
                     <Button Grid.Column="2"
                             Style="{StaticResource FlatSmallIconButton}"
+                            IsEnabled="{Binding DataContext.IsBusy, Converter={StaticResource booleanToBooleanConverter}, RelativeSource={RelativeSource AncestorType=ListBox}}"
                             HorizontalAlignment="Right"                            
                             ToolTip="Reorder"
                             ToolTipService.InitialShowDelay="0"
@@ -382,7 +384,7 @@
                         <StackPanel Orientation="Horizontal">
 
                             <TextBlock Style="{StaticResource LargeTextBlock}"
-                                       Foreground="{StaticResource TitleGradientBrush}"
+                                       Foreground="{StaticResource TitleForegroundBrush}"
                                        Text="Subtasks" />
 
                         </StackPanel>
@@ -493,7 +495,7 @@
 
                             <!-- Label -->
                             <TextBlock Style="{StaticResource LargeTextBlock}"
-                                       Foreground="{StaticResource TitleGradientBrush}"
+                                       Foreground="{StaticResource TitleForegroundBrush}"
                                        Text="Description" />
 
                             <!-- Input -->

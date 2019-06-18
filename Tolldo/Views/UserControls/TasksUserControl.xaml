@@ -21,8 +21,7 @@
 
         <!-- Banner -->
         <Grid Grid.Row="0"
-              Visibility="{Binding DataContext.Pinned, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
-              Background="{DynamicResource PrimaryBackgroundBrush}"
+              Background="{StaticResource DarkForegroundBrush}"
               Height="200">
 
             <Grid.ColumnDefinitions>
@@ -72,11 +71,11 @@
                   VerticalAlignment="Top">
 
                 <Rectangle Fill="{StaticResource DarkForegroundBrush}"
-                           Opacity="0.5" />
+                           Opacity="0.7" />
 
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
-                    
+
                     <!-- Change image -->
                     <ToggleButton IsChecked="{Binding IsImageMenuOpen}" 
                                   VerticalAlignment="Top"
@@ -100,41 +99,10 @@
                                   ToolTip="Hide completed tasks"
                                   FontFamily="{StaticResource FontAwesome}"
                                   Content="&#xf070;" />
-                    
+
                 </StackPanel>
 
             </Grid>
-
-        </Grid>
-        
-        <!-- Pinned Banner -->
-        <Grid Grid.Row="0"
-              Visibility="{Binding DataContext.Pinned, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource booleanToVisibilityConverter}}"
-              Margin="0 10">
-
-            <StackPanel>
-                
-                <!-- To-do list name -->
-                <TextBlock Style="{StaticResource HeaderTextBlock}"
-                           Foreground="{StaticResource LightForegroundBrush}"
-                           FontSize="28"
-                           Margin="0 10"
-                           Grid.Column="1"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Text="{Binding Name}" />
-
-                <!-- Progress percentage -->
-                <TextBlock Style="{StaticResource MediumTextBlock}"
-                           Foreground="{StaticResource LightForegroundBrush}"
-                           FontSize="42"
-                           FontFamily="{StaticResource LatoThin}"
-                           Grid.Column="1"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom"
-                           Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat={}{0:0}%}" />
-                
-            </StackPanel>
 
         </Grid>
 

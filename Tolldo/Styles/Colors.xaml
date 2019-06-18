@@ -38,4 +38,9 @@
     <Color x:Key="DarkerPink">#a23d78</Color>
     <Color x:Key="DarkPink">#82315e</Color>
 
+    <!-- Purple -->
+    <Color x:Key="Purple">#9c52dd</Color>
+    <Color x:Key="DarkerPurple">#6d37a8</Color>
+    <Color x:Key="DarkPurple">#51297c</Color>
+
 </ResourceDictionary>

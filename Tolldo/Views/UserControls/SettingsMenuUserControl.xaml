@@ -50,7 +50,7 @@
 
                             <!-- Header -->
                             <TextBlock Style="{StaticResource LargeTextBlock}" 
-                                       Foreground="{DynamicResource TitleGradientBrush}"
+                                       Foreground="{StaticResource TitleForegroundBrush}"
                                        Text="Application"
                                        Margin="0 0 0 5"/>                            
                             <TextBlock Style="{StaticResource SmallTextBlock}"
@@ -147,7 +147,7 @@
 
                                 <!-- Header -->
                                 <TextBlock Style="{StaticResource LargeTextBlock}" 
-                                           Foreground="{DynamicResource TitleGradientBrush}"
+                                           Foreground="{StaticResource TitleForegroundBrush}"
                                            Text="Tasks"
                                            Margin="0 0 0 10"/>
 
@@ -166,7 +166,7 @@
 
                                 <!-- Header -->
                                 <TextBlock Style="{StaticResource LargeTextBlock}" 
-                                           Foreground="{DynamicResource TitleGradientBrush}"
+                                           Foreground="{StaticResource TitleForegroundBrush}"
                                            Text="Completed tasks"
                                            Margin="0 0 0 10"/>
 
@@ -204,7 +204,7 @@
                                 
                                 <!-- Header -->
                                 <TextBlock Style="{StaticResource LargeTextBlock}" 
-                                           Foreground="{DynamicResource TitleGradientBrush}"
+                                           Foreground="{StaticResource TitleForegroundBrush}"
                                            Text="Theme"
                                            Margin="0 0 0 10"/>
                                 
@@ -222,7 +222,7 @@
                                 
                                 <!-- Header -->
                                 <TextBlock Style="{StaticResource LargeTextBlock}" 
-                                           Foreground="{DynamicResource TitleGradientBrush}"
+                                           Foreground="{StaticResource TitleForegroundBrush}"
                                            Text="Accent"
                                            Margin="0 0 0 10"/>
                                 
@@ -273,7 +273,7 @@
 
                                 <!-- Header -->
                                 <TextBlock Style="{StaticResource LargeTextBlock}"
-                                           Foreground="{DynamicResource TitleGradientBrush}"
+                                           Foreground="{StaticResource TitleForegroundBrush}"
                                            Text="Background"
                                            Margin="0 0 0 10" />
 
@@ -415,7 +415,7 @@
                                 
                                 <!-- Header -->
                                 <TextBlock Style="{StaticResource LargeTextBlock}" 
-                                           Foreground="{DynamicResource TitleGradientBrush}"
+                                           Foreground="{StaticResource TitleForegroundBrush}"
                                            Text="Progressbar height"
                                            Margin="0 0 0 20" />
                                 

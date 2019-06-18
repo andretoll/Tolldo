@@ -151,7 +151,7 @@
 
             <!-- When disabled -->
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundBrush}" />
+                <Setter Property="Opacity" Value="0.5" />
                 <Setter Property="Effect">
                     <Setter.Value>
                         <DropShadowEffect Opacity="0" />
@@ -509,7 +509,9 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <ThicknessAnimation Storyboard.TargetProperty="Padding"
-                                                Duration="0:0:0.20"
+                                                DecelerationRatio="0.9"
+                                                AccelerationRatio="0.1"
+                                                Duration="0:0:0.40"
                                                 To="20" />
                         </Storyboard>
                     </BeginStoryboard>

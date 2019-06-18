@@ -184,14 +184,14 @@
                                         <TextBlock Text="&#xf058;"
                                                    Margin="0 0 10 0"
                                                    VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource TitleGradientBrush}"
+                                                   Foreground="{StaticResource TitleForegroundBrush}"
                                                    FontFamily="{StaticResource FontAwesome}"
                                                    FontSize="24"/>
 
                                         <!-- Title -->
                                         <TextBlock Style="{StaticResource WindowHeaderTextBlock}" 
                                                    VerticalAlignment="Center"
-                                                   Foreground="{StaticResource TitleGradientBrush}"
+                                                   Foreground="{StaticResource TitleForegroundBrush}"
                                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}" />
 
                                     </StackPanel>

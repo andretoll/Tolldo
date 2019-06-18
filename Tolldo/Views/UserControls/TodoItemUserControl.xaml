@@ -80,7 +80,7 @@
 
             <!-- Icon -->
             <TextBlock Visibility="{Binding IsFavorite, Converter={StaticResource booleanToVisibilityConverter}}" Text="&#xf521;"
-                       Foreground="Goldenrod"
+                       Foreground="{StaticResource TitleForegroundBrush}"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        FontSize="12"
@@ -100,6 +100,7 @@
                        Style="{StaticResource MediumTextBlock}"
                        TextTrimming="CharacterEllipsis"
                        MaxWidth="170"
+                       FontSize="16"
                        ToolTip="{Binding Name}"
                        Margin="10 0 20 0"
                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
