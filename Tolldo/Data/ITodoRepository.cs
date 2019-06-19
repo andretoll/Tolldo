@@ -83,5 +83,12 @@ namespace Tolldo.Data
         /// <param name="subtask"></param>
         /// <returns></returns>
         Task<bool> UpdateSubtask(SubtaskViewModel subtask);
+
+        /// <summary>
+        /// Update a list of subtask-items in database.
+        /// </summary>
+        /// <param name="subtasks"></param>
+        /// <returns></returns>
+        Task<bool> UpdateSubtasks(IEnumerable<SubtaskViewModel> subtasks);
     }
 }

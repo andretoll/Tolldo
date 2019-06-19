@@ -150,7 +150,7 @@
                                         
                                         <ToggleButton ToolTip="Pin Todo"
                                                       Style="{StaticResource SmallToggleButton}"
-                                                      Margin="20 0 0 0"
+                                                      Margin="15 0 0 0"
                                                       WindowChrome.IsHitTestVisibleInChrome="True"
                                                       ToolTipService.InitialShowDelay="0"
                                                       VerticalAlignment="Center"

@@ -499,14 +499,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="15163904">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Tolldo.exe" size="15171072">
       <assemblyIdentity name="Tolldo" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>33xIL2wlxvx6qur528ZrwTMA0V1llsnW7hVvK8j0x0A=</dsig:DigestValue>
+        <dsig:DigestValue>2ZJr0CkTwB/2sCbr8VTLDTSjwpfIY7XXMb8XxJZ4Lzs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -585,25 +585,7 @@
       <dsig:DigestValue>q8mKmiDnYnaPui8QzqLwSuqiMuEVwWYuB6tr/vtlGnk=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="Sounds\button.mp3" size="11949">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>K4x0XoiE3Nlpy1LQ6K7dG6cfquoz6P3MC7Yun6kNngg=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="Sounds\check.mp3" size="1992">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>q9ZUqBZtK2+UP8ZEBO6l61jM7/6Lze1zVgskPChTLxY=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="Sounds\pen.mp3" size="13417">
+  <file name="Sounds\check.mp3" size="13417">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />

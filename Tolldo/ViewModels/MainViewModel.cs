@@ -270,7 +270,7 @@ namespace Tolldo.ViewModels
                             // Unsubscribe from PropertyChanged for each subtask of each task
                             foreach (var subtask in task.Subtasks)
                             {
-                                subtask.PropertyChanged -= task.Subtask_PropertyChanged;
+                                subtask.PropertyChanged -= task.SubtaskViewModel_PropertyChanged;
                             }
                         }
                     }
@@ -310,7 +310,7 @@ namespace Tolldo.ViewModels
                         // Subscribe to property changed for each subtask of each task
                         foreach (var subtask in task.Subtasks)
                         {
-                            subtask.PropertyChanged += task.Subtask_PropertyChanged;
+                            subtask.PropertyChanged += task.SubtaskViewModel_PropertyChanged;
                         }
                     }
                 }

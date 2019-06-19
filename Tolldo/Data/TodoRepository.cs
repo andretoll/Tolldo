@@ -291,6 +291,32 @@ namespace Tolldo.Data
             }                
         }
 
+        /// <summary>
+        /// Updates a list of subtask-items in the data context.
+        /// </summary>
+        /// <param name="items">Items to update.</param>
+        /// <returns>Success value.</returns>
+        public async Task<bool> UpdateSubtasks(IEnumerable<SubtaskViewModel> items)
+        {
+            using (var context = new TolldoDbContext())
+            {
+                foreach (var item in items)
+                {
+                    // Get item to update
+                    var itemToUpdate = await context.Subtasks.Where(i => i.Id == item.Id).FirstOrDefaultAsync();
+                    _mapper.Map(item, itemToUpdate);
+
+                    if (itemToUpdate == null)
+                        return false;
+
+                    // Update item in database
+                    context.Update(itemToUpdate);
+                }
+
+                return await context.SaveChangesAsync() > 0 ? true : false;
+            }
+        }
+
         #endregion
     }
 }

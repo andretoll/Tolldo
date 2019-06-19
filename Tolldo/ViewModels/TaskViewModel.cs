@@ -291,44 +291,36 @@ namespace Tolldo.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void Subtask_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        public async void SubtaskViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Determine task completion if the completed property of any subtask changed
-            if (e.PropertyName == "IsCompleted")
+            if (e.PropertyName == "IsCompleted" & !(sender as SubtaskViewModel).NoAction)
             {
-                if (!(sender as SubtaskViewModel).NoAction)
+                // Indicates if all subtasks are completed
+                bool subtasksComplete = true;
+
+                foreach (var subtask in Subtasks)
                 {
-                    // Indicates if all subtasks are completed
-                    bool subtasksComplete = true;
-
-                    foreach (var subtask in Subtasks)
+                    // If subtask is uncomplted
+                    if (!subtask.Completed)
                     {
-                        // If subtask is uncomplted
-                        if (!subtask.Completed)
-                        {
-                            // If any subtask is incompleted, set false
-                            subtasksComplete = false;
-                            break;
-                        }
+                        // If any subtask is incompleted, set false
+                        subtasksComplete = false;
+                        break;
                     }
-
-                    // If global completion has changed, set completed status indirectly to avoid infinite loop
-                    if (_completed != subtasksComplete)
-                    {
-                        _completed = subtasksComplete;
-                        NotifyPropertyChanged(nameof(IsCompleted));
-                    } 
                 }
 
-                // Update subtask in database
-                await UpdateSubtask(sender as SubtaskViewModel);
+                // If global completion has changed, set completed status indirectly to avoid infinite loop
+                if (_completed != subtasksComplete)
+                {
+                    _completed = subtasksComplete;
+                    NotifyPropertyChanged(nameof(IsCompleted));
+                }
             }
             else if (e.PropertyName == "Name")
             {
                 // Update subtask in database
-                var success = await _repo.UpdateSubtask(sender as SubtaskViewModel);
-                if (!success)
-                    SetMessage("Something went wrong. Try again.");
+                await UpdateSubtask(sender as SubtaskViewModel);
             }
         }
 
@@ -415,7 +407,7 @@ namespace Tolldo.ViewModels
             };
 
             // Subscribe to property changed event for new subtask
-            subtask.PropertyChanged += Subtask_PropertyChanged;
+            subtask.PropertyChanged += SubtaskViewModel_PropertyChanged;
 
             // Add subtask to database
             await _repo.AddSubtask(subtask, this.Id).ContinueWith(async p =>
@@ -443,13 +435,15 @@ namespace Tolldo.ViewModels
         {
             if (Subtasks != null)
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     bool b = Completed;
                     foreach (var subtask in Subtasks)
                     {
                         subtask.Completed = b;
                     }
+
+                    await _repo.UpdateSubtasks(Subtasks);
                 });
             }       
         }
@@ -464,7 +458,7 @@ namespace Tolldo.ViewModels
                 return;
 
             // Unsubscribe from property changed event
-            subtask.PropertyChanged -= Subtask_PropertyChanged;
+            subtask.PropertyChanged -= SubtaskViewModel_PropertyChanged;
 
             // Delete item from database
             var success = await _repo.DeleteSubtask(subtask);
