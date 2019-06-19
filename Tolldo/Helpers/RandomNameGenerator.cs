@@ -9,7 +9,7 @@ namespace Tolldo.Data
     public static class RandomNameGenerator
     {
         /// <summary>
-        /// Generate random Todo name.
+        /// Generate random name.
         /// </summary>
         /// <returns></returns>
         public static string GetRandomName()
@@ -21,7 +21,8 @@ namespace Tolldo.Data
                 "Awesome things",
                 "Time to be productive",
                 "Bucketlist",
-                "Procrastination"
+                "Procrastination",
+                "Grandma's recipie"
             };
 
             Random random = new Random();

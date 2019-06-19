@@ -244,8 +244,8 @@
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\CollapsedMenuUserControl.xaml.cs">
-      <DependentUpon>CollapsedMenuUserControl.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\ToolMenuUserControl.xaml.cs">
+      <DependentUpon>ToolMenuUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\MainUserControl.xaml.cs">
       <DependentUpon>MainUserControl.xaml</DependentUpon>
@@ -256,8 +256,8 @@
     <Compile Include="Views\UserControls\SettingsMenuUserControl.xaml.cs">
       <DependentUpon>SettingsMenuUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\SideMenuUserControl.xaml.cs">
-      <DependentUpon>SideMenuUserControl.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\MainMenuUserControl.xaml.cs">
+      <DependentUpon>MainMenuUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\SubtaskItemUserControl.xaml.cs">
       <DependentUpon>SubtaskItemUserControl.xaml</DependentUpon>
@@ -340,7 +340,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UserControls\CollapsedMenuUserControl.xaml">
+    <Page Include="Views\UserControls\ToolMenuUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -356,7 +356,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UserControls\SideMenuUserControl.xaml">
+    <Page Include="Views\UserControls\MainMenuUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -427,21 +427,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\Logo\favicon.ico">
+    <Resource Include="Images\Logo\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sounds\button.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Content Include="Sounds\check.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sounds\pen.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="Images\Logo\logo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -60,7 +59,7 @@ namespace Tolldo.Helpers
 
             try
             {
-                folder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\Images\Banners\";
+                folder = Path.Combine(GetApplicationDirectory() + @"\Images\Banners\");
                 files = Directory.GetFiles(folder);
             }
             catch (Exception)
@@ -81,7 +80,7 @@ namespace Tolldo.Helpers
 
             try
             {
-                file = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + @"\Sounds\pen.mp3";
+                file = Path.Combine(GetApplicationDirectory() + @"\Sounds\check.mp3");
             }
             catch (Exception)
             {

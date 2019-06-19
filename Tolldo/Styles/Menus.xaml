@@ -29,7 +29,8 @@
 
 
                         <!-- Menu items -->
-                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        <StackPanel IsItemsHost="True" 
+                                    KeyboardNavigation.DirectionalNavigation="Cycle" />
 
                     </Border>
 

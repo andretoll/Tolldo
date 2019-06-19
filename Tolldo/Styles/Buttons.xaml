@@ -2,15 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:ext="clr-namespace:Tolldo.Extensions">
 
-    <!-- Import colors, fonts and windows -->
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="DynamicColors.xaml"/>
-        <ResourceDictionary Source="Fonts.xaml"/>
-        <ResourceDictionary Source="Windows.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-
     <!-- Base Flat button -->
-    <Style TargetType="{x:Type Button}" x:Key="FlatButton" BasedOn="{StaticResource Hoverless}">
+    <Style TargetType="{x:Type Button}" x:Key="FlatButton">
         <Setter Property="Background" Value="{DynamicResource ColorForegroundBrush}" />
         <Setter Property="Effect">
             <Setter.Value>

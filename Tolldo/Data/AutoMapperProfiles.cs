@@ -18,19 +18,31 @@ namespace Tolldo.Data
         /// <param name="dialogService">Accepts dependency injection of type <see cref="IDialogService"/>.</param>
         public AutoMapperProfiles(IDialogService dialogService)
         {
+            #region Todo
+
             CreateMap<Todo, TodoViewModel>()
-                .ConstructUsing(t => new TodoViewModel(dialogService));
+                    .ConstructUsing(t => new TodoViewModel(dialogService));
 
             CreateMap<TodoViewModel, Todo>();
 
+            #endregion
+
+            #region Task
+
             CreateMap<TodoTask, TaskViewModel>()
-                .ConstructUsing(t => new TaskViewModel(dialogService));
+                    .ConstructUsing(t => new TaskViewModel(dialogService));
 
             CreateMap<TaskViewModel, TodoTask>();
 
+            #endregion
+
+            #region Subtask
+
             CreateMap<Subtask, SubtaskViewModel>();
 
-            CreateMap<SubtaskViewModel, Subtask>();
+            CreateMap<SubtaskViewModel, Subtask>(); 
+
+            #endregion
         }
 
         #endregion

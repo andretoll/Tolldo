@@ -14,11 +14,5 @@ namespace Tolldo.Services
         /// </summary>
         /// <param name="message">Message to set.</param>
         void SetMessage(string message);
-
-        /// <summary>
-        /// Get the current message.
-        /// </summary>
-        /// <returns>Message.</returns>
-        string GetMessage();
     }
 }

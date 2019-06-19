@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Tolldo.Helpers;
@@ -22,8 +21,8 @@ namespace Tolldo.ViewModels
         private bool _minimizeToTrayMessage;
 
         // Minimum window width and height
-        private const int _windowMinimumWidth = 410;
-        private const int _windowMinimumHeight = 410;
+        private const int _windowMinimumWidth = 395;
+        private const int _windowMinimumHeight = 475;
 
         // Thickness for resize border cursor
         private const int _resizeBorder = 6;
@@ -82,7 +81,6 @@ namespace Tolldo.ViewModels
         public ICommand MinimizeCommand { get; set; }
         public ICommand MaximizeCommand { get; set; }
         public ICommand CloseCommand { get; set; }
-        public ICommand MenuCommand { get; set; }
 
         #endregion
 
@@ -96,6 +94,9 @@ namespace Tolldo.ViewModels
         {
             // Initialize window
             _window = window;
+
+            // Initialize NotifyIcon
+            InitializeNotifyIcon();
 
             // Listen for location changed
             _window.LocationChanged += (sender, e) =>
@@ -112,20 +113,6 @@ namespace Tolldo.ViewModels
             _minimizeToTray = bool.Parse(SettingsManager.LoadSetting(SettingsManager.Setting.MinimizeToTray.ToString()).ToString());
             _minimizeToTrayMessage = bool.Parse(SettingsManager.LoadSetting(SettingsManager.Setting.MinimizeToTrayMessage.ToString()).ToString());
 
-            // Initialize notify icon
-            _notifyIcon = new NotifyIcon();            
-            _notifyIcon.Icon = new System.Drawing.Icon(Path.Combine(SettingsManager.GetApplicationDirectory(), @"Images\Logo\favicon.ico"));
-            _notifyIcon.Text = "Tolldo";
-            _notifyIcon.ContextMenu = CreateContextMenu();
-            _notifyIcon.Click += (sender, e) =>
-            {
-                RestoreWindow();
-            };
-            _notifyIcon.DoubleClick += (sender, e) =>
-            {
-                RestoreWindow();
-            };            
-
             // Listen for window state changed
             _window.StateChanged += (sender, e) =>
             {
@@ -136,8 +123,10 @@ namespace Tolldo.ViewModels
                 // Minimize to tray if setting is active
                 if (_minimizeToTray)
                 {
+                    // If window is minimized, enable NotifyIcon
                     if (_window.WindowState == WindowState.Minimized)
                     {
+                        // Hide window and enable NotifyIcon
                         _window.Hide();
                         _notifyIcon.Visible = true;
 
@@ -148,8 +137,8 @@ namespace Tolldo.ViewModels
                             _minimizeToTrayMessage = false;
                         }
                     }
-                    // Restore window
-                    if (_window.WindowState == WindowState.Normal)
+                    // If window is normal, disable NotifyIcon
+                    else if (_window.WindowState == WindowState.Normal)
                         _notifyIcon.Visible = false; 
                 }
             };
@@ -158,7 +147,6 @@ namespace Tolldo.ViewModels
             MinimizeCommand = new RelayCommand.RelayCommand(p => { _window.WindowState = WindowState.Minimized; });
             MaximizeCommand = new RelayCommand.RelayCommand(p => { _window.WindowState ^= WindowState.Maximized; });
             CloseCommand = new RelayCommand.RelayCommand(p => { _window.Close(); });
-            MenuCommand = new RelayCommand.RelayCommand(p => { SystemCommands.ShowSystemMenu(_window, GetMousePosition()); });
 
             // Resize windows when maximized
             var resizer = new WindowResizer.WindowResizer(_window);
@@ -167,20 +155,6 @@ namespace Tolldo.ViewModels
         #endregion
 
         #region Private Helpers
-
-        /// <summary>
-        /// Returns the current mouse position.
-        /// </summary>
-        /// <returns></returns>
-        private Point GetMousePosition()
-        {
-            var position = Mouse.GetPosition(_window);
-
-            if (_window.WindowState == WindowState.Maximized)
-                return new Point(position.X, position.Y);
-            else
-                return new Point(position.X + _window.Left, position.Y + _window.Top);
-        }
 
         /// <summary>
         /// Creates the taskbar context menu.
@@ -283,6 +257,25 @@ namespace Tolldo.ViewModels
 
                 _pinned = false;
             }
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="NotifyIcon"/> class.
+        /// </summary>
+        private void InitializeNotifyIcon()
+        {
+            _notifyIcon = new NotifyIcon();
+            _notifyIcon.Icon = new System.Drawing.Icon(System.Windows.Application.GetResourceStream(new System.Uri("pack://application:,,,/Tolldo;component/Images/Logo/favicon.ico")).Stream);
+            _notifyIcon.Text = "Tolldo";
+            _notifyIcon.ContextMenu = CreateContextMenu();
+            _notifyIcon.Click += (sender, e) =>
+            {
+                RestoreWindow();
+            };
+            _notifyIcon.DoubleClick += (sender, e) =>
+            {
+                RestoreWindow();
+            };
         }
 
         #endregion

@@ -22,16 +22,20 @@ namespace Tolldo.ViewModels
     {
         #region Private Members
 
-        #region Services
+        #region Services and Managers
 
         // Theme manager
         private ThemeManager _themeManager;
+
         // Dialog service
         private readonly IDialogService _dialogService;
+
         // Data repository
         private ITodoRepository _repo;
+
         // Media player
         private MediaPlayer _mediaPlayer;
+        private readonly string _checkSound = SettingsManager.GetCheckSound();
 
         #endregion
 
@@ -388,7 +392,7 @@ namespace Tolldo.ViewModels
                 // Play sound if setting is enabled
                 if ((sender as TaskViewModel).IsCompleted && Properties.Settings.Default.CheckSound)
                 {
-                    Uri sound = new Uri(SettingsManager.GetCheckSound());
+                    Uri sound = new Uri(_checkSound);
 
                     try
                     {
@@ -499,7 +503,7 @@ namespace Tolldo.ViewModels
         #region Constructor
 
         /// <summary>
-        /// Default constructor.
+        /// Constructor that accepts the <see cref="IDialogService"/> interface.
         /// </summary>
         public MainViewModel(IDialogService dialogService)
         {

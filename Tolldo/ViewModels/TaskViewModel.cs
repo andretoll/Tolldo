@@ -18,6 +18,7 @@ namespace Tolldo.ViewModels
 
         // Dialog service
         private IDialogService _dialogService;
+
         // Data repository
         private ITodoRepository _repo;
 

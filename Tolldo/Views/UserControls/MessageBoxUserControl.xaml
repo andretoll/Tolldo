@@ -7,17 +7,20 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!-- Message box -->
-    <Border VerticalAlignment="Top"
+    <Border Visibility="{Binding 
+                Message, 
+                UpdateSourceTrigger=PropertyChanged, 
+                Converter={StaticResource emptyStringToVisibilityConverter}}"
+            VerticalAlignment="Top"
             HorizontalAlignment="Right"
-            Background="{DynamicResource ColorGradientBrush}"
-            Visibility="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource emptyStringToVisibilityConverter}}"
+            Background="{DynamicResource ColorGradientBrush}"            
             Padding="10"
             Margin="20"
             MinWidth="200">
 
         <Border.Effect>
             <DropShadowEffect ShadowDepth="10" 
-                              Opacity="0.55" 
+                              Opacity="0.75" 
                               BlurRadius="5" />
         </Border.Effect>
 
@@ -28,13 +31,26 @@
             <Grid>
 
                 <Grid.ColumnDefinitions>
+                    <!-- Message -->
                     <ColumnDefinition Width="auto" />
+                    <!-- Close button -->
                     <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>                
+
+                <!-- Message-->
+                <TextBlock Grid.Column="0"
+                           Width="175"
+                           Padding="5"
+                           Foreground="{StaticResource LightForegroundBrush}"
+                           FontFamily="{StaticResource LatoRegular}"
+                           FontSize="16"
+                           TextWrapping="Wrap"                           
+                           HorizontalAlignment="Left"
+                           Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!-- Close button -->
-                <Button Style="{StaticResource FlatWhiteSmallIconButton}"
-                        Grid.Column="1"
+                <Button Grid.Column="1"
+                        Style="{StaticResource FlatWhiteSmallIconButton}"                        
                         Command="{Binding CloseMessageBoxCommand}"
                         ToolTip="Close"
                         HorizontalAlignment="Right"
@@ -43,21 +59,14 @@
                         Content="&#xf057;"
                         Margin="0 0 0 10"/>
 
-                <!-- Message-->
-                <TextBlock Width="175"
-                           Foreground="{StaticResource LightForegroundBrush}"
-                           FontFamily="{StaticResource LatoRegular}"
-                           FontSize="16"
-                           TextWrapping="Wrap"
-                           Grid.Column="0"
-                           HorizontalAlignment="Left"
-                           Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"/>
-
             </Grid>
 
             <!-- Undelete todo button -->
             <Button Style="{StaticResource LinkButton}"
-                    Visibility="{Binding DeletedTodo, Converter={StaticResource nullToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding 
+                        DeletedTodo, 
+                        Converter={StaticResource nullToVisibilityConverter}, 
+                        UpdateSourceTrigger=PropertyChanged}"
                     Command="{Binding UndeleteTodoCommand}"
                     Margin="0 10 0 0"
                     Content="Undo"

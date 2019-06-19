@@ -14,10 +14,10 @@ namespace Tolldo.Data
     /// </summary>
     public class TodoRepository : ITodoRepository
     {
-        #region Protected Members
+        #region Private Members
 
-        protected IMapper _mapper;
-        protected IDialogService _dialogService;
+        private IMapper _mapper;
+        private IDialogService _dialogService;
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace Tolldo.Data
         {
             using (var context = new TolldoDbContext())
             {
-                context.Database.EnsureCreated();
+                _ = context.Database.EnsureCreated();
             }            
         }
 
@@ -286,6 +286,7 @@ namespace Tolldo.Data
 
                 // Update item in database
                 context.Update(itemToUpdate);
+
                 return await context.SaveChangesAsync() > 0 ? true : false;
             }                
         }

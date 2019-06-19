@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace Tolldo.ValueConverters
 {
     /// <summary>
-    /// A value converter that returns an acronym from a string.
+    /// A value converter that returns an acronym from a string. Based on the first two letters of a single word or the first two letters of multiple words.
     /// </summary>
     public class AcronymConverter : IValueConverter
     {

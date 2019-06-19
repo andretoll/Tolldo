@@ -14,8 +14,11 @@
           DataContext="{Binding SelectedTodo}">
 
         <Grid.RowDefinitions>
+            <!-- Banner -->
             <RowDefinition Height="auto" />
+            <!-- Progress bar -->
             <RowDefinition Height="auto" />
+            <!-- Tasks -->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -24,33 +27,22 @@
               Background="{StaticResource DarkForegroundBrush}"
               Height="200">
 
-            <Grid.ColumnDefinitions>
-                <!-- Left -->
-                <ColumnDefinition Width="auto" />
-                <!-- Center -->
-                <ColumnDefinition Width="*" />
-                <!-- Right -->
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-
             <!-- Banner image -->
             <Image Stretch="UniformToFill"
-                   HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Grid.ColumnSpan="3" 
                    Source="{Binding ImageUrl}" />
 
             <!-- Banner overlay -->
             <Rectangle Fill="{StaticResource DarkForegroundBrush}"
-                       Visibility="{Binding ImageUrl, Converter={StaticResource emptyStringToVisibilityConverter}}"
-                       Opacity="0.5"
-                       Grid.ColumnSpan="3" />
+                       Visibility="{Binding 
+                        ImageUrl, 
+                        Converter={StaticResource emptyStringToVisibilityConverter}}"
+                       Opacity="0.5" />
 
             <!-- To-do list name -->
             <TextBlock Style="{StaticResource HeaderTextBlock}"
                        Foreground="{StaticResource LightForegroundBrush}"
                        FontSize="28"
-                       Grid.Column="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Text="{Binding Name}" />
@@ -60,19 +52,21 @@
                        Foreground="{StaticResource LightForegroundBrush}"
                        FontSize="42"
                        FontFamily="{StaticResource LatoThin}"
-                       Grid.Column="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Bottom"
-                       Margin="0 0 0 5"
-                       Text="{Binding Progress, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, StringFormat={}{0:0}%}" />
+                       Text="{Binding 
+                        Progress, 
+                        UpdateSourceTrigger=PropertyChanged, 
+                        Mode=OneWay, 
+                        StringFormat={}{0:0}%}" />
 
             <!-- Menu bar -->
-            <Grid Grid.ColumnSpan="3"
-                  VerticalAlignment="Top">
+            <Grid VerticalAlignment="Top">
 
                 <Rectangle Fill="{StaticResource DarkForegroundBrush}"
                            Opacity="0.7" />
 
+                <!-- Actions -->
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
 
@@ -108,10 +102,13 @@
 
         <!-- Banner image menu -->
         <Border Grid.Row="0"
-                Grid.RowSpan="1"
+                Grid.RowSpan="2"
+                Panel.ZIndex="1"
                 VerticalAlignment="Bottom"
                 Background="{StaticResource DarkForegroundBrush}"
-                Visibility="{Binding IsImageMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
+                Visibility="{Binding 
+                    IsImageMenuOpen, 
+                    Converter={StaticResource booleanToVisibilityConverter}}">
 
             <ScrollViewer CanContentScroll="False"
                           Padding="0 0 0 15"
@@ -129,7 +126,6 @@
 
                     <!-- None -->
                     <Button Command="{Binding ChangeBannerImageCommand}"
-                            Background="Transparent"
                             Width="150"
                             ToolTip="None"
                             Grid.Column="0"
@@ -170,10 +166,9 @@
                     </Button>
 
                     <!-- Image list -->
-                    <ListBox ItemsSource="{Binding BannerImageCollection}"
-                             SelectedItem="{Binding ImageUrl}"
-                             Grid.Column="1"
-                             x:Name="BannerImageItemsControl">
+                    <ListBox Grid.Column="1" 
+                             ItemsSource="{Binding BannerImageCollection}"
+                             SelectedItem="{Binding ImageUrl}">
 
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}">
@@ -213,7 +208,9 @@
 
                                     <Grid>
 
-                                        <Button Command="{Binding DataContext.ChangeBannerImageCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        <Button Command="{Binding 
+                                                    DataContext.ChangeBannerImageCommand, 
+                                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                 Focusable="False"
                                                 CommandParameter="{Binding}">
 
@@ -266,17 +263,23 @@
 
         <!-- Progress -->
         <Grid Grid.Row="1" 
-              Width="auto"              
-              Visibility="{Binding Path=., UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}"              
-              VerticalAlignment="Top">
+              Visibility="{Binding 
+                Path=., 
+                UpdateSourceTrigger=PropertyChanged, 
+                Converter={StaticResource nullToVisibilityConverter}}" >
 
             <!-- Progress bar -->
             <ProgressBar Minimum="0"
                          Maximum="100"
                          Height="{Binding Source={x:Static prop:Settings.Default}, Path=ProgressBarHeight}"
                          x:Name="FadingProgressBar"
-                         Value="{Binding Progress, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}">
+                         Value="{Binding 
+                            Progress, 
+                            Mode=OneWay, 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            NotifyOnTargetUpdated=True}">
 
+                <!-- Progress bar color change -->
                 <ProgressBar.Style>
                     <Style TargetType="{x:Type ProgressBar}">
                         <Setter Property="Foreground" Value="{DynamicResource ColorGradientBrush}" />
@@ -299,8 +302,15 @@
                                 <DoubleAnimation Storyboard.TargetName="FadingProgressBar"
                                                  SpeedRatio="2"
                                                  Storyboard.TargetProperty="Value"
-                                                 From="{Binding LastProgress, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}"
-                                                 To="{Binding Progress, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True}"
+                                                 From="{Binding 
+                                                    LastProgress, 
+                                                    Mode=OneWay, 
+                                                    UpdateSourceTrigger=PropertyChanged, 
+                                                    NotifyOnTargetUpdated=True}"
+                                                 To="{Binding 
+                                                    Progress, Mode=OneWay, 
+                                                    UpdateSourceTrigger=PropertyChanged, 
+                                                    NotifyOnTargetUpdated=True}"
                                                  Duration="00:00:01" />
                             </Storyboard>
                         </BeginStoryboard>
@@ -316,15 +326,19 @@
 
             <!-- New task -->
             <Grid DockPanel.Dock="Bottom"
-                  Panel.ZIndex="1000"                  
-                  Visibility="{Binding ElementName=TasksScrollViewer, Path=ComputedVerticalScrollBarVisibility, UpdateSourceTrigger=PropertyChanged}"
-                  Background="{DynamicResource PrimaryBackgroundBrush}"
-                  VerticalAlignment="Top">
+                  Panel.ZIndex="1"                  
+                  Visibility="{Binding 
+                    ElementName=TasksScrollViewer, 
+                    Path=ComputedVerticalScrollBarVisibility, 
+                    UpdateSourceTrigger=PropertyChanged}"
+                  Background="{DynamicResource PrimaryBackgroundBrush}">
 
+                <!-- Shadow -->
                 <Grid.Effect>
                     <DropShadowEffect Direction="90" Opacity="0.50" ShadowDepth="8" BlurRadius="30"  />
                 </Grid.Effect>
 
+                <!-- Visibility -->
                 <Grid.Style>
                     <Style TargetType="{x:Type Grid}">
                         <Style.Setters>
@@ -383,7 +397,10 @@
                                  Foreground="{DynamicResource PrimaryForegroundBrush}"
                                  CaretBrush="{StaticResource LightForegroundBrush}"
                                  FontSize="16"
-                                 Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
+                                 Text="{Binding 
+                                    NewTask.Name, 
+                                    UpdateSourceTrigger=PropertyChanged, 
+                                    FallbackValue=Add new}">
 
                             <i:Interaction.Triggers>
 
@@ -406,7 +423,7 @@
 
             </Grid>
 
-            <!-- Tasks -->
+            <!-- Tasks and new task -->
             <ScrollViewer CanContentScroll="False"
                           x:Name="TasksScrollViewer"
                           VerticalScrollBarVisibility="Auto">
@@ -451,8 +468,7 @@
                     </ListBox>
 
                     <!-- New task -->
-                    <Grid Grid.Row="1"
-                          VerticalAlignment="Top">
+                    <Grid Grid.Row="1">
 
                         <Grid.Style>
                             <Style TargetType="{x:Type Grid}">
@@ -474,6 +490,7 @@
                         <Border Padding="37 10"
                                 Focusable="False"
                                 Height="50">
+                            
                             <Border.Style>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="Opacity" Value="0.5" />
@@ -512,7 +529,10 @@
                                          Foreground="{DynamicResource PrimaryForegroundBrush}"
                                          CaretBrush="{DynamicResource PrimaryForegroundBrush}"
                                          FontSize="16"
-                                         Text="{Binding NewTask.Name, UpdateSourceTrigger=PropertyChanged, FallbackValue=Add new}">
+                                         Text="{Binding 
+                                            NewTask.Name, 
+                                            UpdateSourceTrigger=PropertyChanged, 
+                                            FallbackValue=Add new}">
 
                                     <i:Interaction.Triggers>
 

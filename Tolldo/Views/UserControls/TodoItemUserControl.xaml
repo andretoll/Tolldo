@@ -24,7 +24,7 @@
             <ColumnDefinition Width="*" />
             <!-- Icons and progress -->
             <ColumnDefinition Width="Auto" />
-            <!-- Drag handle -->
+            <!-- Reorder handle -->
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         
@@ -76,7 +76,8 @@
         </Grid.ContextMenu>
 
         <!-- Name and favorite icon -->
-        <Grid Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
+        <Grid Grid.Column="0" 
+              Visibility="{Binding RenameActive, Converter={StaticResource reversedBooleanToVisibilityConverter}}">
 
             <!-- Icon -->
             <TextBlock Visibility="{Binding IsFavorite, Converter={StaticResource booleanToVisibilityConverter}}" Text="&#xf521;"
@@ -99,10 +100,8 @@
                        HorizontalAlignment="Left"
                        Style="{StaticResource MediumTextBlock}"
                        TextTrimming="CharacterEllipsis"
-                       MaxWidth="170"
-                       FontSize="16"
                        ToolTip="{Binding Name}"
-                       Margin="10 0 20 0"
+                       Margin="10 0 10 0"
                        Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
             
         </Grid>
@@ -112,9 +111,7 @@
                     VerticalAlignment="Center">
             
             <TextBox Grid.Column="0"
-                     MaxWidth="170"
-                     Width="170"
-                     FontSize="16"
+                     Width="200"
                      HorizontalAlignment="Left"
                      ext:FocusExtension.IsFocused="{Binding RenameActive, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource StandardTextBox}"
@@ -141,9 +138,7 @@
                     Command="{Binding ToggleRenameCommand}"
                     FontFamily="{StaticResource FontAwesome}"
                     FontSize="18"
-                    Margin="0 0 10 0"
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
                     ToolTip="Save current name"
                     Content="&#xf0c7;" />
             
@@ -155,17 +150,17 @@
                     Grid.Column="1">
 
             <!-- Completed icon -->
-            <TextBlock Text="&#xf560;"
+            <TextBlock Text="&#xf058;"
                        ToolTip="Completed"
                        FontFamily="{StaticResource FontAwesome}"
                        Visibility="{Binding Completed, Converter={StaticResource booleanToVisibilityConverter}}"
-                       Foreground="ForestGreen" 
+                       Foreground="Green" 
                        FontSize="18"
                        Margin="0 0 10 0"
                        VerticalAlignment="Center" />
 
             <!-- Empty icon -->
-            <TextBlock Text="&#xf12a;"
+            <TextBlock Text="&#xf06a;"
                        ToolTip="Empty"
                        FontFamily="{StaticResource FontAwesome}"
                        Visibility="{Binding Tasks.Count, Converter={StaticResource emptyToVisibilityConverter}}"
@@ -180,7 +175,9 @@
                        Opacity="0.75"
                        FontFamily="{StaticResource LatoRegular}"
                        VerticalAlignment="Center"
-                       Text="{Binding ProgressString}" />
+                       Text="{Binding ProgressString}" />    
+            
+            <!-- OR -->
             
             <!-- Progress percentage -->
             <TextBlock Style="{StaticResource SmallTextBlock}"
@@ -195,7 +192,6 @@
         <!-- Drag handle -->
         <Button Grid.Column="2"
                 IsTabStop="False"
-                HorizontalAlignment="Right"
                 Style="{StaticResource FlatSmallIconButton}"
                 ToolTip="Reorder"                
                 Visibility="{Binding DataContext.SearchMode, Converter={StaticResource reversedBooleanToVisibilityConverter}, RelativeSource={RelativeSource AncestorType=ListView}}"
@@ -203,7 +199,6 @@
                 Cursor="SizeAll"
                 FontSize="20"
                 Margin="10 0"
-                Padding="10"
                 Content="&#xf0c9;">
 
             <!-- When drag occurs, activate drag -->

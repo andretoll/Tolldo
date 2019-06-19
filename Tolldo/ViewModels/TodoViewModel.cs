@@ -60,6 +60,9 @@ namespace Tolldo.ViewModels
         // Indicates if banner image popup menu is open
         private bool _isImageMenuOpen;
 
+        // Indicates if app is busy
+        private bool _isBusy;
+
         #endregion
 
         #region Objects
@@ -244,13 +247,17 @@ namespace Tolldo.ViewModels
             }
         }
 
-
-        private bool _isBusy;
-
+        // Indicates if app is busy
         public bool IsBusy
         {
-            get { return _isBusy; }
-            set { _isBusy = value; NotifyPropertyChanged(); }
+            get
+            {
+                return _isBusy;
+            }
+            set
+            {
+                _isBusy = value; NotifyPropertyChanged();
+            }
         }
 
 
@@ -421,14 +428,14 @@ namespace Tolldo.ViewModels
                 default:
                     break;
             }
-        } 
+        }
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// Default constructor.
+        /// Constructor that accepts the <see cref="IDialogService"/> interface.
         /// </summary>
         public TodoViewModel(IDialogService dialogService)
         {
@@ -617,6 +624,7 @@ namespace Tolldo.ViewModels
         /// <returns></returns>
         private async Task ChangeBannerImage(string url)
         {
+            // If the same image was selected, remove image and return
             if (url == this.ImageUrl)
             {
                 this.ImageUrl = null;
@@ -648,6 +656,7 @@ namespace Tolldo.ViewModels
         /// <returns></returns>
         public async Task UpdateTaskOrder()
         {
+            // Set busy status
             IsBusy = true;
 
             // Update UI
@@ -667,6 +676,7 @@ namespace Tolldo.ViewModels
                 }
             }).ContinueWith(p =>
             {
+                // Remove busy status
                 IsBusy = false;
             });
         }
@@ -691,6 +701,7 @@ namespace Tolldo.ViewModels
         /// <param name="dropInfo"></param>
         void IDropTarget.DragOver(IDropInfo dropInfo)
         {
+            // Prevent drag if handle is not active
             if (!DragHandleActive)
                 return;
 
@@ -713,6 +724,7 @@ namespace Tolldo.ViewModels
         /// <param name="dropInfo"></param>
         async void IDropTarget.Drop(IDropInfo dropInfo)
         {
+            // Prevent drop if busy
             if (IsBusy)
                 return;
 

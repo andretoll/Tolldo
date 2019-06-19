@@ -25,6 +25,11 @@ namespace Tolldo.ValueConverters
             return value;
         }
 
+        /// <summary>
+        /// Transform SolidColorBrush color to <see cref="Color"/> value.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         private byte Transform(byte source)
         {
             return (byte)(Math.Pow(source / 255d, 1 / 2.2d) * 255);

@@ -5,26 +5,15 @@ using System.Windows.Media;
 namespace Tolldo.Helpers
 {
     /// <summary>
-    /// A theme mananger to read, write and apply themes and accents based on user settings.
+    /// A theme mananger to apply themes and accents based on user settings.
     /// </summary>
     public class ThemeManager
     {
         #region Public Properties
 
-        /// <summary>
-        /// Indicates whether or not dark theme is enabled.
-        /// </summary>
-        public bool DarkThemeEnabled { get; private set; }
-
-        /// <summary>
-        /// A list of accents.
-        /// </summary>
-        public List<string> Accents { get; private set; }
-
-        /// <summary>
-        /// The current accent.
-        /// </summary>
+        public bool DarkThemeEnabled { get; private set; }       
         public string Accent { get; private set; }
+        public List<string> Accents { get; private set; }
 
         #endregion
 
@@ -69,9 +58,6 @@ namespace Tolldo.Helpers
 
                 // Set primary foreground
                 SetBrush("Light", "PrimaryForegroundBrush");
-
-                // Set inverted
-                SetBrush("Light", "InvertedBackgroundBrush");
             }
             else
             {
@@ -86,9 +72,6 @@ namespace Tolldo.Helpers
 
                 // Set primary foreground
                 SetBrush("Dark", "PrimaryForegroundBrush");
-
-                // Set inverted
-                SetBrush("Dark", "InvertedBackgroundBrush");
             }
         }
 
@@ -148,8 +131,8 @@ namespace Tolldo.Helpers
         /// <summary>
         /// Applies the specified <see cref="Color"/> to the specified <see cref="SolidColorBrush"/>.
         /// </summary>
-        /// <param name="colorName">Name of the <see cref="Color"/>.</param>
-        /// <param name="brushName">Name of the <see cref="SolidColorBrush"/></param>
+        /// <param name="colorName">The name of the <see cref="Color"/> from resources.</param>
+        /// <param name="brushName">The name of the <see cref="SolidColorBrush"/></param>
         private void SetBrush(string colorName, string brushName)
         {
             Color color = (Color)Application.Current.Resources[colorName];
@@ -160,8 +143,8 @@ namespace Tolldo.Helpers
         /// <summary>
         /// Applies the specified <see cref="Color"/>s to the specified <see cref="LinearGradientBrush"/>.
         /// </summary>
-        /// <param name="color1">Name of the <see cref="Color"/>.</param>
-        /// <param name="color2">Name of the <see cref="Color"/>.</param>
+        /// <param name="color1">The name of the <see cref="Color"/> from resources.</param>
+        /// <param name="color2">The name of the <see cref="Color"/> from resources.</param>
         /// <param name="brushName">Name of the <see cref="LinearGradientBrush"/>.</param>
         private void SetLinearBrush(string color1, string color2, string brushName)
         {

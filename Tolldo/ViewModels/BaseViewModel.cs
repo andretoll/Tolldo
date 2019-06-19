@@ -24,11 +24,16 @@ namespace Tolldo.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion
-
+        /// <summary>
+        /// Call this to fire a <see cref="PropertyChanged"/> event with specified arguments.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected virtual void RaiseNotifyPropertyChangedEvent(object sender, PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(sender, e);
         }
+
+        #endregion
     }
 }

@@ -19,46 +19,51 @@
                 <BeginStoryboard>
                     <Storyboard>
                         <DoubleAnimation Storyboard.TargetName="FadingElement" 
-                                         Storyboard.TargetProperty="(StackPanel.Opacity)"
+                                         Storyboard.TargetProperty="Opacity"
                                          From="0.0" 
                                          To="1.0" 
-                                         Duration="0:0:1" />
+                                         Duration="0:0:1.5" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
         </Grid.Triggers>
 
         <Grid.ColumnDefinitions>
-            <!-- Collapsed menu -->            
+            <!-- Tool menu -->            
             <ColumnDefinition Width="Auto"/>
-            <!-- Side menu -->
+            <!-- Main menu -->
             <ColumnDefinition Width="Auto"/>
             <!-- Todo list -->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Grid background image -->
+        <!-- Application background image -->
         <Grid Grid.ColumnSpan="3"
-              Grid.Column="0">
+              Grid.Column="0"
+              Visibility="{Binding 
+                Source={x:Static prop:Settings.Default}, 
+                Path=AppImage, 
+                Converter={StaticResource emptyStringToVisibilityConverter}}">
 
+            <!-- Image -->
             <Image Stretch="UniformToFill"
                    StretchDirection="UpOnly"
                    SnapsToDevicePixels="True"
                    Source="{Binding Source={x:Static prop:Settings.Default}, Path=AppImage}" />
 
-            <Rectangle Grid.ColumnSpan="3" 
-                       Grid.Column="0" 
-                       Visibility="{Binding Source={x:Static prop:Settings.Default}, Path=AppImage, Converter={StaticResource emptyStringToVisibilityConverter}}"
-                       Fill="{DynamicResource SecondaryBackgroundBrush}"
+            <!-- Overlay -->
+            <Rectangle Fill="{DynamicResource SecondaryBackgroundBrush}"
                        Opacity="0.85" />
             
         </Grid>
 
         <!-- Message box outer -->
-        <Border Visibility="{Binding Message, FallbackValue=Collapsed, NotifyOnTargetUpdated=True, Converter={StaticResource emptyStringToVisibilityConverter}}"
+        <Border Visibility="{Binding 
+                    Message, FallbackValue=Collapsed, 
+                    NotifyOnTargetUpdated=True, 
+                    Converter={StaticResource emptyStringToVisibilityConverter}}"
                 Grid.Column="0"
-                Grid.ColumnSpan="3"
-                Panel.ZIndex="1">
+                Grid.ColumnSpan="3">
 
             <!-- Fade in/Fade out -->
             <Border.Style>
@@ -66,12 +71,18 @@
                     <Style.Triggers>
                         
                         <!-- Collapse if null -->
-                        <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="False">
+                        <DataTrigger Binding="{Binding 
+                                        Message, 
+                                        UpdateSourceTrigger=PropertyChanged, 
+                                        Converter={StaticResource nullToBoolConverter}}" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
                         
                         <!-- Fade in/Fade out animation if message is detected -->
-                        <DataTrigger Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToBoolConverter}}" Value="True">
+                        <DataTrigger Binding="{Binding 
+                                        Message, 
+                                        UpdateSourceTrigger=PropertyChanged, 
+                                        Converter={StaticResource nullToBoolConverter}}" Value="True">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard Name="MessageBoxFade">
                                     <Storyboard>
@@ -112,48 +123,48 @@
 
         </Border>
 
-        <!-- 1. Collapsed menu -->
+        <!-- 1. Tool menu (LEFT) -->
         <Border Grid.Column="0"
                 Background="{DynamicResource SecondaryBackgroundBrush}">
 
-            <uc:CollapsedMenuUserControl />
+            <uc:ToolMenuUserControl />
 
         </Border>
 
-        <!-- 2. Side menu -->
+        <!-- 2. Main menu (CENTER) -->
         <Border Grid.Column="1"
                 BorderThickness="0 0 1 0"
                 BorderBrush="{DynamicResource GrayBackgroundBrush}"
                 Visibility="{Binding IsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}">
             
-            <uc:SideMenuUserControl />
+            <uc:MainMenuUserControl />
 
         </Border>        
 
-        <!-- 3. To-do list -->
+        <!-- 3. Todo list (RIGHT) -->
         <Border Grid.Column="2"
                 BorderThickness="1 0 0 0"
                 BorderBrush="{DynamicResource GrayBackgroundBrush}"
-                Visibility="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource nullToVisibilityConverter}}">
-            
-            <Grid>
+                Visibility="{Binding 
+                    SelectedTodo, 
+                    UpdateSourceTrigger=PropertyChanged, 
+                    Converter={StaticResource nullToVisibilityConverter}}">
 
-                <uc:TasksUserControl />
+            <uc:TasksUserControl />
 
-            </Grid>
-            
         </Border>
         
         <!-- OR -->
         
-        <!-- 3. Welcome screen -->
+        <!-- 3. Welcome screen (RIGHT) -->
         <Grid Grid.Column="2"
-              Visibility="{Binding SelectedTodo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource reversedNullToVisibilityConverter}}">
+              Visibility="{Binding 
+                SelectedTodo, 
+                UpdateSourceTrigger=PropertyChanged, 
+                Converter={StaticResource reversedNullToVisibilityConverter}}">
 
+            <!-- Texts -->
             <StackPanel Orientation="Vertical"
-                        Panel.ZIndex="1"
-                        Margin="50"
-                        HorizontalAlignment="Center"
                         VerticalAlignment="Center">
 
                 <TextBlock Style="{StaticResource WindowHeaderTextBlock}"
@@ -173,7 +184,7 @@
                 <TextBlock Style="{StaticResource HeaderTextBlock}"
                            TextWrapping="Wrap"
                            HorizontalAlignment="Center"
-                           Foreground="{DynamicResource ColorForegroundBrush}"                               
+                           Foreground="{DynamicResource TitleForegroundBrush}"                               
                            Margin="0 20"
                            Text="OR" />
 
@@ -187,20 +198,10 @@
                 <Button Style="{StaticResource PrimaryButton}"
                         Command="{Binding AddRandomTodoCommand}"
                         HorizontalAlignment="Center"
-                        Margin="0 20"
+                        Margin="0 20 0 0"
                         Content="Create list"/>
 
-            </StackPanel>                
-
-            <!-- Background image -->
-            <!--<Image Stretch="UniformToFill"    
-                   ClipToBounds="True"
-                   Source="/Images/Banners/banner_travel.jpg" />-->
-
-            <!-- Background image effect -->
-            <!--<Rectangle Fill="Black"
-                       Opacity="0.7"
-                       Stretch="Fill" />-->
+            </StackPanel>
 
         </Grid>
         
@@ -209,7 +210,7 @@
                 Grid.ColumnSpan="2"
                 HorizontalAlignment="Right"
                 Background="{DynamicResource PrimaryBackgroundBrush}"
-                Panel.ZIndex="2">
+                Panel.ZIndex="1">
 
             <!-- Width and margin animation -->
             <Border.Style>
@@ -246,12 +247,17 @@
                 </Style>
             </Border.Style>
             
+            <!-- Settings user control -->
             <uc:SettingsMenuUserControl />
             
         </Border>
+        
+        <!-- Faded background -->
         <Rectangle Grid.Column="1"
                    Grid.ColumnSpan="2"
-                   Visibility="{Binding IsSettingsMenuOpen, Converter={StaticResource booleanToVisibilityConverter}}"
+                   Visibility="{Binding 
+                    IsSettingsMenuOpen, 
+                    Converter={StaticResource booleanToVisibilityConverter}}"
                    Fill="Black"
                    Opacity="0.8"/>
 

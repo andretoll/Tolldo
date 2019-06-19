@@ -3,11 +3,11 @@
 namespace Tolldo.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for MessageBoxUserControl.xaml
+    /// Interaction logic for ToolMenuUserControl.xaml
     /// </summary>
-    public partial class MessageBoxUserControl : UserControl
+    public partial class ToolMenuUserControl : UserControl
     {
-        public MessageBoxUserControl()
+        public ToolMenuUserControl()
         {
             InitializeComponent();
         }
