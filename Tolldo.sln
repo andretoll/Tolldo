@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tolldo", "Tolldo\Tolldo.csproj", "{4D962FDE-7698-48B8-9E5B-417854AE291A}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TolldoSetup", "TolldoSetup\TolldoSetup.vdproj", "{D14E8FA2-F7E1-4B32-A678-0DBB655627F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{4D962FDE-7698-48B8-9E5B-417854AE291A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D962FDE-7698-48B8-9E5B-417854AE291A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D962FDE-7698-48B8-9E5B-417854AE291A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D14E8FA2-F7E1-4B32-A678-0DBB655627F8}.Debug|Any CPU.ActiveCfg = Debug
+		{D14E8FA2-F7E1-4B32-A678-0DBB655627F8}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
