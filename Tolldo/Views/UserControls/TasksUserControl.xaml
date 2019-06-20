@@ -24,6 +24,7 @@
 
         <!-- Banner -->
         <Grid Grid.Row="0"
+              Visibility="{Binding DataContext.Pinned, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Converter={StaticResource reversedBooleanToVisibilityConverter}}"
               Background="{StaticResource DarkForegroundBrush}"
               Height="200">
 
@@ -100,7 +101,36 @@
 
         </Grid>
 
-        <!-- Banner image menu -->
+        <Grid Grid.Row="0"
+              Margin="10"
+              Visibility="{Binding DataContext.Pinned, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Converter={StaticResource booleanToVisibilityConverter}}"
+              Background="{DynamicResource PrimaryBackgroundBrush}"
+              Height="60">
+
+            <!-- To-do list name -->
+            <TextBlock Style="{StaticResource HeaderTextBlock}"
+                       Foreground="{DynamicResource PrimaryForegroundBrush}"
+                       FontSize="20"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Text="{Binding Name}" />
+
+            <!-- Progress percentage -->
+            <TextBlock Style="{StaticResource MediumTextBlock}"
+                       Foreground="{DynamicResource PrimaryForegroundBrush}"
+                       FontSize="24"
+                       FontFamily="{StaticResource LatoThin}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       Text="{Binding 
+                        Progress, 
+                        UpdateSourceTrigger=PropertyChanged, 
+                        Mode=OneWay, 
+                        StringFormat={}{0:0}%}" />
+
+        </Grid>
+
+            <!-- Banner image menu -->
         <Border Grid.Row="0"
                 Grid.RowSpan="2"
                 Panel.ZIndex="1"

@@ -316,6 +316,8 @@ namespace Tolldo.ViewModels
                     _completed = subtasksComplete;
                     NotifyPropertyChanged(nameof(IsCompleted));
                 }
+
+                await UpdateSubtask(sender as SubtaskViewModel);
             }
             else if (e.PropertyName == "Name")
             {
