@@ -38,6 +38,10 @@ The application is being built with WPF, XAML in a pure MVVM architectural patte
 * Windows 7 or later
 * Microsoft .NET Framework 4.7.2 (x86 and x64)
 
+## Installer
+
+[Installer](https://raw.githubusercontent.com/andretoll/quickeffect/master/Installer/Tolldo_Installer.msi)
+
 ## Demo
 
 [Demo](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/andretoll/Tolldo/tree/master/Demo)
