@@ -40,7 +40,7 @@ The application is being built with WPF, XAML in a pure MVVM architectural patte
 
 ## Installer
 
-[Installer](https://raw.githubusercontent.com/andretoll/quickeffect/master/Installer/Tolldo_Installer.msi)
+[Installer](https://raw.githubusercontent.com/andretoll/tolldo/master/Installer/Tolldo_Installer.msi)
 
 ## Demo
 
